@@ -7,7 +7,9 @@ import { Component, OnInit } from "@angular/core";
 })
 export class PlayerComponent implements OnInit {
   ngOnInit(): void {
+    console.log(navigator.mediaSession);
     if (navigator.mediaSession) {
+      navigator.mediaSession.playbackState = "playing";
       navigator.mediaSession.metadata = new MediaMetadata({
         album: "Studentská revolta",
         artist: "Díky že můžem",
