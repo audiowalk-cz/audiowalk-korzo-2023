@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  build-staging:
+  build:
     name: Build and Push Frontend Docker Image
     runs-on: ubuntu-latest
     steps:
@@ -25,16 +25,16 @@ jobs:
       - name: Build image and push it to DockerHub
         uses: docker/build-push-action@v4
         with:
-          build-args: NG_CONFIGURATION=staging
+          build-args: NG_CONFIGURATION=production
           push: true
           context: .
-          tags: "smallhillcz/studentska-revolta:staging"
+          tags: "smallhillcz/studentska-revolta:latest"
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
   deploy:
-    name: Deploy to staging
-    needs: build-staging
+    name: Deploy
+    needs: build
     runs-on: ubuntu-latest
 
     steps:
