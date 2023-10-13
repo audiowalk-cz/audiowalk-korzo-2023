@@ -1,1 +1,1 @@
-# studentska-revolta
+# Studentská revolta
