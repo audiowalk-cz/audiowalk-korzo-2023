@@ -4,4 +4,20 @@
     <source [src]="'assets/' + currentTrack.audio" type="audio/mpeg" />
     Your browser does not support the audio tag.
   </audio>
+
+  <ul>
+    <li *ngFor="let track of tracklist; index as i">
+      {{ track.title }}
+      <button (click)="selectAudio(i)">play</button>
+    </li>
+  </ul>
+
+  <p>Current time: {{ currentTime }}</p>
+  <p>Duration: {{ duration }}</p>
+
+  <button (click)="pauseAudio($event)">Pause</button>
+  <button (click)="playAudio($event)">Play</button>
+  <button (click)="rewind10s($event)">rewind10s</button>
+  <button (click)="nextAudio()">nextAudio</button>
+
 </div>
