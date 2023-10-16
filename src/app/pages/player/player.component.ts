@@ -81,6 +81,9 @@ export class PlayerComponent implements AfterViewInit {
     this.audioPlayer.nativeElement.onplay = () => {
       localStorage.setItem('track', this.tracklist.indexOf(this.currentTrack).toString());
     }
+    this.audioPlayer.nativeElement.onended = () => {
+      this.nextAudio()
+    }
     this.audioPlayer.nativeElement.currentTime = this.currentTime
 
     if (navigator.mediaSession) {
