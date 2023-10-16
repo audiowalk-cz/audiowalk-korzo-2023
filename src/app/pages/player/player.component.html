@@ -1,23 +1,27 @@
-<h1>Player</h1>
-<div class="player">
-  <audio #audioPlayer id="myAudio" controls>
-    <source [src]="'assets/' + currentTrack.audio" type="audio/mpeg" />
-    Your browser does not support the audio tag.
-  </audio>
+<div id="wrapper" class="player">
+  <header>
+    <h1>Player</h1>
+  </header>
+  <main>
+    <audio #audioPlayer id="myAudio" controls>
+      <source [src]="'assets/' + currentTrack.audio" type="audio/mpeg" />
+      Your browser does not support the audio tag.
+    </audio>
 
-  <ul>
-    <li *ngFor="let track of tracklist; index as i">
-      {{ track.title }}
-      <button (click)="selectAudio(i)">play</button>
-    </li>
-  </ul>
+    <ul>
+      <li *ngFor="let track of tracklist; index as i">
+        {{ track.title }}
+        <button (click)="selectAudio(i)">play</button>
+      </li>
+    </ul>
 
-  <p>Current time: {{ currentTime }}</p>
-  <p>Duration: {{ duration }}</p>
-
-  <button (click)="pauseAudio($event)">Pause</button>
-  <button (click)="playAudio($event)">Play</button>
-  <button (click)="rewind10s($event)">rewind10s</button>
-  <button (click)="nextAudio()">nextAudio</button>
-
+    <p>Current time: {{ currentTime }}</p>
+    <p>Duration: {{ duration }}</p>
+  </main>
+  <footer>
+    <button (click)="pauseAudio($event)">Pause</button>
+    <button (click)="playAudio($event)">Play</button>
+    <button (click)="rewind10s($event)">rewind10s</button>
+    <button (click)="nextAudio()">nextAudio</button>
+  </footer>
 </div>
