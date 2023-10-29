@@ -1,6 +1,8 @@
 import { Track } from "./schema/track";
 
-export const TrackList: Track[] = [
+type TrackListItem = Omit<Track, "isDownloaded">;
+
+export const TrackList: TrackListItem[] = [
   {
     id: "spejbl-1",
     url: "assets/audio/spejbl-1.mp3",

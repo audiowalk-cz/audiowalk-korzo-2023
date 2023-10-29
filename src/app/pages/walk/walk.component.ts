@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
-import { TrackList } from "src/app/tracklist";
+import { Track } from "src/app/schema/track";
+import { AudioService } from "src/app/services/audio.service";
 
 @Component({
   selector: "app-walk",
@@ -8,14 +9,24 @@ import { TrackList } from "src/app/tracklist";
   styleUrls: ["./walk.component.scss"],
 })
 export class WalkComponent {
-  track = TrackList[0];
+  track?: Track;
 
-  constructor(private router: Router) {}
+  trackNumber: number = 0;
 
-  nextTrack() {
-    const i = TrackList.indexOf(this.track);
-    if (i !== -1 && i < TrackList.length - 1) {
-      this.track = TrackList[i + 1];
+  constructor(private router: Router, private audioService: AudioService) {
+    this.loadTrack(this.trackNumber);
+  }
+
+  async nextTrack() {
+    this.trackNumber++;
+    return this.loadTrack(this.trackNumber);
+  }
+
+  async loadTrack(i: number) {
+    const track = await this.audioService.getTrack(i);
+
+    if (track) {
+      this.track = track;
     } else {
       this.router.navigate(["/end"]);
     }

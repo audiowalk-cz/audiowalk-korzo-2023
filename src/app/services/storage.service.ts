@@ -5,7 +5,7 @@ import { Injectable } from "@angular/core";
 })
 export class StorageService {
   private _db?: IDBDatabase;
-  private _version: number = 2;
+  private _version: number = 3;
   private _storeName: string = "storage";
 
   constructor() {}

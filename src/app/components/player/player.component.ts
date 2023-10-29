@@ -73,19 +73,26 @@ export class PlayerComponent implements AfterViewInit, OnChanges {
   }
 
   async updateTrack(track?: Track) {
+    console.log("updateTrack", track);
     if (track) {
       this.audioPlayer.nativeElement.src = track.url;
       this.audioPlayer.nativeElement.load();
+      this.progress = 0;
+      this.status = "playing";
 
       navigator.mediaSession.metadata = new MediaMetadata({
         title: track.title,
         album: "Studentská revolta '89",
       });
+
+      await this.play();
     } else {
-      this.audioPlayer.nativeElement.pause();
+      this.pause();
+
       this.audioPlayer.nativeElement.src = "";
       navigator.mediaSession.playbackState = "paused";
       this.status = "paused";
+      navigator.mediaSession.metadata = null;
     }
   }
 

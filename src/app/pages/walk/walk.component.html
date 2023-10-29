@@ -1,9 +1,9 @@
 <app-map> </app-map>
 
-<div class="info">
+<div *ngIf="track" class="info">
   <app-track-info [track]="track"></app-track-info>
 </div>
 
-<div class="player">
+<div *ngIf="track" class="player">
   <app-player [track]="track" (next)="nextTrack()"></app-player>
 </div>
