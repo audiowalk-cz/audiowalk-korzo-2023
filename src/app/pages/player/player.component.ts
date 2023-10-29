@@ -1,4 +1,6 @@
-import { AfterViewInit, Component, ElementRef, Input, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, ElementRef, ViewChild } from "@angular/core";
+import { AudioService } from "src/app/services/audio.service";
+import { TrackList } from "src/app/tracklist";
 
 @Component({
   selector: "app-player",
@@ -6,18 +8,13 @@ import { AfterViewInit, Component, ElementRef, Input, ViewChild } from "@angular
   styleUrls: ["./player.component.scss"],
 })
 export class PlayerComponent implements AfterViewInit {
-  @Input() tracklist = [
-    {
-      audio: "spejbl.mp3",
-      album: "Studentská revolta",
-      artist: "Díky že můžem",
-      title: "První track",
-    },
-  ];
+  currentTrack = TrackList[0];
 
-  currentTrack = this.tracklist[0];
+  currentUrl?: string;
 
   @ViewChild("audioPlayer") audioPlayer!: ElementRef<HTMLAudioElement>;
+
+  constructor(private audioService: AudioService) {}
 
   ngAfterViewInit(): void {
     if (navigator.mediaSession) {
@@ -41,19 +38,27 @@ export class PlayerComponent implements AfterViewInit {
         if (this.audioPlayer.nativeElement.currentTime > 5) {
           this.audioPlayer.nativeElement.currentTime = 0;
         } else {
-          const i = this.tracklist.indexOf(this.currentTrack);
+          const i = TrackList.indexOf(this.currentTrack);
           if (i > 0) {
-            this.currentTrack = this.tracklist[i - 1];
+            this.currentTrack = TrackList[i - 1];
           }
         }
       });
 
       navigator.mediaSession.setActionHandler("nexttrack", () => {
-        const i = this.tracklist.indexOf(this.currentTrack);
-        if (i < this.tracklist.length - 1) {
-          this.currentTrack = this.tracklist[i + 1];
+        const i = TrackList.indexOf(this.currentTrack);
+        if (i < TrackList.length - 1) {
+          this.currentTrack = TrackList[i + 1];
         }
       });
     }
+  }
+
+  async play() {
+    const track = await this.audioService.getTrack(this.currentTrack.id);
+    this.currentUrl = track.url;
+    this.audioPlayer.nativeElement.src = track.url;
+    this.audioPlayer.nativeElement.load();
+    await this.audioPlayer.nativeElement.play();
   }
 }
