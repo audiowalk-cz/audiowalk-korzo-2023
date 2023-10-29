@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { Router } from "@angular/router";
 import { TrackList } from "src/app/tracklist";
 
 @Component({
@@ -9,10 +10,14 @@ import { TrackList } from "src/app/tracklist";
 export class WalkComponent {
   track = TrackList[0];
 
+  constructor(private router: Router) {}
+
   nextTrack() {
     const i = TrackList.indexOf(this.track);
     if (i !== -1 && i < TrackList.length - 1) {
       this.track = TrackList[i + 1];
+    } else {
+      this.router.navigate(["/end"]);
     }
   }
 }
