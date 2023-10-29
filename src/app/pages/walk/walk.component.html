@@ -1,0 +1,9 @@
+<app-map> </app-map>
+
+<div class="info">
+  <app-track-info [track]="track"></app-track-info>
+</div>
+
+<div class="player">
+  <app-player [track]="track" (next)="nextTrack()"></app-player>
+</div>

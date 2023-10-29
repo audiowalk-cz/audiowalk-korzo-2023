@@ -1,6 +1,7 @@
 export interface Track {
   id: string;
   url: string;
-  name: string;
+  title: string;
+  description: string;
   isDownloaded?: boolean;
 }

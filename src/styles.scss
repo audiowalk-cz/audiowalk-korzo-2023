@@ -1,1 +1,47 @@
-/* You can add global styles to this file, and also import other style files */
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700;900&display=swap");
+
+body,
+html {
+  padding: 0;
+  margin: 0;
+  background-color: #000;
+  color: #fff;
+  font-family: "Roboto Slab";
+}
+
+h1 {
+  font-size: 48px;
+  font-weight: 900;
+  line-height: 63px;
+  letter-spacing: 0em;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
+
+button {
+  background: none;
+  border: 1px solid #fff;
+  height: 40px;
+  border-radius: 20px;
+  color: #fff;
+  padding: 0 3em;
+}
+
+button.primary {
+  background-color: #fff;
+  color: #000;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+button.icon {
+  padding: 0;
+  border: 0;
+}

@@ -1,0 +1,20 @@
+<div class="controls">
+  <button class="icon" (click)="rewind()"><img src="assets/img/icons/rewind.svg" alt="Rewind" /></button>
+
+  <button *ngIf="status === 'paused'" class="icon" (click)="play()">
+    <img src="assets/img/icons/play.svg" alt="Play" />
+  </button>
+  <button *ngIf="status === 'playing'" class="icon" (click)="pause()">
+    <img src="assets/img/icons/play.svg" alt="Pause" />
+  </button>
+
+  <button class="icon" (click)="next.emit()"><img src="assets/img/icons/next.svg" alt="Next" /></button>
+</div>
+
+<div class="progress">
+  <div class="total-time">{{ totalTime | time }}</div>
+  <div class="current-time">{{ currentTime | time }}</div>
+  <div class="progress-bar" [style.width]="progress * 100 + '%'"></div>
+</div>
+
+<audio #audioPlayer id="myAudio">Your browser does not support the audio tag.</audio>

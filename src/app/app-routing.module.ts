@@ -1,11 +1,16 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
+import { EndComponent } from "./pages/end/end.component";
 import { HomeComponent } from "./pages/home/home.component";
-import { PlayerComponent } from "./pages/player/player.component";
+import { TutorialComponent } from "./pages/tutorial/tutorial.component";
+import { WalkComponent } from "./pages/walk/walk.component";
 
 const routes: Routes = [
   { path: "", component: HomeComponent },
-  { path: "player", component: PlayerComponent },
+  { path: "walk", component: WalkComponent },
+  { path: "tutorial", component: TutorialComponent },
+  { path: "end", component: EndComponent },
+  { path: "**", redirectTo: "" },
 ];
 
 @NgModule({

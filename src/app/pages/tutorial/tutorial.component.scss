@@ -1,0 +1,45 @@
+:host {
+  display: block;
+
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.content {
+  flex-grow: 1;
+  padding: 3em 2em;
+}
+
+.footer {
+  padding: 1.5em 1em;
+  text-align: center;
+}
+
+.box {
+  margin-top: 1em;
+  display: flex;
+  flex-direction: row;
+
+  .icon {
+    padding: 1em;
+    img {
+      width: 30px;
+    }
+  }
+
+  .content {
+    padding: 1em;
+  }
+
+  h3 {
+    margin: 0 0 1em 0;
+  }
+  p {
+    margin: 0 0 2em 0;
+  }
+}
+
+.warning {
+  margin-top: 1em;
+}
