@@ -6,22 +6,25 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnDestroy,
   Output,
   SimpleChanges,
   ViewChild,
 } from "@angular/core";
-import { Track } from "src/app/schema/track";
-import { AudioService } from "src/app/services/audio.service";
 
 @Component({
   selector: "app-player",
   templateUrl: "./player.component.html",
   styleUrls: ["./player.component.scss"],
 })
-export class PlayerComponent implements AfterViewInit, OnChanges {
-  @Input() track?: Track;
+export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
+  @Input() title?: string;
+  @Input() url?: string;
+  @Input() startProgress?: number;
+  @Input() autoPlay: boolean = false;
 
-  @Output() next = new EventEmitter<void>();
+  @Output("next") onNext = new EventEmitter<void>();
+  @Output("progress") onProgress = new EventEmitter<number>();
 
   progress: number = 0;
   status: "playing" | "paused" = "paused";
@@ -31,16 +34,16 @@ export class PlayerComponent implements AfterViewInit, OnChanges {
 
   @ViewChild("audioPlayer") audioPlayer!: ElementRef<HTMLAudioElement>;
 
-  constructor(private audioService: AudioService, private cdRef: ChangeDetectorRef) {}
+  constructor(private cdRef: ChangeDetectorRef) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes["track"]) {
-      if (this.audioPlayer) this.updateTrack(this.track);
+    if (changes["url"] && changes["url"].currentValue !== changes["url"].previousValue) {
+      if (this.audioPlayer) this.loadTrack();
     }
   }
 
   ngAfterViewInit(): void {
-    this.updateTrack(this.track);
+    this.loadTrack();
 
     if (navigator.mediaSession) {
       navigator.mediaSession.setActionHandler("play", () => {
@@ -58,40 +61,62 @@ export class PlayerComponent implements AfterViewInit, OnChanges {
       });
 
       navigator.mediaSession.setActionHandler("nexttrack", () => {
-        this.next.emit();
+        this.onNext.emit();
+      });
+
+      this.audioPlayer.nativeElement.addEventListener("play", (event) => {
+        this.status = "playing";
+      });
+
+      this.audioPlayer.nativeElement.addEventListener("pause", (event) => {
+        this.status = "paused";
+      });
+
+      this.audioPlayer.nativeElement.addEventListener("ended", (event) => {
+        this.status = "paused";
       });
 
       this.audioPlayer.nativeElement.addEventListener("timeupdate", (event) => {
+        this.currentTime = this.audioPlayer.nativeElement.currentTime;
+        this.onProgress.emit(this.currentTime);
         if (this.audioPlayer.nativeElement.duration) {
-          this.currentTime = this.audioPlayer.nativeElement.currentTime;
           this.totalTime = this.audioPlayer.nativeElement.duration;
           this.progress = this.audioPlayer.nativeElement.currentTime / this.audioPlayer.nativeElement.duration;
-          this.cdRef.markForCheck();
         }
+        this.cdRef.detectChanges();
       });
     }
   }
 
-  async updateTrack(track?: Track) {
-    console.log("updateTrack", track);
-    if (track) {
-      this.audioPlayer.nativeElement.src = track.url;
+  ngOnDestroy(): void {
+    this.audioPlayer.nativeElement.removeEventListener("play", () => {});
+    this.audioPlayer.nativeElement.removeEventListener("pause", () => {});
+    this.audioPlayer.nativeElement.removeEventListener("ended", () => {});
+    this.audioPlayer.nativeElement.removeEventListener("timeupdate", () => {});
+  }
+
+  async loadTrack() {
+    if (this.url) {
+      this.audioPlayer.nativeElement.src = this.url;
       this.audioPlayer.nativeElement.load();
       this.progress = 0;
-      this.status = "playing";
+      this.currentTime = 0;
+      this.status = "paused";
 
       navigator.mediaSession.metadata = new MediaMetadata({
-        title: track.title,
+        title: this.title ?? "Track",
         album: "Studentská revolta '89",
       });
 
-      await this.play();
+      this.cdRef.detectChanges();
+
+      if (this.startProgress) this.audioPlayer.nativeElement.currentTime = this.startProgress;
+      if (this.autoPlay) await this.play();
     } else {
       this.pause();
 
       this.audioPlayer.nativeElement.src = "";
       navigator.mediaSession.playbackState = "paused";
-      this.status = "paused";
       navigator.mediaSession.metadata = null;
     }
   }
@@ -99,13 +124,11 @@ export class PlayerComponent implements AfterViewInit, OnChanges {
   async play() {
     await this.audioPlayer.nativeElement.play();
     navigator.mediaSession.playbackState = "playing";
-    this.status = "playing";
   }
 
   pause() {
     this.audioPlayer.nativeElement.pause();
     navigator.mediaSession.playbackState = "paused";
-    this.status = "paused";
   }
 
   rewind() {

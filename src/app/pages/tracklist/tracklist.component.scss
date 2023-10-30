@@ -1,0 +1,21 @@
+.track {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.number {
+  h3 {
+    margin: 0;
+  }
+  padding: 1em 2em 1em 1em;
+}
+
+.info {
+  padding: 1em 1em 1em 0;
+  border-bottom: 1px solid #999;
+}
+
+.play {
+  padding: 1em;
+}

@@ -1,13 +1,16 @@
-<div class="content">
-  <h2>Příběh je u konce&hellip;</h2>
+<app-page>
+  <app-page-content>
+    <h2>Příběh je u konce&hellip;</h2>
 
-  <h3>Líbil se vám audiowalk?</h3>
+    <h3>Líbil se vám audiowalk?</h3>
 
-  <p class="buttons"><button>Sdílet na facebook</button></p>
-  <p class="buttons"><button>Sdílet na instagram</button></p>
-  <br /><br /><br />
-  <h2>Děkujeme!</h2>
-</div>
-<div class="footer">
-  <button class="primary" routerLink="/">Návrat na úvod</button>
-</div>
+    <p class="buttons"><button (click)="share()">Sdílet na facebook</button></p>
+    <p class="buttons"><button (click)="share()">Sdílet na instagram</button></p>
+    <br /><br /><br />
+    <h2>Děkujeme!</h2>
+  </app-page-content>
+
+  <app-page-footer>
+    <button class="primary" routerLink="/">Návrat na úvod</button>
+  </app-page-footer>
+</app-page>

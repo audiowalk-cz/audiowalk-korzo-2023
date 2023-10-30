@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 @Injectable({
   providedIn: "root",
 })
-export class StorageService {
+export class FileStorageService {
   private _db?: IDBDatabase;
   private _version: number = 3;
   private _storeName: string = "storage";
@@ -12,6 +12,7 @@ export class StorageService {
 
   private async getDatabase(): Promise<IDBDatabase> {
     if (!this._db) {
+      console.log("Creating DB");
       this._db = await this.createDB();
     }
     return this._db;
@@ -20,16 +21,23 @@ export class StorageService {
   private async createDB(): Promise<IDBDatabase> {
     return new Promise<IDBDatabase>((resolve, reject) => {
       const result = indexedDB.open("audio", this._version);
-      result.onsuccess = (event) => resolve((event.target as IDBOpenDBRequest).result);
+      result.onsuccess = (event) => {
+        console.log("succes");
+        resolve((event.target as IDBOpenDBRequest).result);
+      };
 
       result.onerror = (event) => reject((event.target as IDBOpenDBRequest).error);
 
       result.onupgradeneeded = (event) => {
+        console.log("upgrade");
         const db = (event.target as IDBOpenDBRequest).result;
         db.createObjectStore(this._storeName);
-        resolve(db);
       };
     });
+  }
+
+  async has(key: string): Promise<boolean> {
+    return this.get(key).then((value) => value !== null);
   }
 
   async get<T>(key: string): Promise<T | null> {

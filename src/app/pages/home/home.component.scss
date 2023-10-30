@@ -3,8 +3,10 @@
   position: relative;
 
   background: url("/assets/img/home-bg.png") no-repeat top left fixed;
-  background-size: auto 100%;
+  background-size: cover;
+}
 
-  padding: 1em;
+app-page-content {
+  padding: 2em;
   padding-top: 40vh;
 }

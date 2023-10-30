@@ -1,53 +1,69 @@
 import { Injectable } from "@angular/core";
-import { Track } from "../schema/track";
+import { BehaviorSubject } from "rxjs";
+import { TrackDefinition } from "../schema/track";
 import { TrackList } from "../tracklist";
-import { StorageService } from "./storage.service";
+import { FileStorageService } from "./file-storage.service";
+import { LocalStorageService } from "./local-storage.service";
+
+export type DownloadStatus = "idle" | "downloading" | "downloaded" | "error";
 
 @Injectable({
   providedIn: "root",
 })
 export class AudioService {
-  constructor(private storageService: StorageService) {}
+  tracks = new BehaviorSubject<TrackDefinition[]>([]);
 
-  async listTracks(): Promise<Track[]> {
-    const tracks: Track[] = [];
+  downloadStatus = new BehaviorSubject<DownloadStatus>("idle");
 
-    for (let i = 0; i < TrackList.length; i++) {
-      const track = await this.getTrack(i);
-      if (track) tracks.push(track);
+  constructor(private fileStorageService: FileStorageService, private localStorageService: LocalStorageService) {
+    this.updateTracks();
+  }
+
+  async updateTracks() {
+    const tracks = await Promise.all(TrackList.map((t) => this.updateTrack(t)));
+
+    this.tracks.next(tracks);
+
+    if (tracks.every((t) => t.isDownloaded)) this.downloadStatus.next("downloaded");
+  }
+
+  async getTrackUrl(trackDef: TrackDefinition): Promise<string> {
+    const storedData = await this.fileStorageService.get<ArrayBuffer>(trackDef.id);
+    return storedData ? URL.createObjectURL(new Blob([storedData])) : trackDef.url;
+  }
+
+  async downloadTracks() {
+    this.downloadStatus.next("downloading");
+
+    for (let track of TrackList) {
+      await this.downloadTrack(track);
+      this.updateTracks();
     }
 
-    return tracks;
+    this.downloadStatus.next("downloaded");
   }
 
-  async clearCache() {
-    await this.storageService.clear();
+  async saveTrackProgress(track: TrackDefinition, progress: number) {
+    await this.localStorageService.set(`progress-${track.id}`, progress);
+    this.updateTracks();
   }
 
-  async getTrack(i: number): Promise<Track | null> {
-    const track = TrackList[i];
-    if (!track) return null;
+  private async updateTrack(trackInfo: TrackDefinition): Promise<TrackDefinition> {
+    const [isDownloaded, progress] = await Promise.all([
+      await this.fileStorageService.has(trackInfo.id),
 
-    const storedData = await this.storageService.get<ArrayBuffer>(track.id);
+      await this.localStorageService
+        .get(`progress-${trackInfo.id}`)
+        .then((value) => (value ? parseFloat(value) ?? 0 : undefined)),
+    ]);
 
-    return {
-      ...track,
-      url: storedData ? URL.createObjectURL(new Blob([storedData])) : track.url,
-      isDownloaded: !!storedData,
-    };
+    return { ...trackInfo, isDownloaded, progress };
   }
 
-  async cacheTrack(trackId: string) {
-    const track = TrackList.find((track) => track.id === trackId);
-    if (!track) throw new Error("Stopa nenalezena");
-
-    const res = await fetch(track.url);
+  private async downloadTrack(trackDef: TrackDefinition) {
+    const res = await fetch(trackDef.url);
     const data = await res.arrayBuffer();
 
-    await this.storageService.put(trackId, data);
-  }
-
-  async deleteTrack(trackId: string) {
-    this.storageService.delete(trackId);
+    await this.fileStorageService.put(trackDef.id, data);
   }
 }

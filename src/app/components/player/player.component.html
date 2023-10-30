@@ -5,16 +5,16 @@
     <img src="assets/img/icons/play.svg" alt="Play" />
   </button>
   <button *ngIf="status === 'playing'" class="icon" (click)="pause()">
-    <img src="assets/img/icons/play.svg" alt="Pause" />
+    <img src="assets/img/icons/pause.svg" alt="Pause" />
   </button>
 
-  <button class="icon" (click)="next.emit()"><img src="assets/img/icons/next.svg" alt="Next" /></button>
+  <button class="icon" (click)="onNext.emit()"><img src="assets/img/icons/next.svg" alt="Next" /></button>
 </div>
 
 <div class="progress">
   <div class="total-time">{{ totalTime | time }}</div>
   <div class="current-time">{{ currentTime | time }}</div>
-  <div class="progress-bar" [style.width]="progress * 100 + '%'"></div>
+  <app-progress-bar [progress]="progress"></app-progress-bar>
 </div>
 
 <audio #audioPlayer id="myAudio">Your browser does not support the audio tag.</audio>

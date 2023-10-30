@@ -4,6 +4,12 @@
   <app-track-info [track]="track"></app-track-info>
 </div>
 
-<div *ngIf="track" class="player">
-  <app-player [track]="track" (next)="nextTrack()"></app-player>
+<div *ngIf="url" class="player">
+  <app-player
+    [title]="track?.title"
+    [url]="url"
+    [startProgress]="track?.progress"
+    (next)="nextTrack()"
+    (progress)="saveProgress($event)"
+  ></app-player>
 </div>

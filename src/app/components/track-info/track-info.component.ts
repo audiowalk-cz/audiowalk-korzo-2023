@@ -1,5 +1,5 @@
 import { Component, Input } from "@angular/core";
-import { Track } from "src/app/schema/track";
+import { TrackDefinition } from "src/app/schema/track";
 
 @Component({
   selector: "app-track-info",
@@ -7,5 +7,5 @@ import { Track } from "src/app/schema/track";
   styleUrls: ["./track-info.component.scss"],
 })
 export class TrackInfoComponent {
-  @Input() track?: Track;
+  @Input() track?: TrackDefinition;
 }

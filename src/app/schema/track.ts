@@ -1,7 +1,9 @@
-export interface Track {
+export interface TrackDefinition {
   id: string;
-  url: string;
   title: string;
   description: string;
+  url: string;
+  length: number;
   isDownloaded?: boolean;
+  progress?: number;
 }

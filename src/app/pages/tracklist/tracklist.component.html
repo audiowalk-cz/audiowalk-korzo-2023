@@ -1,0 +1,21 @@
+<app-page>
+  <app-page-content>
+    <div class="tracklist">
+      <div class="track" *ngFor="let track of tracks | async; let i = index">
+        <div class="info">
+          <h3>{{ track.title }}</h3>
+          <app-progress-bar [progress]="track.progress ? track.progress / track.length : 0"></app-progress-bar>
+          <p>{{ track.description }}</p>
+        </div>
+        <div class="play">
+          <button class="icon" [routerLink]="['/walk', i + 1]">
+            <img src="assets/img/icons/play.svg" alt="Play" />
+          </button>
+        </div>
+      </div>
+    </div>
+  </app-page-content>
+  <app-page-footer>
+    <button class="primary" routerLink="/end">Ukončit audiowalk</button>
+  </app-page-footer>
+</app-page>

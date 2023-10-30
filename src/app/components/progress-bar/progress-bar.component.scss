@@ -1,21 +1,16 @@
-:host {
-  display: block;
-  border-radius: 20px;
-  background-color: #999999aa;
-  padding: 1.5em 2em;
-}
-
-.controls {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1em 0;
-}
-
 .progress {
   margin-top: 1em;
   width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  height: 6px;
+  border-radius: 3px;
   position: relative;
+
+  .progress-bar {
+    background-color: #fff;
+    height: 100%;
+    border-radius: 3px;
+  }
 
   .total-time {
     position: absolute;
