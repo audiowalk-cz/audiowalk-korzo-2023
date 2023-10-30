@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { NgModule, isDevMode } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 
 import { AppRoutingModule } from "./app-routing.module";
@@ -16,10 +16,16 @@ import { PageFooterComponent } from './components/page-footer/page-footer.compon
 import { PageComponent } from './components/page/page.component';
 import { TracklistComponent } from './pages/tracklist/tracklist.component';
 import { ProgressBarComponent } from './components/progress-bar/progress-bar.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, PlayerComponent, TutorialComponent, WalkComponent, EndComponent, MapComponent, TrackInfoComponent, TimePipe, PageContentComponent, PageFooterComponent, PageComponent, TracklistComponent, ProgressBarComponent],
-  imports: [BrowserModule, AppRoutingModule],
+  imports: [BrowserModule, AppRoutingModule, ServiceWorkerModule.register('ngsw-worker.js', {
+  enabled: !isDevMode(),
+  // Register the ServiceWorker as soon as the application is stable
+  // or after 30 seconds (whichever comes first).
+  registrationStrategy: 'registerWhenStable:30000'
+})],
   providers: [],
   bootstrap: [AppComponent],
 })
