@@ -16,7 +16,7 @@ export class WalkComponent implements OnInit {
   track?: TrackDefinition;
   url?: string;
 
-  constructor(private router: Router, private audioService: AudioService, private route: ActivatedRoute) {}
+  constructor(private router: Router, private audioService: AudioService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     combineLatest([this.audioService.tracks, this.route.params])

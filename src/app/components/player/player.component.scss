@@ -1,8 +1,10 @@
 :host {
   display: block;
   border-radius: 20px;
-  background-color: #999999aa;
+
   padding: 1.5em 2em;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
 }
 
 .controls {

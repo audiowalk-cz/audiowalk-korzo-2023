@@ -6,13 +6,13 @@
   right: 0;
   bottom: 0;
 }
+
 app-map {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #fff;
 }
 
 .info {
@@ -22,8 +22,9 @@ app-map {
   right: 0;
   bottom: 0;
   padding: 1em;
-  app-track-info {
-  }
+  z-index: 1;
+
+  app-track-info {}
 }
 
 .player {
@@ -32,6 +33,7 @@ app-map {
   left: 0;
   right: 0;
   padding: 1em;
-  app-player {
-  }
+  z-index: 1;
+
+  app-player {}
 }

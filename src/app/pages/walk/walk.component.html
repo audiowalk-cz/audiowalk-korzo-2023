@@ -5,11 +5,6 @@
 </div>
 
 <div *ngIf="url" class="player">
-  <app-player
-    [title]="track?.title"
-    [url]="url"
-    [startProgress]="track?.progress"
-    (next)="nextTrack()"
-    (progress)="saveProgress($event)"
-  ></app-player>
+  <app-player [title]="track?.title" [url]="url" [startProgress]="track?.progress" (next)="nextTrack()"
+    (progress)="saveProgress($event)"></app-player>
 </div>
