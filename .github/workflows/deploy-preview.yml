@@ -1,4 +1,4 @@
-name: Deploy app
+name: Deploy app to PREVIEW
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    name: Build and Push Frontend Docker Image
+    name: Build and Push Docker Image
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the updated source code
@@ -28,7 +28,7 @@ jobs:
           build-args: NG_CONFIGURATION=production
           push: true
           context: .
-          tags: "smallhillcz/studentska-revolta:latest"
+          tags: "smallhillcz/studentska-revolta:preview"
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
