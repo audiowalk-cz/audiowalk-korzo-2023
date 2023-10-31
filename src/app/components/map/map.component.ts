@@ -1,5 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import rough from 'roughjs';
+import { Subscription } from 'rxjs';
+import { SharedEventService } from 'src/app/services/event-handler.service';
 import { SMAnimation } from './helpers/SMAnimation';
 
 @Component({
@@ -11,14 +13,22 @@ export class MapComponent implements AfterViewInit {
   @ViewChild('originalSvg') originalSvg!: ElementRef<SVGElement>;
   @ViewChild('wrapper') wrapper!: ElementRef<HTMLDivElement>;
   outputSvg: SVGSVGElement;
+  private subscription: Subscription;
 
-  constructor(private renderer: Renderer2) {
+  constructor(
+    private renderer: Renderer2,
+    private eventService: SharedEventService
+  ) {
     this.outputSvg = this.renderer.createElement('svg', 'http://www.w3.org/2000/svg');
+
+    this.subscription = this.eventService.getLoadTrackEvent().subscribe(data => {
+      this.flyToPath(data.trackId)
+    });
   }
 
   ngAfterViewInit(): void {
     this.drawMap()
-    this.main()
+    // this.main()
   }
 
   async main() {
@@ -28,13 +38,26 @@ export class MapComponent implements AfterViewInit {
       if (!realPath) continue
       realPath.style.stroke = `green`
       await this.flyTo(realPath, {
-        top: 50,
-        bottom: 50,
+        top: 250,
+        bottom: 250,
         left: 20,
         right: 20,
       }, 2000, 2000)
       realPath.style.stroke = `blue`
     }
+  }
+  async flyToPath(index: number) {
+    const paths = this.outputSvg.querySelectorAll(".path");
+    const realPath = paths[index].querySelector("path")
+    if (!realPath) return
+    realPath.style.stroke = `green`
+    await this.flyTo(realPath, {
+      top: 50,
+      bottom: 50,
+      left: 20,
+      right: 20,
+    }, 2000, 2000)
+    realPath.style.stroke = `white`
   }
 
   drawMap() {
