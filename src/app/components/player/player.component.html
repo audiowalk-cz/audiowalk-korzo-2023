@@ -1,15 +1,15 @@
-<div class="progress">
+<div class="progress-box">
   <app-progress-bar [progress]="progress"></app-progress-bar>
   <div class="total-time">{{ totalTime | time }}</div>
   <div class="current-time">{{ currentTime | time }}</div>
 </div>
 
-<div class="controls">
-  <button class="icon" (click)="rewind()">
+<div class="controls-box">
+  <button class="button-icon" (click)="rewind()">
     <img src="assets/img/icons/player/rewind.svg" alt="Rewind" />
   </button>
 
-  <button class="icon" (click)="playPause()">
+  <button class="button-icon" (click)="playPause()">
     <svg id="play" [ngClass]="{ 'active': status === 'paused' }" data-name="Vrstva 2" xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 202.77 202.77">
       <defs>
@@ -56,7 +56,7 @@
     </svg>
   </button>
 
-  <button class="icon" (click)="onNext.emit()">
+  <button class="button-icon" (click)="onNext.emit()">
     <img src="assets/img/icons/player/list.svg" alt="Next" />
   </button>
 </div>

@@ -7,13 +7,13 @@
   backdrop-filter: blur(10px);
 }
 
-.controls {
+.controls-box {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0;
 
-  .icon {
+  .button-icon {
     width: 5em;
     position: relative;
 
@@ -41,7 +41,7 @@
     }
   }
 
-  .icon:hover {
+  button:hover {
     width: 5em;
 
     .cls-1 {
@@ -55,7 +55,7 @@
   }
 }
 
-.progress {
+.progress-box {
   margin-bottom: 1em;
   width: 100%;
   position: relative;
