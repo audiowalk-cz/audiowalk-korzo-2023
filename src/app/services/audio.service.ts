@@ -29,7 +29,7 @@ export class AudioService {
 
   async getTrackUrl(trackDef: TrackDefinition): Promise<string> {
     const storedData = await this.fileStorageService.get<ArrayBuffer>(trackDef.id);
-    return storedData ? URL.createObjectURL(new Blob([storedData])) : trackDef.url;
+    return storedData ? URL.createObjectURL(new Blob([storedData], { type: "audio/mpeg" })) : trackDef.url;
   }
 
   async downloadTracks() {
