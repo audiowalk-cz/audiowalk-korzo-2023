@@ -98,6 +98,8 @@ export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
   }
 
   async loadTrack() {
+    console.log("loadTrack")
+    console.log(this.url)
     if (this.url) {
       this.audioPlayer.nativeElement.src = this.url;
       this.audioPlayer.nativeElement.load();
@@ -123,8 +125,22 @@ export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
     }
   }
 
+  async playPause() {
+    if (this.status === "paused") {
+      this.play();
+    } else {
+      this.pause();
+    }
+  }
+
   async play() {
-    await this.audioPlayer.nativeElement.play();
+    console.log("log 1")
+    try {
+      await this.audioPlayer.nativeElement.play();
+    } catch (err) {
+      console.log(err)
+    }
+    console.log("log 2")
     navigator.mediaSession.playbackState = "playing";
   }
 

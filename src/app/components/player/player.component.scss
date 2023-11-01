@@ -2,7 +2,7 @@
   display: block;
   border-radius: 20px;
 
-  padding: 1.5em 2em;
+  padding: 2em 2em;
   background-color: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(10px);
 }
@@ -11,29 +11,68 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1em 0;
+  padding: 0;
 
   .icon {
-    width: 40px
+    width: 5em;
+    position: relative;
+
+    svg {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 5em;
+
+      .cls-2 {
+        transform: scale(0);
+      }
+    }
+
+    svg.active {
+      .cls-2 {
+        transform: scale(1);
+      }
+    }
+
+    .cls-1,
+    .cls-2 {
+      transition-duration: .3s;
+      transition-timing-function: ease-out;
+    }
+  }
+
+  .icon:hover {
+    width: 5em;
+
+    .cls-1 {
+      opacity: .15
+    }
+
+    .cls-2 {
+      transform-origin: 50% 50%;
+      transform: scale(.9);
+    }
   }
 }
 
 .progress {
-  margin-top: 1em;
+  margin-bottom: 1em;
   width: 100%;
   position: relative;
 
   .total-time {
+    color: rgba(255, 255, 255, .33);
     position: absolute;
     right: 0;
-    bottom: 100%;
+    top: 12px;
     font-size: 0.5em;
   }
 
   .current-time {
+    color: rgba(255, 255, 255, .33);
     position: absolute;
     left: 0;
-    bottom: 100%;
+    top: 12px;
     font-size: 0.5em;
   }
 }

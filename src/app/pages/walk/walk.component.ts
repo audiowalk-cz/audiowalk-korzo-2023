@@ -14,6 +14,8 @@ import { SharedEventService } from "src/app/services/event-handler.service";
 })
 export class WalkComponent implements OnInit {
   tracks = this.audioService.tracks;
+  chapterIndex?: number;
+  chapterCount?: number;
   track?: TrackDefinition;
   url?: string;
 
@@ -29,6 +31,8 @@ export class WalkComponent implements OnInit {
       .pipe(untilDestroyed(this))
       .subscribe(([tracks, params]) => {
         const i = parseInt(params["track"]) - 1;
+        this.chapterCount = tracks.length;
+        this.chapterIndex = i + 1;
         const track = tracks[i];
         if (track?.id !== this.track?.id) {
           this.loadTrack(track, i);

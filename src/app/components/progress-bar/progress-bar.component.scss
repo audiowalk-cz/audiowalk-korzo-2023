@@ -1,28 +1,14 @@
 .progress {
-  margin-top: 1em;
+  margin-bottom: 2em;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(255, 255, 255, .33);
   height: 6px;
   border-radius: 3px;
+  overflow: hidden;
   position: relative;
 
   .progress-bar {
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, .33);
     height: 100%;
-    border-radius: 3px;
-  }
-
-  .total-time {
-    position: absolute;
-    right: 0;
-    bottom: 100%;
-    font-size: 0.5em;
-  }
-
-  .current-time {
-    position: absolute;
-    left: 0;
-    bottom: 100%;
-    font-size: 0.5em;
   }
 }

@@ -1,7 +1,7 @@
 <app-map> </app-map>
 
 <div *ngIf="track" class="info">
-  <app-track-info [track]="track"></app-track-info>
+  <app-track-info [track]="track" [chapterIndex]="chapterIndex" [chapterCount]="chapterCount"></app-track-info>
 </div>
 
 <div *ngIf="url" class="player">

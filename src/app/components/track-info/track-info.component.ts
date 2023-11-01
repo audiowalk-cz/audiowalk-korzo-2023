@@ -8,4 +8,6 @@ import { TrackDefinition } from "src/app/schema/track";
 })
 export class TrackInfoComponent {
   @Input() track?: TrackDefinition;
+  @Input() chapterIndex?: number;
+  @Input() chapterCount?: number;
 }

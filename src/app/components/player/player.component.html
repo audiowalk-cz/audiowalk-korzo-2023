@@ -1,22 +1,65 @@
-<div class="controls">
-  <button class="icon" (click)="rewind()"><img src="assets/img/icons/rewind.svg" alt="Rewind" /></button>
+<div class="progress">
+  <app-progress-bar [progress]="progress"></app-progress-bar>
+  <div class="total-time">{{ totalTime | time }}</div>
+  <div class="current-time">{{ currentTime | time }}</div>
+</div>
 
-  <button *ngIf="status === 'paused'" class="icon" (click)="play()">
-    <img src="assets/img/icons/play.svg" alt="Play" />
+<div class="controls">
+  <button class="icon" (click)="rewind()">
+    <img src="assets/img/icons/player/rewind.svg" alt="Rewind" />
   </button>
-  <button *ngIf="status === 'playing'" class="icon" (click)="pause()">
-    <img src="assets/img/icons/pause.svg" alt="Pause" />
+
+  <button class="icon" (click)="playPause()">
+    <svg id="play" [ngClass]="{ 'active': status === 'paused' }" data-name="Vrstva 2" xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 202.77 202.77">
+      <defs>
+        <style>
+          .cls-1 {
+            opacity: 0;
+          }
+
+          .cls-1,
+          .cls-2 {
+            fill: #fff;
+            stroke-width: 0px;
+          }
+        </style>
+      </defs>
+      <g id="Vrstva_1-2" data-name="Vrstva 1">
+        <circle class="cls-1" cx="101.38" cy="101.38" r="101.38" />
+        <path class="cls-2"
+          d="m63.7,59.03v85.91c0,7.79,8.41,12.67,15.17,8.81l75.17-42.95c6.81-3.89,6.81-13.72,0-17.61l-75.17-42.95c-6.76-3.86-15.17,1.02-15.17,8.81Z" />
+      </g>
+    </svg>
+    <svg id="pause" [ngClass]="{ 'active': status === 'playing' }" data-name="Vrstva 2"
+      xmlns="http://www.w3.org/2000/svg" viewBox="0 0 208.59 208.59">
+      <defs>
+        <style>
+          .cls-1 {
+            opacity: 0;
+          }
+
+          .cls-1,
+          .cls-2 {
+            fill: #fff;
+            stroke-width: 0px;
+          }
+        </style>
+      </defs>
+      <g id="Vrstva_1-2" data-name="Vrstva 1">
+        <!-- <circle class="cls-1" cx="104.29" cy="104.29" r="104.29" /> -->
+        <g>
+          <rect class="cls-2" x="112.51" y="44.37" width="37.37" height="119.84" rx="7.9" ry="7.9" />
+          <rect class="cls-2" x="58.7" y="44.37" width="37.37" height="119.84" rx="7.9" ry="7.9" />
+        </g>
+      </g>
+    </svg>
   </button>
 
   <button class="icon" (click)="onNext.emit()">
-    <img src="assets/img/icons/next.svg" alt="Next" />
+    <img src="assets/img/icons/player/list.svg" alt="Next" />
   </button>
 </div>
 
-<div class="progress">
-  <div class="total-time">{{ totalTime | time }}</div>
-  <div class="current-time">{{ currentTime | time }}</div>
-  <app-progress-bar [progress]="progress"></app-progress-bar>
-</div>
 
 <audio #audioPlayer id="myAudio">Your browser does not support the audio tag.</audio>
