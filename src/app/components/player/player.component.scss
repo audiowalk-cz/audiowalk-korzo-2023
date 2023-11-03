@@ -10,6 +10,7 @@
 .controls-box {
   display: flex;
   justify-content: space-between;
+
   align-items: center;
   padding: 0;
 
@@ -36,7 +37,7 @@
 
     .cls-1,
     .cls-2 {
-      transition-duration: .2s;
+      transition-duration: 0.2s;
       transition-timing-function: ease-out;
     }
   }
@@ -45,12 +46,12 @@
     width: 5em;
 
     .cls-1 {
-      opacity: .15
+      opacity: 0.15;
     }
 
     .cls-2 {
       transform-origin: 50% 50%;
-      transform: scale(.9);
+      transform: scale(0.9);
     }
   }
 }
@@ -61,7 +62,7 @@
   position: relative;
 
   .total-time {
-    color: rgba(255, 255, 255, .33);
+    color: rgba(255, 255, 255, 0.33);
     position: absolute;
     right: 0;
     top: 12px;
@@ -69,7 +70,7 @@
   }
 
   .current-time {
-    color: rgba(255, 255, 255, .33);
+    color: rgba(255, 255, 255, 0.33);
     position: absolute;
     left: 0;
     top: 12px;

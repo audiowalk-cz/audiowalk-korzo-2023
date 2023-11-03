@@ -52,3 +52,8 @@ button.button-icon {
   padding: 0;
   border: 0;
 }
+
+button:disabled {
+  pointer-events: none;
+  opacity: 0.1;
+}

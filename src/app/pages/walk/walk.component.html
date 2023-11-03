@@ -9,6 +9,8 @@
     [title]="track?.title"
     [url]="url"
     [startProgress]="track?.progress"
+    [enableControls]="true"
+    [autoPlay]="true"
     (next)="nextTrack()"
     (progress)="saveProgress($event)"
   ></app-player>

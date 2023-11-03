@@ -22,6 +22,7 @@ export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
   @Input() url?: string;
   @Input() startProgress?: number;
   @Input() autoPlay: boolean = false;
+  @Input() enableControls: boolean = false;
 
   @Output("next") onNext = new EventEmitter<void>();
   @Output("progress") onProgress = new EventEmitter<number>();
