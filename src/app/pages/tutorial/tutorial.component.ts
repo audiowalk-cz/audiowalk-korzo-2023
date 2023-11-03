@@ -9,6 +9,7 @@ import { AudioService } from "src/app/services/audio.service";
 export class TutorialComponent {
   public downloadStatus = this.audioService.downloadStatus;
   public downloadProgress = this.audioService.downloadProgress;
+  public downloadSkipped = false;
 
   constructor(private audioService: AudioService) {}
 
@@ -20,5 +21,10 @@ export class TutorialComponent {
 
   async download() {
     await this.audioService.downloadTracks();
+  }
+
+  skipDownload(e: Event) {
+    const inputEl = <HTMLInputElement>e.target!;
+    this.downloadSkipped = inputEl.checked;
   }
 }

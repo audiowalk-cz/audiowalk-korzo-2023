@@ -16,6 +16,10 @@ import {
   selector: "app-player",
   templateUrl: "./player.component.html",
   styleUrls: ["./player.component.scss"],
+  host: {
+    "[class.light]": "mode === 'light'",
+    "[class.dark]": "mode === 'dark'",
+  },
 })
 export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
   @Input() title?: string;
@@ -23,6 +27,7 @@ export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
   @Input() startProgress?: number;
   @Input() autoPlay: boolean = false;
   @Input() enableControls: boolean = false;
+  @Input() mode: "light" | "dark" = "dark";
 
   @Output("next") onNext = new EventEmitter<void>();
   @Output("progress") onProgress = new EventEmitter<number>();
