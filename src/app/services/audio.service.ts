@@ -72,7 +72,7 @@ export class AudioService {
   private async downloadTrack(trackDef: TrackDefinition, progress: Subject<number>) {
     const res = await axios.get<ArrayBuffer>(trackDef.url, {
       responseType: "arraybuffer",
-      onDownloadProgress: (e) => {
+      onDownloadProgress: (e: any) => {
         if (e.total) progress.next(e.loaded / e.total);
       },
     });
