@@ -29,7 +29,7 @@
         <img src="assets/img/icons/headphones.svg" alt="Telefon" />
       </div>
       <div class="content">
-        <h3>Stáhnout audio</h3>
+        <h3>Stáhněte si zvukové záznamy</h3>
         <div *ngIf="downloadStatus | async as state" [ngSwitch]="state">
           <button *ngSwitchCase="'idle'" (click)="download()">Stáhnout</button>
           <p *ngSwitchCase="'downloading'">Stahuji... {{ downloadProgress | async | percent }}</p>
