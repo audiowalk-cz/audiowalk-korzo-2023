@@ -34,9 +34,7 @@ export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
 
   @ViewChild("audioPlayer") audioPlayer!: ElementRef<HTMLAudioElement>;
 
-  constructor(
-    private cdRef: ChangeDetectorRef,
-  ) { }
+  constructor(private cdRef: ChangeDetectorRef) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes["url"] && changes["url"].currentValue !== changes["url"].previousValue) {
@@ -91,15 +89,13 @@ export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.audioPlayer.nativeElement.removeEventListener("play", () => { });
-    this.audioPlayer.nativeElement.removeEventListener("pause", () => { });
-    this.audioPlayer.nativeElement.removeEventListener("ended", () => { });
-    this.audioPlayer.nativeElement.removeEventListener("timeupdate", () => { });
+    this.audioPlayer.nativeElement.removeEventListener("play", () => {});
+    this.audioPlayer.nativeElement.removeEventListener("pause", () => {});
+    this.audioPlayer.nativeElement.removeEventListener("ended", () => {});
+    this.audioPlayer.nativeElement.removeEventListener("timeupdate", () => {});
   }
 
   async loadTrack() {
-    console.log("loadTrack")
-    console.log(this.url)
     if (this.url) {
       this.audioPlayer.nativeElement.src = this.url;
       this.audioPlayer.nativeElement.load();
@@ -134,13 +130,13 @@ export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
   }
 
   async play() {
-    console.log("log 1")
+    console.log("log 1");
     try {
       await this.audioPlayer.nativeElement.play();
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-    console.log("log 2")
+    console.log("log 2");
     navigator.mediaSession.playbackState = "playing";
   }
 

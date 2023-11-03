@@ -12,7 +12,6 @@ export class FileStorageService {
 
   private async getDatabase(): Promise<IDBDatabase> {
     if (!this._db) {
-      console.log("Creating DB");
       this._db = await this.createDB();
     }
     return this._db;
@@ -22,14 +21,12 @@ export class FileStorageService {
     return new Promise<IDBDatabase>((resolve, reject) => {
       const result = indexedDB.open("audio", this._version);
       result.onsuccess = (event) => {
-        console.log("succes");
         resolve((event.target as IDBOpenDBRequest).result);
       };
 
       result.onerror = (event) => reject((event.target as IDBOpenDBRequest).error);
 
       result.onupgradeneeded = (event) => {
-        console.log("upgrade");
         const db = (event.target as IDBOpenDBRequest).result;
         db.createObjectStore(this._storeName);
       };
