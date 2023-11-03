@@ -4,7 +4,6 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { combineLatest } from "rxjs";
 import { TrackDefinition } from "src/app/schema/track";
 import { AudioService } from "src/app/services/audio.service";
-import { SharedEventService } from "src/app/services/event-handler.service";
 
 @UntilDestroy()
 @Component({
@@ -19,21 +18,19 @@ export class WalkComponent implements OnInit {
   track?: TrackDefinition;
   url?: string;
 
-  constructor(
-    private router: Router,
-    private audioService: AudioService,
-    private route: ActivatedRoute,
-    private eventService: SharedEventService
-  ) { }
+  constructor(private router: Router, private audioService: AudioService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     combineLatest([this.audioService.tracks, this.route.params])
       .pipe(untilDestroyed(this))
       .subscribe(([tracks, params]) => {
         const i = parseInt(params["track"]) - 1;
+
         this.chapterCount = tracks.length;
         this.chapterIndex = i + 1;
+
         const track = tracks[i];
+
         if (track?.id !== this.track?.id) {
           this.loadTrack(track, i);
         }
@@ -51,11 +48,5 @@ export class WalkComponent implements OnInit {
   private async loadTrack(track: TrackDefinition, index: number) {
     this.track = track;
     this.url = await this.audioService.getTrackUrl(track);
-
-    this.triggerLoadTrackEvent(index)
-  }
-
-  triggerLoadTrackEvent(index: number) {
-    this.eventService.emitLoadTrackEvent({ trackId: index });
   }
 }

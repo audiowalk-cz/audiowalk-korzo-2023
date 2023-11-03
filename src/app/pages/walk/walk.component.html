@@ -1,10 +1,15 @@
-<app-map> </app-map>
+<app-map [trackId]="chapterIndex"> </app-map>
 
 <div *ngIf="track" class="info">
   <app-track-info [track]="track" [chapterIndex]="chapterIndex" [chapterCount]="chapterCount"></app-track-info>
 </div>
 
 <div *ngIf="url" class="player">
-  <app-player [title]="track?.title" [url]="url" [startProgress]="track?.progress" (next)="nextTrack()"
-    (progress)="saveProgress($event)"></app-player>
+  <app-player
+    [title]="track?.title"
+    [url]="url"
+    [startProgress]="track?.progress"
+    (next)="nextTrack()"
+    (progress)="saveProgress($event)"
+  ></app-player>
 </div>
