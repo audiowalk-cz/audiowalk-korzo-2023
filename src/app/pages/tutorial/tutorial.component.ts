@@ -8,6 +8,7 @@ import { AudioService } from "src/app/services/audio.service";
 })
 export class TutorialComponent {
   public downloadStatus = this.audioService.downloadStatus;
+  public downloadProgress = this.audioService.downloadProgress;
 
   constructor(private audioService: AudioService) {}
 

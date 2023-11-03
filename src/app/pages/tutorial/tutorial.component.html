@@ -32,8 +32,10 @@
         <h3>Offline verze</h3>
         <div *ngIf="downloadStatus | async as state" [ngSwitch]="state">
           <button *ngSwitchCase="'idle'" (click)="download()">Download</button>
-          <p *ngSwitchCase="'downloading'">Stahuji...</p>
+          <button *ngSwitchCase="'error'" (click)="download()">Download</button>
+          <p *ngSwitchCase="'downloading'">Stahuji... {{ downloadProgress | async | percent }}</p>
           <p *ngSwitchCase="'downloaded'">Staženo.</p>
+          <p *ngSwitchCase="'error'">Nastala Chyba při stahování.</p>
         </div>
       </div>
     </div>
