@@ -20,6 +20,7 @@ export class MapComponent implements AfterViewInit, OnChanges {
   @ViewChild("originalSvg") originalSvg!: ElementRef<SVGElement>;
   @ViewChild("wrapper") wrapper!: ElementRef<HTMLDivElement>;
   outputSvg: SVGSVGElement;
+  mapDrawn: boolean = false;
 
   @Input() trackId?: number = 0;
 
@@ -27,55 +28,47 @@ export class MapComponent implements AfterViewInit, OnChanges {
     this.outputSvg = this.renderer.createElement("svg", "http://www.w3.org/2000/svg");
   }
 
-  ngAfterViewInit(): void {
+  async ngAfterViewInit(): Promise<void> {
     this.drawMap();
+    this.mapDrawn = true;
+    // if (this.trackId) this.flyToPath(this.trackId)
     // this.main()
+
+    setTimeout(() => {
+      if (this.trackId) this.flyToPath(this.trackId)
+    }, 200)
+
+
+    setTimeout(() => {
+      this.flyToPath(0)
+    }, 5000)
+    setTimeout(() => {
+      this.flyToPath(3)
+    }, 10000)
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes["trackId"]) {
-      if (this.trackId !== undefined) this.flyToPath(this.trackId);
+      if (this.trackId !== undefined && this.mapDrawn) this.flyToPath(this.trackId);
       // TODO: if trackId is undefined, fly to map overview
     }
   }
 
-  async main() {
-    const paths = this.outputSvg.querySelectorAll(".path");
-    for (let path of paths) {
-      const realPath = path.querySelector("path");
-      if (!realPath) continue;
-      realPath.style.stroke = `green`;
-      await this.flyTo(
-        realPath,
-        {
-          top: 250,
-          bottom: 250,
-          left: 20,
-          right: 20,
-        },
-        2000,
-        2000
-      );
-      realPath.style.stroke = `blue`;
-    }
-  }
   async flyToPath(index: number) {
     const paths = this.outputSvg.querySelectorAll(".path");
     const realPath = paths[index].querySelector("path");
     if (!realPath) return;
-    realPath.style.stroke = `green`;
     await this.flyTo(
       realPath,
       {
-        top: 50,
-        bottom: 50,
+        top: 230,
+        bottom: 160,
         left: 20,
         right: 20,
       },
       2000,
       2000
     );
-    realPath.style.stroke = `white`;
   }
 
   drawMap() {
@@ -98,28 +91,28 @@ export class MapComponent implements AfterViewInit, OnChanges {
         pathData,
         isWater
           ? {
-              roughness: 1,
-              fill: "rgba(130,192,234,.8)",
-              fillStyle: "zigzag",
-              hachureAngle: 60,
-              stroke: "rgba(130,192,234,0)",
-              strokeWidth: 1,
-              hachureGap: 4,
-            }
+            roughness: 0,
+            fill: "rgba(130,192,234,.8)",
+            fillStyle: "solid",
+            // hachureAngle: 60,
+            // stroke: "rgba(130,192,234,0)",
+            strokeWidth: 0,
+            // hachureGap: 4,
+          }
           : isBuilding
-          ? {
-              roughness: 0.5,
+            ? {
+              roughness: 0.1,
               fill: "rgba(255,255,255,.5)",
-              fillStyle: "cross-hatch",
-              fillWeight: 0.5,
-              hachureAngle: -60,
-              hachureGap: 2,
-              stroke: "rgba(255,255,255,.75)",
-              strokeWidth: 1,
+              fillStyle: "solid",
+              // fillWeight: 0.5,
+              // hachureAngle: -60,
+              // hachureGap: 2,
+              // stroke: "rgba(255,255,255,.75)",
+              // strokeWidth: 1,
             }
-          : {
-              roughness: 0.8,
-              stroke: "rgba(255,10,10,1)",
+            : {
+              roughness: 0.5,
+              stroke: "rgba(255,255,255,0.1)",
               strokeWidth: 4,
             }
       );
@@ -127,17 +120,23 @@ export class MapComponent implements AfterViewInit, OnChanges {
 
       this.outputSvg.appendChild(svgpath);
     }
+    // const originalSvgBR = this.originalSvg.nativeElement.getBoundingClientRect();
+    // this.outputSvg.style.width = originalSvgBR.width + "px";
+    // this.outputSvg.style.height = originalSvgBR.height + "px";
   }
 
   async flyTo(
-    targetElement: Element,
+    targetElement: SVGPathElement,
     padding: { top: number; left: number; bottom: number; right: number },
     duration: number,
     sleep: number
   ) {
+    targetElement.style.stroke = "rgba(255,255,255,1)";
     const targetBR = targetElement.getBoundingClientRect();
+    console.log(targetBR)
     const wrapperBR = this.wrapper.nativeElement.getBoundingClientRect();
 
+    console.log(wrapperBR);
     let currentScaleTxt = this.outputSvg.style.transform;
     if (!currentScaleTxt) {
       currentScaleTxt = "scale(1)";
@@ -160,29 +159,55 @@ export class MapComponent implements AfterViewInit, OnChanges {
       cy: targetBR.y + targetBR.height / 2,
     };
 
+    console.log(view.w, view.h, "view dims")
+    console.log(target.w, target.h, "target dims")
+    console.log(target.w / currentScale, target.h / currentScale, "scaled dims")
+    console.log(padding.top, padding.bottom, "padding dims")
+
     const scaleX = view.w / (target.w / currentScale + padding.left + padding.right);
     const scaleY = view.h / (target.h / currentScale + padding.top + padding.bottom);
     const finalScale = Math.min(scaleX, scaleY);
 
+    console.log(scaleX, scaleY, finalScale)
     const move = {
       dx: -(target.cx - view.cx) / currentScale,
       dy: -(target.cy - view.cy) / currentScale,
     };
 
-    await new Promise<void>((res) => {
-      const an1 = new SMAnimation(
-        this.wrapper.nativeElement,
-        this.outputSvg,
-        move.dx,
-        move.dy,
-        currentScale,
-        finalScale,
-        duration,
-        sleep,
-        () => {
-          res();
-        }
-      ).run();
-    });
+    const fromX = this.outputSvg.style.left ? parseFloat(this.outputSvg.style.left.slice(0, -2)) : 0;
+    const fromY = this.outputSvg.style.top ? parseFloat(this.outputSvg.style.top.slice(0, -2)) : 0;
+    const toX = Math.round(fromX + move.dx);
+    const toY = Math.round(fromY + move.dy);
+    this.outputSvg.style.left = toX + "px";
+    this.outputSvg.style.top = toY + "px";
+
+    this.outputSvg.style.transitionDuration = duration + "ms";
+    this.outputSvg.style.transformOrigin = `${view.cx - toX}px ${view.cy - toY}px`;
+    this.outputSvg.style.transform = `scale(${finalScale})`;
+
+    setTimeout(() => {
+      targetElement.style.stroke = "rgba(255,255,255,0.5)";
+
+      console.log(targetElement.getBoundingClientRect())
+    }, duration)
+
+    setTimeout(() => {
+      targetElement.style.stroke = "rgba(255,255,255,0.1)";
+    }, duration + sleep)
+    // await new Promise<void>((res) => {
+    //   const an1 = new SMAnimation(
+    //     this.wrapper.nativeElement,
+    //     this.outputSvg,
+    //     move.dx,
+    //     move.dy,
+    //     currentScale,
+    //     finalScale,
+    //     duration,
+    //     sleep,
+    //     () => {
+    //       res();
+    //     }
+    //   ).run();
+    // });
   }
 }
