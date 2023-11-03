@@ -9,9 +9,10 @@ html {
   font-family: "Roboto Slab";
   min-height: 100%;
   height: 100%;
+  overscroll-behavior-y: contain;
 }
 
-app-root>*:not(router-outlet) {
+app-root > *:not(router-outlet) {
   display: block;
   height: 100%;
 }
