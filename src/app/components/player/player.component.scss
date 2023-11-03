@@ -7,66 +7,59 @@
   background-color: rgba(0, 0, 0, 0.7);
 
   backdrop-filter: blur(10px);
+  height: 10em;
+  max-width: 100em;
 }
+
 :host.light {
   background-color: rgba(255, 255, 255, 0.2);
 }
 
 .controls-box {
-  display: flex;
-  justify-content: space-between;
-
-  align-items: center;
   padding: 0;
 
+
   .button-icon {
-    width: 33%;
+    width: 5em;
+    height: 5em;
     position: relative;
+    border-radius: 100%;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-out;
+    transform-origin: center center;
 
     img {
-      width: 100%;
-    }
-
-    svg {
       position: absolute;
       top: 0px;
       left: 0px;
       width: 100%;
 
-      .cls-2 {
-        transform: scale(0);
-      }
-    }
-
-    svg.active {
-      .cls-2 {
-        transform: scale(1);
-      }
-    }
-
-    .cls-1,
-    .cls-2 {
       transition-duration: 0.2s;
       transition-timing-function: ease-out;
+      transform-origin: center center;
     }
   }
 
-  button:hover {
-    width: 5em;
-
-    .cls-1 {
-      opacity: 0.15;
+  .button-playpause {
+    img {
+      transform: scale(0);
     }
 
-    .cls-2 {
-      transform-origin: 50% 50%;
-      transform: scale(0.9);
+    img.active {
+      transform: scale(1);
+    }
+  }
+
+  .button-icon:hover {
+    background: rgba(255, 255, 255, .1);
+
+    img.active {
+      transform: scale(.9);
     }
   }
 }
 
 .progress-box {
-  margin-bottom: 1em;
   width: 100%;
   position: relative;
 

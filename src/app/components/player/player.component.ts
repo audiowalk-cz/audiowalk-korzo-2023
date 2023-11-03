@@ -33,14 +33,14 @@ export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
   @Output("progress") onProgress = new EventEmitter<number>();
 
   progress: number = 0;
-  status: "playing" | "paused" = "paused";
+  status: "playing" | "paused" | "ended" = "paused";
 
   totalTime?: number;
   currentTime?: number;
 
   @ViewChild("audioPlayer") audioPlayer!: ElementRef<HTMLAudioElement>;
 
-  constructor(private cdRef: ChangeDetectorRef) {}
+  constructor(private cdRef: ChangeDetectorRef) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes["url"] && changes["url"].currentValue !== changes["url"].previousValue) {
@@ -95,10 +95,10 @@ export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.audioPlayer.nativeElement.removeEventListener("play", () => {});
-    this.audioPlayer.nativeElement.removeEventListener("pause", () => {});
-    this.audioPlayer.nativeElement.removeEventListener("ended", () => {});
-    this.audioPlayer.nativeElement.removeEventListener("timeupdate", () => {});
+    this.audioPlayer.nativeElement.removeEventListener("play", () => { });
+    this.audioPlayer.nativeElement.removeEventListener("pause", () => { });
+    this.audioPlayer.nativeElement.removeEventListener("ended", () => { });
+    this.audioPlayer.nativeElement.removeEventListener("timeupdate", () => { });
   }
 
   async loadTrack() {
