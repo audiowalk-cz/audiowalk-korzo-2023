@@ -47,12 +47,12 @@ export class MapComponent implements AfterViewInit, OnChanges {
     }, 200)
 
 
-    setTimeout(() => {
-      this.flyToPath(0)
-    }, 5000)
-    setTimeout(() => {
-      this.flyToPath(3)
-    }, 10000)
+    // setTimeout(() => {
+    //   this.flyToPath(0)
+    // }, 5000)
+    // setTimeout(() => {
+    //   this.flyToPath(3)
+    // }, 10000)
   }
 
   ngOnChanges(changes: SimpleChanges): void {
