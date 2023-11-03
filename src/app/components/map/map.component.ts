@@ -9,7 +9,10 @@ import {
   ViewChild,
 } from "@angular/core";
 import rough from "roughjs";
+import { BehaviorSubject, Subject } from "rxjs";
 import { SMAnimation } from "./helpers/SMAnimation";
+
+type GpsStatus = "on" | "off" | "error";
 
 @Component({
   selector: "app-map",
@@ -22,6 +25,11 @@ export class MapComponent implements AfterViewInit, OnChanges {
   outputSvg: SVGSVGElement;
 
   @Input() trackId?: number = 0;
+
+  gpsStatus = new BehaviorSubject<GpsStatus>("off");
+  gpsPosition = new Subject<[number, number]>();
+
+  gpsWatchSubscription?: number;
 
   constructor(private renderer: Renderer2) {
     this.outputSvg = this.renderer.createElement("svg", "http://www.w3.org/2000/svg");
@@ -184,5 +192,30 @@ export class MapComponent implements AfterViewInit, OnChanges {
         }
       ).run();
     });
+  }
+
+  enableGps() {
+    this.gpsStatus.next("on");
+    if (this.gpsWatchSubscription) navigator.geolocation!.clearWatch(this.gpsWatchSubscription);
+
+    navigator.geolocation!.watchPosition(
+      (position) => {
+        this.gpsPosition.next(this.transformGpsPosition(position.coords));
+      },
+      () => {
+        this.gpsStatus.next("error");
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+    );
+  }
+
+  disableGps() {
+    this.gpsStatus.next("off");
+    if (this.gpsWatchSubscription) navigator.geolocation!.clearWatch(this.gpsWatchSubscription);
+  }
+
+  private transformGpsPosition(coordinates: { latitude: number; longitude: number }) {
+    // TODO: transform lat long to x y
+    return [0, 0] as [number, number];
   }
 }
