@@ -5,6 +5,6 @@ export interface Chapter {
   durationMinutes: number;
   title: string;
   description: string;
-  track: TrackDefinition;
+  track?: TrackDefinition;
   pathIndex: number;
 }

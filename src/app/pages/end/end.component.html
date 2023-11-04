@@ -2,6 +2,8 @@
   <app-page-content>
     <h2>Příběh je u konce&hellip;</h2>
 
+    <app-video *ngIf="endTrack" [track]="endTrack"></app-video>
+
     <h3>Líbil se vám audiowalk?</h3>
 
     <p class="buttons"><button (click)="share()">Sdílet na facebook</button></p>

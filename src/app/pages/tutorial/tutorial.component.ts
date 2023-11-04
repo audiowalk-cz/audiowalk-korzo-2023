@@ -1,7 +1,6 @@
 import { Component } from "@angular/core";
-import { Chapters } from "src/app/chapters";
 import { TrackDefinition } from "src/app/schema/track";
-import { AudioService } from "src/app/services/audio.service";
+import { MediaService } from "src/app/services/media.service";
 
 @Component({
   selector: "app-tutorial",
@@ -17,9 +16,11 @@ export class TutorialComponent {
     id: "test",
     title: "Testovací nahrávka",
     url: "assets/audio/spejbl-1.mp3",
+    type: "audio",
+    mimeType: "audio/mpeg",
   };
 
-  constructor(private audioService: AudioService) {}
+  constructor(private audioService: MediaService) {}
 
   openNavigation() {
     const address = "Ve struhách 62, Praha 6";
@@ -28,8 +29,7 @@ export class TutorialComponent {
   }
 
   async download() {
-    const trackDefs = Chapters.map((chapter) => chapter.track);
-    await this.audioService.downloadTracks(trackDefs);
+    await this.audioService.downloadTracks();
   }
 
   skipDownload(e: Event) {

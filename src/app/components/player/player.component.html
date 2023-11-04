@@ -40,7 +40,7 @@
 </div>
 
 <div *ngIf="showMenu" class="menu-backdrop" (click)="showMenu = false"></div>
-<div *ngIf="showMenu" class="menu">
+<div *ngIf="showMenu" class="menu" (click)="showMenu = false">
   <ng-content select="app-player-menu"></ng-content>
 </div>
 
