@@ -10,7 +10,7 @@ import {
 } from "@angular/core";
 import rough from "roughjs";
 import { BehaviorSubject, Subject } from "rxjs";
-import { SMAnimation } from "./helpers/SMAnimation";
+import { Chapter } from "src/app/schema/chapter";
 
 type GpsStatus = "on" | "off" | "error";
 
@@ -25,7 +25,7 @@ export class MapComponent implements AfterViewInit, OnChanges {
   outputSvg: SVGSVGElement;
   mapDrawn: boolean = false;
 
-  @Input() trackId?: number = 0;
+  @Input() chapter?: Chapter;
 
   gpsStatus = new BehaviorSubject<GpsStatus>("off");
   gpsPosition = new Subject<[number, number]>();
@@ -43,9 +43,8 @@ export class MapComponent implements AfterViewInit, OnChanges {
     // this.main()
 
     setTimeout(() => {
-      if (this.trackId) this.flyToPath(this.trackId)
-    }, 200)
-
+      if (this.chapter) this.flyToPath(this.chapter.pathIndex);
+    }, 200);
 
     // setTimeout(() => {
     //   this.flyToPath(0)
@@ -56,8 +55,8 @@ export class MapComponent implements AfterViewInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes["trackId"]) {
-      if (this.trackId !== undefined && this.mapDrawn) this.flyToPath(this.trackId);
+    if (changes["chapter"]) {
+      if (this.chapter && this.mapDrawn) this.flyToPath(this.chapter.pathIndex);
       // TODO: if trackId is undefined, fly to map overview
     }
   }
@@ -99,16 +98,16 @@ export class MapComponent implements AfterViewInit, OnChanges {
         pathData,
         isWater
           ? {
-            roughness: 0,
-            fill: "rgba(130,192,234,.8)",
-            fillStyle: "solid",
-            // hachureAngle: 60,
-            // stroke: "rgba(130,192,234,0)",
-            strokeWidth: 0,
-            // hachureGap: 4,
-          }
+              roughness: 0,
+              fill: "rgba(130,192,234,.8)",
+              fillStyle: "solid",
+              // hachureAngle: 60,
+              // stroke: "rgba(130,192,234,0)",
+              strokeWidth: 0,
+              // hachureGap: 4,
+            }
           : isBuilding
-            ? {
+          ? {
               roughness: 0.1,
               fill: "rgba(255,255,255,.5)",
               fillStyle: "solid",
@@ -118,7 +117,7 @@ export class MapComponent implements AfterViewInit, OnChanges {
               // stroke: "rgba(255,255,255,.75)",
               // strokeWidth: 1,
             }
-            : {
+          : {
               roughness: 0.5,
               stroke: "rgba(255,255,255,0.1)",
               strokeWidth: 4,
@@ -141,7 +140,7 @@ export class MapComponent implements AfterViewInit, OnChanges {
   ) {
     targetElement.style.stroke = "rgba(255,255,255,1)";
     const targetBR = targetElement.getBoundingClientRect();
-    console.log(targetBR)
+    console.log(targetBR);
     const wrapperBR = this.wrapper.nativeElement.getBoundingClientRect();
 
     console.log(wrapperBR);
@@ -167,16 +166,16 @@ export class MapComponent implements AfterViewInit, OnChanges {
       cy: targetBR.y + targetBR.height / 2,
     };
 
-    console.log(view.w, view.h, "view dims")
-    console.log(target.w, target.h, "target dims")
-    console.log(target.w / currentScale, target.h / currentScale, "scaled dims")
-    console.log(padding.top, padding.bottom, "padding dims")
+    console.log(view.w, view.h, "view dims");
+    console.log(target.w, target.h, "target dims");
+    console.log(target.w / currentScale, target.h / currentScale, "scaled dims");
+    console.log(padding.top, padding.bottom, "padding dims");
 
     const scaleX = view.w / (target.w / currentScale + padding.left + padding.right);
     const scaleY = view.h / (target.h / currentScale + padding.top + padding.bottom);
     const finalScale = Math.min(scaleX, scaleY);
 
-    console.log(scaleX, scaleY, finalScale)
+    console.log(scaleX, scaleY, finalScale);
     const move = {
       dx: -(target.cx - view.cx) / currentScale,
       dy: -(target.cy - view.cy) / currentScale,
@@ -196,12 +195,12 @@ export class MapComponent implements AfterViewInit, OnChanges {
     setTimeout(() => {
       targetElement.style.stroke = "rgba(255,255,255,0.5)";
 
-      console.log(targetElement.getBoundingClientRect())
-    }, duration)
+      console.log(targetElement.getBoundingClientRect());
+    }, duration);
 
     setTimeout(() => {
       targetElement.style.stroke = "rgba(255,255,255,0.1)";
-    }, duration + sleep)
+    }, duration + sleep);
     // await new Promise<void>((res) => {
     //   const an1 = new SMAnimation(
     //     this.wrapper.nativeElement,

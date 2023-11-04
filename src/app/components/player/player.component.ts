@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
+  ContentChild,
   ElementRef,
   EventEmitter,
   Input,
@@ -11,25 +12,20 @@ import {
   SimpleChanges,
   ViewChild,
 } from "@angular/core";
+import { Track } from "src/app/schema/track";
+import { PlayerMenuComponent } from "../player-menu/player-menu.component";
 
 @Component({
   selector: "app-player",
   templateUrl: "./player.component.html",
   styleUrls: ["./player.component.scss"],
-  host: {
-    "[class.light]": "mode === 'light'",
-    "[class.dark]": "mode === 'dark'",
-  },
 })
 export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
-  @Input() title?: string;
-  @Input() url?: string;
+  @Input() track?: Track;
   @Input() startProgress?: number;
   @Input() autoPlay: boolean = false;
-  @Input() enableControls: boolean = false;
   @Input() mode: "light" | "dark" = "dark";
 
-  @Output("next") onNext = new EventEmitter<void>();
   @Output("progress") onProgress = new EventEmitter<number>();
 
   progress: number = 0;
@@ -37,21 +33,26 @@ export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
   error?: string;
   offline: boolean = !navigator.onLine;
 
+  showMenu = false;
+
   totalTime?: number;
   currentTime?: number;
 
   @ViewChild("audioPlayer") audioPlayer!: ElementRef<HTMLAudioElement>;
 
+  @ContentChild(PlayerMenuComponent) menu?: PlayerMenuComponent;
+
   constructor(private cdRef: ChangeDetectorRef) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes["url"] && changes["url"].currentValue !== changes["url"].previousValue) {
-      if (this.audioPlayer) this.loadTrack();
+    if (changes["track"]) {
+      if (this.track && this.audioPlayer) this.loadTrack(this.track);
     }
   }
 
   ngAfterViewInit(): void {
-    this.loadTrack();
+    console.log(this.menu);
+    if (this.track) this.loadTrack(this.track);
 
     if (navigator.mediaSession) {
       navigator.mediaSession.setActionHandler("play", () => {
@@ -68,9 +69,9 @@ export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
         this.rewind();
       });
 
-      navigator.mediaSession.setActionHandler("nexttrack", () => {
-        this.onNext.emit();
-      });
+      // navigator.mediaSession.setActionHandler("nexttrack", () => {
+      //   this.onNext.emit();
+      // });
 
       this.audioPlayer.nativeElement.addEventListener("play", (event) => {
         this.status = "playing";
@@ -115,30 +116,34 @@ export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
     this.audioPlayer.nativeElement.removeEventListener("timeupdate", () => {});
   }
 
-  async loadTrack() {
-    if (this.url) {
-      this.audioPlayer.nativeElement.src = this.url;
-      this.audioPlayer.nativeElement.load();
-      this.progress = 0;
-      this.currentTime = 0;
-      this.status = "paused";
+  async loadTrack(track: Track) {
+    if (track.url === this.audioPlayer.nativeElement.src) return;
 
-      navigator.mediaSession.metadata = new MediaMetadata({
-        title: this.title ?? "Track",
-        album: "Studentská revolta '89",
-      });
+    this.audioPlayer.nativeElement.src = track.url;
+    this.audioPlayer.nativeElement.load();
+    this.progress = 0;
+    this.currentTime = 0;
+    this.status = "paused";
 
-      this.cdRef.detectChanges();
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: track.title ?? "Track",
+      album: "Studentská revolta '89",
+    });
 
-      if (this.startProgress) this.audioPlayer.nativeElement.currentTime = this.startProgress;
-      if (this.autoPlay) await this.play();
-    } else {
-      this.pause();
+    this.cdRef.detectChanges();
 
-      this.audioPlayer.nativeElement.src = "";
-      navigator.mediaSession.playbackState = "paused";
-      navigator.mediaSession.metadata = null;
+    if (track.progress) {
+      const setProgress = () => {
+        this.audioPlayer.nativeElement.removeEventListener("loadedmetadata", setProgress);
+        if (track.progress && track.progress !== this.audioPlayer.nativeElement.duration) {
+          this.audioPlayer.nativeElement.currentTime = track.progress;
+        }
+      };
+
+      this.audioPlayer.nativeElement.addEventListener("loadedmetadata", setProgress);
     }
+
+    if (this.autoPlay) await this.play().catch();
   }
 
   async playPause() {
@@ -150,19 +155,21 @@ export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
   }
 
   async play() {
-    console.log("log 1");
-    try {
-      await this.audioPlayer.nativeElement.play();
-    } catch (err) {
-      console.log(err);
-    }
-    console.log("log 2");
+    await this.audioPlayer.nativeElement.play();
     navigator.mediaSession.playbackState = "playing";
   }
 
   pause() {
     this.audioPlayer.nativeElement.pause();
     navigator.mediaSession.playbackState = "paused";
+  }
+
+  stop() {
+    this.audioPlayer.nativeElement.pause();
+    navigator.mediaSession.playbackState = "paused";
+    this.audioPlayer.nativeElement.currentTime = 0;
+    navigator.mediaSession.metadata = null;
+    this.audioPlayer.nativeElement.src = "";
   }
 
   rewind() {

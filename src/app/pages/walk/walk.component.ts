@@ -1,8 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { combineLatest } from "rxjs";
-import { TrackDefinition } from "src/app/schema/track";
+import { Chapters } from "src/app/chapters";
+import { Chapter } from "src/app/schema/chapter";
+import { Track } from "src/app/schema/track";
 import { AudioService } from "src/app/services/audio.service";
 
 @UntilDestroy()
@@ -12,41 +13,55 @@ import { AudioService } from "src/app/services/audio.service";
   styleUrls: ["./walk.component.scss"],
 })
 export class WalkComponent implements OnInit {
-  tracks = this.audioService.tracks;
-  chapterIndex?: number;
-  chapterCount?: number;
-  track?: TrackDefinition;
+  track?: Track;
   url?: string;
+
+  chapter?: Chapter;
+  chapterIndex?: number;
+  chapterCount = Chapters.length;
 
   constructor(private router: Router, private audioService: AudioService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    combineLatest([this.audioService.tracks, this.route.params])
-      .pipe(untilDestroyed(this))
-      .subscribe(([tracks, params]) => {
-        const i = parseInt(params["track"]) - 1;
+    this.route.queryParams.pipe(untilDestroyed(this)).subscribe((params) => {
+      const chapter = parseInt(params["chapter"]);
 
-        this.chapterCount = tracks.length;
-        this.chapterIndex = i + 1;
-
-        const track = tracks[i];
-
-        if (track?.id !== this.track?.id) {
-          this.loadTrack(track, i);
-        }
-      });
+      if (!chapter) this.openDefaultChapter();
+      else if (chapter && chapter !== this.chapterIndex) this.loadChapter(chapter);
+    });
   }
 
-  nextTrack() {
-    this.router.navigate(["/tracklist"]);
+  exitWalk() {
+    this.router.navigate(["/"]);
+  }
+
+  endWalk() {
+    this.router.navigate(["/end"]);
+  }
+
+  nextChapter() {
+    if (this.chapterIndex! < Chapters.length) this.openChapter(this.chapterIndex! + 1);
+    else this.endWalk();
   }
 
   saveProgress(progress: number) {
     if (this.track) this.audioService.saveTrackProgress(this.track, progress);
   }
 
-  private async loadTrack(track: TrackDefinition, index: number) {
-    this.track = track;
-    this.url = await this.audioService.getTrackUrl(track);
+  private async openDefaultChapter() {
+    const lastChapter = await this.audioService.getCurrentChapter();
+    this.openChapter(lastChapter ?? 1);
+  }
+
+  private openChapter(i: number) {
+    this.router.navigate(["/walk"], { queryParams: { chapter: String(i) } });
+  }
+
+  private async loadChapter(chapter: number) {
+    this.chapterIndex = chapter;
+    this.chapter = Chapters[chapter - 1];
+
+    const trackDef = Chapters[chapter - 1].track;
+    this.track = await this.audioService.getTrack(trackDef);
   }
 }

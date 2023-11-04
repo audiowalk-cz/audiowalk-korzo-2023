@@ -1,4 +1,6 @@
 import { Component } from "@angular/core";
+import { Chapters } from "src/app/chapters";
+import { TrackDefinition } from "src/app/schema/track";
 import { AudioService } from "src/app/services/audio.service";
 
 @Component({
@@ -11,6 +13,12 @@ export class TutorialComponent {
   public downloadProgress = this.audioService.downloadProgress;
   public downloadSkipped = false;
 
+  readonly testTrack: TrackDefinition = {
+    id: "test",
+    title: "Testovací nahrávka",
+    url: "assets/audio/spejbl-1.mp3",
+  };
+
   constructor(private audioService: AudioService) {}
 
   openNavigation() {
@@ -20,7 +28,8 @@ export class TutorialComponent {
   }
 
   async download() {
-    await this.audioService.downloadTracks();
+    const trackDefs = Chapters.map((chapter) => chapter.track);
+    await this.audioService.downloadTracks(trackDefs);
   }
 
   skipDownload(e: Event) {

@@ -1,0 +1,19 @@
+<app-page>
+  <app-page-content>
+    <h1 class="mb-5">Přehled kapitol</h1>
+
+    <div class="chapter" *ngFor="let chapter of chapters; let i = index">
+      <div class="title">
+        <h3>{{ chapter.title }}</h3>
+
+        <div class="play">
+          <button class="button-icon" routerLink="/walk" [queryParams]="{ chapter: i + 1 }">
+            <img src="assets/img/icons/play.svg" alt="Play" />
+          </button>
+        </div>
+      </div>
+
+      <p class="info mt-3">{{ chapter.description }}</p>
+    </div>
+  </app-page-content>
+</app-page>

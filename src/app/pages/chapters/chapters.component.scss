@@ -1,0 +1,19 @@
+.chapter {
+  border-bottom: 1px solid #999;
+  padding: 1em 0;
+}
+.title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  h3 {
+    min-height: 2em;
+    flex-grow: 1;
+  }
+  .play {
+    padding-left: 2em;
+  }
+}
+
+.info {
+}

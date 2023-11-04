@@ -1,17 +1,15 @@
-<app-map [trackId]="chapterIndex"> </app-map>
+<app-map [chapter]="chapter"> </app-map>
 
-<div *ngIf="track" class="info">
-  <app-track-info [track]="track" [chapterIndex]="chapterIndex" [chapterCount]="chapterCount"></app-track-info>
+<div *ngIf="chapter" class="info">
+  <app-chapter-info [chapter]="chapter" [chapterIndex]="chapterIndex!" [chapterCount]="chapterCount"></app-chapter-info>
 </div>
 
-<div *ngIf="url" class="player">
-  <app-player
-    [title]="track?.title"
-    [url]="url"
-    [startProgress]="track?.progress"
-    [enableControls]="true"
-    [autoPlay]="true"
-    (next)="nextTrack()"
-    (progress)="saveProgress($event)"
-  ></app-player>
+<div *ngIf="track" class="player">
+  <app-player [track]="track" [autoPlay]="true" (progress)="saveProgress($event)">
+    <app-player-menu>
+      <app-player-menu-item routerLink="/">Zavřít audiowalk</app-player-menu-item>
+      <app-player-menu-item routerLink="/chapters">Přehled kapitol</app-player-menu-item>
+      <app-player-menu-item (click)="nextChapter()">Další kapitola</app-player-menu-item>
+    </app-player-menu>
+  </app-player>
 </div>

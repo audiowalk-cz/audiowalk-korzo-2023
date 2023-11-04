@@ -1,15 +1,10 @@
 export interface TrackDefinition {
   id: string;
   title: string;
-  description: string;
-  path: {
-    directions: string;
-    durationMinutes: number;
-    title: string;
-    description: string;
-  };
   url: string;
-  length: number;
+}
+
+export interface Track extends TrackDefinition {
   isDownloaded?: boolean;
   progress?: number;
 }
