@@ -1,5 +1,5 @@
 import { Chapter } from "../schema/chapter";
-import { Tracks } from "./tracks";
+import { TrackId } from "./tracks";
 
 export const Chapters: Chapter[] = [
   {
@@ -9,7 +9,7 @@ export const Chapters: Chapter[] = [
     description:
       "Na demonstraci potkal kamaráda a šli spolu na pivo. Davidovi se to moc nelíbilo, ale nechtěl kamaráda urazit. Když se vrátil domů, řekl manželce, že byl v divadle.",
     pathIndex: 0,
-    track: Tracks["spejbl-1"],
+    track: TrackId["spejbl-1"],
   },
   {
     directions: "Pokračujte přes Mariánské náměstí za magistrát k pivnici U Kata",
@@ -18,7 +18,7 @@ export const Chapters: Chapter[] = [
     description:
       "David se sešel s kamarádem v pivnici U Kata. Kamarád mu řekl, že byl na demonstraci a že to bylo super. Davidovi se to moc nelíbilo, ale nechtěl kamaráda urazit. Když se vrátil domů, řekl manželce, že byl v divadle.",
     pathIndex: 1,
-    track: Tracks["spejbl-2"],
+    track: TrackId["spejbl-2"],
   },
   {
     directions: "Jděte směrem na Národní třídu, těsně před ní zahněte do ulice Bartolomějská",
@@ -27,7 +27,7 @@ export const Chapters: Chapter[] = [
     description:
       "Výslech v Bartolomějské byl velmi nepříjemný. Davidovi tam rozbili nos a vyhrožovali mu, že ho zavřou.",
     pathIndex: 2,
-    track: Tracks["spejbl-3"],
+    track: TrackId["spejbl-3"],
   },
   {
     directions: "Jděte směrem k Vltavě, přes piazettu Národního divadla do ulice Na Struze.",
@@ -35,6 +35,6 @@ export const Chapters: Chapter[] = [
     title: "Setkání s StB",
     description: "Setkání s StB bylo ...",
     pathIndex: 3,
-    track: Tracks["spejbl-4"],
+    track: TrackId["spejbl-4"],
   },
 ];

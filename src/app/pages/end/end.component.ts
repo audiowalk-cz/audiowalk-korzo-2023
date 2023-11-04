@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Tracks } from "src/app/data/tracks";
+import { TrackId } from "src/app/data/tracks";
 import { Track } from "src/app/schema/track";
 import { MediaService } from "src/app/services/media.service";
 
@@ -13,7 +13,7 @@ export class EndComponent implements OnInit {
 
   constructor(private mediaService: MediaService) {}
   ngOnInit(): void {
-    this.mediaService.getTrack(Tracks.havel).then((track) => (this.endTrack = track));
+    this.mediaService.getTrack(TrackId.havel).then((track) => (this.endTrack = track));
   }
 
   share() {

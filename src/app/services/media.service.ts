@@ -1,8 +1,7 @@
 import { Injectable } from "@angular/core";
 import axios from "axios";
 import { BehaviorSubject, Subject } from "rxjs";
-import { Chapters } from "../data/chapters";
-import { Tracks } from "../data/tracks";
+import { TrackId, Tracks } from "../data/tracks";
 import { Track, TrackDefinition } from "../schema/track";
 import { FileStorageService } from "./file-storage.service";
 import { LocalStorageService } from "./local-storage.service";
@@ -18,10 +17,13 @@ export class MediaService {
   constructor(private fileStorageService: FileStorageService, private localStorageService: LocalStorageService) {}
 
   async getTracks(): Promise<TrackDefinition[]> {
-    return Promise.all(Object.values(Tracks).map((trackDef) => this.getTrack(trackDef)));
+    return Promise.all(Object.values(Tracks).map((trackDef) => this.getTrack(trackDef.id)));
   }
 
-  async getTrack(trackDef: TrackDefinition): Promise<Track> {
+  async getTrack(trackId: TrackId): Promise<Track> {
+    const trackDef = Tracks[trackId];
+    if (!trackDef) throw new Error(`Track ${trackId} not found`);
+
     const storedData = await this.fileStorageService.get<ArrayBuffer>(trackDef.id);
     const url = storedData ? URL.createObjectURL(new Blob([storedData], { type: trackDef.mimeType })) : trackDef.url;
     const isDownloaded = !!storedData;
@@ -42,7 +44,7 @@ export class MediaService {
       for (let [i, track] of trackDefs.entries()) {
         const trackProgress = new Subject<number>();
         trackProgress.subscribe((progress) =>
-          this.downloadProgress.next((i * 1) / Chapters.length + progress / Chapters.length)
+          this.downloadProgress.next((i * 1) / trackDefs.length + progress / trackDefs.length)
         );
 
         await this.downloadTrack(track, trackProgress);
@@ -51,15 +53,6 @@ export class MediaService {
     } catch (e) {
       this.downloadStatus.next("error");
     }
-  }
-
-  async getCurrentChapter(): Promise<number | null> {
-    const chapter = await this.localStorageService.get("current-track");
-    return chapter ? parseInt(chapter) : null;
-  }
-
-  async saveCurrentTrack(trackId: string) {
-    await this.localStorageService.set("current-track", trackId);
   }
 
   async saveTrackProgress(track: TrackDefinition, progress: number) {
