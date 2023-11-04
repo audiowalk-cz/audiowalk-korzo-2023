@@ -8,6 +8,7 @@ html {
   min-height: 100%;
   height: 100%;
   overscroll-behavior-y: contain;
+  user-select: none;
 }
 
 app-root > *:not(router-outlet) {
@@ -57,4 +58,8 @@ button.button-icon {
 button:disabled {
   pointer-events: none;
   opacity: 0.1;
+}
+
+.selectable {
+  user-select: auto;
 }
