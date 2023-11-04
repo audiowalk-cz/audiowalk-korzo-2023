@@ -8,8 +8,8 @@ import { MediaService } from "src/app/services/media.service";
   styleUrls: ["./tutorial.component.scss"],
 })
 export class TutorialComponent {
-  public downloadStatus = this.audioService.downloadStatus;
-  public downloadProgress = this.audioService.downloadProgress;
+  public downloadStatus = this.mediaService.downloadStatus;
+  public downloadProgress = this.mediaService.downloadProgress;
   public downloadSkipped = false;
 
   readonly testTrack: TrackDefinition = {
@@ -20,7 +20,7 @@ export class TutorialComponent {
     mimeType: "audio/mpeg",
   };
 
-  constructor(private audioService: MediaService) {}
+  constructor(private mediaService: MediaService) {}
 
   openNavigation() {
     const address = "Ve struhách 62, Praha 6";
@@ -29,7 +29,7 @@ export class TutorialComponent {
   }
 
   async download() {
-    await this.audioService.downloadTracks();
+    await this.mediaService.downloadTracks();
   }
 
   skipDownload(e: Event) {

@@ -5,18 +5,21 @@ import { TrackId, Tracks } from "../data/tracks";
 import { Track, TrackDefinition } from "../schema/track";
 import { FileStorageService } from "./file-storage.service";
 import { LocalStorageService } from "./local-storage.service";
-export type DownloadStatus = "idle" | "downloading" | "downloaded" | "error";
+
+export type DownloadStatus = "checking" | "not-downloaded" | "downloading" | "downloaded" | "error";
 
 @Injectable({
   providedIn: "root",
 })
 export class MediaService {
-  downloadStatus = new BehaviorSubject<DownloadStatus>("idle");
+  downloadStatus = new BehaviorSubject<DownloadStatus>("not-downloaded");
   downloadProgress = new BehaviorSubject<number>(0);
 
-  constructor(private fileStorageService: FileStorageService, private localStorageService: LocalStorageService) {}
+  constructor(private fileStorageService: FileStorageService, private localStorageService: LocalStorageService) {
+    this.updateDownloadStatus();
+  }
 
-  async getTracks(): Promise<TrackDefinition[]> {
+  async getTracks(): Promise<Track[]> {
     return Promise.all(Object.values(Tracks).map((trackDef) => this.getTrack(trackDef.id)));
   }
 
@@ -33,6 +36,16 @@ export class MediaService {
       .then((value) => (value ? parseFloat(value) ?? 0 : undefined));
 
     return { ...trackDef, url, progress, isDownloaded };
+  }
+
+  async updateDownloadStatus(): Promise<void> {
+    this.downloadStatus.next("checking");
+    try {
+      const downloadStatus = await this.getTracks().then((tracks) => tracks.every((track) => track.isDownloaded));
+      this.downloadStatus.next(downloadStatus ? "downloaded" : "not-downloaded");
+    } catch {
+      this.downloadStatus.next("not-downloaded");
+    }
   }
 
   async downloadTracks() {
@@ -69,9 +82,4 @@ export class MediaService {
 
     await this.fileStorageService.put(trackDef.id, res.data);
   }
-}
-function lasfirstValueFrom(
-  tracks: BehaviorSubject<TrackDefinition[] | null>
-): TrackDefinition[] | PromiseLike<TrackDefinition[]> {
-  throw new Error("Function not implemented.");
 }
