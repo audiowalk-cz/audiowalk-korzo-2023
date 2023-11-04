@@ -36,7 +36,7 @@
     </div>
   </div>
   <p *ngIf="error && !offline" class="error text-warning">{{ error }}</p>
-  <p *ngIf="offline" class="error text-warning">Nejste připojeni k internetu</p>
+  <p *ngIf="offline && !track.isDownloaded" class="error text-warning">Nejste připojeni k internetu</p>
 </div>
 
 <div *ngIf="showMenu" class="menu-backdrop" (click)="showMenu = false"></div>
