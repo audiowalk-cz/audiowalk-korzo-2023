@@ -1,3 +1,5 @@
 <video *ngIf="track" controls>
   <source [src]="track.url" type="video/mp4" />
 </video>
+
+<p *ngIf="offline && !track.isDownloaded" class="error text-warning">Nejste připojeni k internetu</p>

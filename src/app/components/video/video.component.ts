@@ -8,4 +8,6 @@ import { Track } from "src/app/schema/track";
 })
 export class VideoComponent {
   @Input() track!: Track;
+
+  offline = !navigator.onLine;
 }
