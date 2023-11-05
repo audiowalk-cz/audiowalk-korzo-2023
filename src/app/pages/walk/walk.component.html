@@ -4,8 +4,8 @@
   <app-chapter-info [chapter]="chapter" [chapterIndex]="chapterIndex!" [chapterCount]="chapterCount"></app-chapter-info>
 </div>
 
-<div *ngIf="track" class="player">
-  <app-player [track]="track" [autoPlay]="true" (progress)="saveProgress($event)">
+<div *ngIf="track" class="player" [ngSwitch]="track.type">
+  <app-player *ngSwitchCase="'audio'" [track]="track" [autoPlay]="true" (progress)="saveProgress($event)">
     <app-player-menu>
       <app-player-menu-item routerLink="/" class="text-danger">
         <i class="bi bi-x"></i> Zavřít audiowalk
@@ -18,4 +18,5 @@
       </app-player-menu-item>
     </app-player-menu>
   </app-player>
+  <app-video *ngSwitchCase="'video'" [track]="track"></app-video>
 </div>

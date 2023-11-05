@@ -1,10 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { Chapters } from "src/app/chapters";
+import { Chapters } from "src/app/data/chapters";
 import { Chapter } from "src/app/schema/chapter";
 import { Track } from "src/app/schema/track";
-import { AudioService } from "src/app/services/audio.service";
+import { ChaptersService } from "src/app/services/chapters.service";
+import { MediaService } from "src/app/services/media.service";
 
 @UntilDestroy()
 @Component({
@@ -20,7 +21,12 @@ export class WalkComponent implements OnInit {
   chapterIndex?: number;
   chapterCount = Chapters.length;
 
-  constructor(private router: Router, private audioService: AudioService, private route: ActivatedRoute) {}
+  constructor(
+    private router: Router,
+    private mediaService: MediaService,
+    private route: ActivatedRoute,
+    private chapterService: ChaptersService
+  ) {}
 
   ngOnInit(): void {
     this.route.queryParams.pipe(untilDestroyed(this)).subscribe((params) => {
@@ -45,11 +51,11 @@ export class WalkComponent implements OnInit {
   }
 
   saveProgress(progress: number) {
-    if (this.track) this.audioService.saveTrackProgress(this.track, progress);
+    if (this.track) this.mediaService.saveTrackProgress(this.track, progress);
   }
 
   private async openDefaultChapter() {
-    const lastChapter = await this.audioService.getCurrentChapter();
+    const lastChapter = await this.chapterService.getCurrentChapter();
     this.openChapter(lastChapter ?? 1);
   }
 
@@ -58,10 +64,15 @@ export class WalkComponent implements OnInit {
   }
 
   private async loadChapter(chapter: number) {
+    if (chapter > Chapters.length) return this.endWalk();
+    if (chapter < 1) chapter = 1;
+
     this.chapterIndex = chapter;
     this.chapter = Chapters[chapter - 1];
 
     const trackDef = Chapters[chapter - 1].track;
-    this.track = await this.audioService.getTrack(trackDef);
+    this.track = trackDef ? await this.mediaService.getTrack(trackDef) : undefined;
+
+    await this.chapterService.saveCurrentChapter(chapter);
   }
 }

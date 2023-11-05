@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
-import { Chapters } from "src/app/chapters";
-import { AudioService } from "src/app/services/audio.service";
+import { Chapters } from "src/app/data/chapters";
+import { MediaService } from "src/app/services/media.service";
 
 @Component({
   selector: "app-chapters",
@@ -10,5 +10,5 @@ import { AudioService } from "src/app/services/audio.service";
 export class ChaptersComponent {
   chapters = Chapters;
 
-  constructor(private audioService: AudioService) {}
+  constructor(private audioService: MediaService) {}
 }

@@ -21,7 +21,7 @@ import { PlayerMenuComponent } from "../player-menu/player-menu.component";
   styleUrls: ["./player.component.scss"],
 })
 export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
-  @Input() track?: Track;
+  @Input() track!: Track;
   @Input() startProgress?: number;
   @Input() autoPlay: boolean = false;
   @Input() mode: "light" | "dark" = "dark";

@@ -31,8 +31,9 @@
 
               <h3>Stáhněte si zvukové záznamy</h3>
               <div *ngIf="downloadStatus | async as state" [ngSwitch]="state">
-                <button *ngSwitchCase="'idle'" (click)="download()">Stáhnout</button>
+                <button *ngSwitchCase="'not-downloaded'" (click)="download()">Stáhnout</button>
                 <p *ngSwitchCase="'downloading'">Stahuji... {{ downloadProgress | async | percent }}</p>
+                <p *ngSwitchCase="'checking'">Kontroluji...</p>
                 <p *ngSwitchCase="'downloaded'">Staženo.</p>
 
                 <p *ngSwitchCase="'error'">
@@ -40,13 +41,6 @@
                   <button (click)="download()">Zkusit znovu</button>
                 </p>
               </div>
-
-              <p class="mt-3">
-                <label *ngIf="(downloadStatus | async) !== 'downloaded'">
-                  <input type="checkbox" (change)="skipDownload($event)" />
-                  Přehrávat přímo z internetu
-                </label>
-              </p>
             </div>
           </div>
         </main>

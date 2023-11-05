@@ -1,10 +1,10 @@
-import { TrackDefinition } from "./track";
+import { TrackId } from "../data/tracks";
 
 export interface Chapter {
   directions: string;
   durationMinutes: number;
   title: string;
   description: string;
-  track: TrackDefinition;
+  track?: TrackId;
   pathIndex: number;
 }

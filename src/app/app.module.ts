@@ -19,6 +19,7 @@ import { HomeComponent } from "./pages/home/home.component";
 import { TutorialComponent } from "./pages/tutorial/tutorial.component";
 import { WalkComponent } from "./pages/walk/walk.component";
 import { TimePipe } from "./pipes/time.pipe";
+import { VideoComponent } from './components/video/video.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { TimePipe } from "./pipes/time.pipe";
     ProgressBarComponent,
     PlayerMenuComponent,
     PlayerMenuItemComponent,
+    VideoComponent,
   ],
   imports: [
     BrowserModule,

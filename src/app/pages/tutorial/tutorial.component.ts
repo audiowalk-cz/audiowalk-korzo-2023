@@ -1,8 +1,7 @@
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
-import { Chapters } from "src/app/chapters";
 import { TrackDefinition } from "src/app/schema/track";
-import { AudioService } from "src/app/services/audio.service";
+import { MediaService } from "src/app/services/media.service";
 
 export enum Chapter {
   "navigation",
@@ -25,19 +24,21 @@ export class TutorialComponent {
     Chapter.attention,
   ];
 
-  public downloadStatus = this.audioService.downloadStatus;
-  public downloadProgress = this.audioService.downloadProgress;
+  public downloadStatus = this.mediaService.downloadStatus;
+  public downloadProgress = this.mediaService.downloadProgress;
   public downloadSkipped = false;
 
   readonly testTrack: TrackDefinition = {
     id: "test",
     title: "Testovací nahrávka",
     url: "assets/audio/spejbl-1.mp3",
+    type: "audio",
+    mimeType: "audio/mpeg",
   };
 
   constructor(
     private router: Router,
-    private audioService: AudioService,
+    private mediaService: MediaService
   ) { }
 
   openNavigation() {
@@ -47,8 +48,7 @@ export class TutorialComponent {
   }
 
   async download() {
-    const trackDefs = Chapters.map((chapter) => chapter.track);
-    await this.audioService.downloadTracks(trackDefs);
+    await this.mediaService.downloadTracks();
   }
 
   skipDownload(e: Event) {
