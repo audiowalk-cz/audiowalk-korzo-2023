@@ -63,13 +63,17 @@ export class MapComponent implements AfterViewInit, OnChanges {
 
   async flyToPath(index: number) {
     const paths = this.outputSvg.querySelectorAll(".path");
+    for (const path of paths) {
+      const svgPath = path.querySelector("path");
+      if (svgPath) svgPath.style.stroke = "rgba(255,255,255,.1)";
+    }
     const realPath = paths[index].querySelector("path");
     if (!realPath) return;
     await this.flyTo(
       realPath,
       {
-        top: 230,
-        bottom: 160,
+        top: 200,
+        bottom: 80,
         left: 20,
         right: 20,
       },
@@ -98,16 +102,16 @@ export class MapComponent implements AfterViewInit, OnChanges {
         pathData,
         isWater
           ? {
-              roughness: 0,
-              fill: "rgba(130,192,234,.8)",
-              fillStyle: "solid",
-              // hachureAngle: 60,
-              // stroke: "rgba(130,192,234,0)",
-              strokeWidth: 0,
-              // hachureGap: 4,
-            }
+            roughness: 0,
+            fill: "rgba(130,192,234,.8)",
+            fillStyle: "solid",
+            // hachureAngle: 60,
+            // stroke: "rgba(130,192,234,0)",
+            strokeWidth: 0,
+            // hachureGap: 4,
+          }
           : isBuilding
-          ? {
+            ? {
               roughness: 0.1,
               fill: "rgba(255,255,255,.5)",
               fillStyle: "solid",
@@ -117,7 +121,7 @@ export class MapComponent implements AfterViewInit, OnChanges {
               // stroke: "rgba(255,255,255,.75)",
               // strokeWidth: 1,
             }
-          : {
+            : {
               roughness: 0.5,
               stroke: "rgba(255,255,255,0.1)",
               strokeWidth: 4,
@@ -140,16 +144,13 @@ export class MapComponent implements AfterViewInit, OnChanges {
   ) {
     targetElement.style.stroke = "rgba(255,255,255,1)";
     const targetBR = targetElement.getBoundingClientRect();
-    console.log(targetBR);
     const wrapperBR = this.wrapper.nativeElement.getBoundingClientRect();
 
-    console.log(wrapperBR);
     let currentScaleTxt = this.outputSvg.style.transform;
     if (!currentScaleTxt) {
       currentScaleTxt = "scale(1)";
     }
     const currentScale = parseFloat(currentScaleTxt.slice(6).slice(0, -1));
-    console.log(currentScale);
 
     const view = {
       w: wrapperBR.width,
@@ -166,16 +167,10 @@ export class MapComponent implements AfterViewInit, OnChanges {
       cy: targetBR.y + targetBR.height / 2,
     };
 
-    console.log(view.w, view.h, "view dims");
-    console.log(target.w, target.h, "target dims");
-    console.log(target.w / currentScale, target.h / currentScale, "scaled dims");
-    console.log(padding.top, padding.bottom, "padding dims");
-
     const scaleX = view.w / (target.w / currentScale + padding.left + padding.right);
     const scaleY = view.h / (target.h / currentScale + padding.top + padding.bottom);
     const finalScale = Math.min(scaleX, scaleY);
 
-    console.log(scaleX, scaleY, finalScale);
     const move = {
       dx: -(target.cx - view.cx) / currentScale,
       dy: -(target.cy - view.cy) / currentScale,
@@ -191,31 +186,6 @@ export class MapComponent implements AfterViewInit, OnChanges {
     this.outputSvg.style.transitionDuration = duration + "ms";
     this.outputSvg.style.transformOrigin = `${view.cx - toX}px ${view.cy - toY}px`;
     this.outputSvg.style.transform = `scale(${finalScale})`;
-
-    setTimeout(() => {
-      targetElement.style.stroke = "rgba(255,255,255,0.5)";
-
-      console.log(targetElement.getBoundingClientRect());
-    }, duration);
-
-    setTimeout(() => {
-      targetElement.style.stroke = "rgba(255,255,255,0.1)";
-    }, duration + sleep);
-    // await new Promise<void>((res) => {
-    //   const an1 = new SMAnimation(
-    //     this.wrapper.nativeElement,
-    //     this.outputSvg,
-    //     move.dx,
-    //     move.dy,
-    //     currentScale,
-    //     finalScale,
-    //     duration,
-    //     sleep,
-    //     () => {
-    //       res();
-    //     }
-    //   ).run();
-    // });
   }
 
   enableGps() {

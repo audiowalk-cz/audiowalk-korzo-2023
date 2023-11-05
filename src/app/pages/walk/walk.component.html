@@ -7,9 +7,15 @@
 <div *ngIf="track" class="player">
   <app-player [track]="track" [autoPlay]="true" (progress)="saveProgress($event)">
     <app-player-menu>
-      <app-player-menu-item routerLink="/">Zavřít audiowalk</app-player-menu-item>
-      <app-player-menu-item routerLink="/chapters">Přehled kapitol</app-player-menu-item>
-      <app-player-menu-item (click)="nextChapter()">Další kapitola</app-player-menu-item>
+      <app-player-menu-item routerLink="/" class="text-danger">
+        <i class="bi bi-x"></i> Zavřít audiowalk
+      </app-player-menu-item>
+      <app-player-menu-item routerLink="/chapters">
+        <i class="bi bi-list-ol"></i> Přehled kapitol
+      </app-player-menu-item>
+      <app-player-menu-item (click)="nextChapter()">
+        <i class="bi bi-chevron-double-right"></i> Další kapitola
+      </app-player-menu-item>
     </app-player-menu>
   </app-player>
 </div>

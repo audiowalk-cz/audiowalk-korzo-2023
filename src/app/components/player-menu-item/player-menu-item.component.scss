@@ -1,4 +1,15 @@
 :host {
   display: block;
   padding: 1em 1.5em;
+
+  cursor: pointer;
+
+  i {
+    display: inline-block;
+    padding-right: 20px
+  }
+}
+
+:host:hover {
+  background: rgba(255, 255, 255, .1)
 }
