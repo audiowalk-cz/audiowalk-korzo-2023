@@ -1,68 +1,86 @@
 <app-page>
   <app-page-content>
-    <h2>Než začnete&hellip;</h2>
+    <div class="container-sm">
+      <section>
+        <main class="row" *ngIf="currentChapter === Chapter.navigation">
+          <div class="col-lg-6">
+            <i class="bi bi-person-walking fs-1"></i>
+            <div class="mt-3">
+              <h3>Dojděte na&nbsp;piazettu Národního&nbsp;divadla (Náměstí&nbsp;Václava&nbsp;Havla)
+                na&nbsp;Starém&nbsp;Městě.</h3>
+              <button class="btn btn-outline-primary mt-5" (click)="openNavigation()">
+                Navigovat&nbsp;&nbsp;&nbsp;<i class="bi bi-box-arrow-up-right"></i></button>
+            </div>
+          </div>
+        </main>
+        <main class="row" *ngIf="currentChapter === Chapter.sound">
+          <div class="col-lg-6">
+            <i class="bi bi-earbuds fs-1"></i>
+            <div class="mt-3">
+              <h3>Připojte sluchátka a vyzkoušejte zvuk.</h3>
+              <div class="test">
+                <app-player [track]="testTrack" mode="light"></app-player>
+              </div>
+            </div>
+          </div>
+        </main>
+        <main class="row" *ngIf="currentChapter === Chapter.download">
+          <div class="col-lg-6">
+            <i class="bi bi-wifi-off fs-1"></i>
+            <div class="mt-3">
 
-    <div class="box">
-      <div class="icon">
-        <img src="assets/img/icons/location.svg" alt="Telefon" />
-      </div>
-      <div class="content">
-        <h3>Dojděte před budovu Rudolfina, Nádražní&nbsp;28, Praha&nbsp;1</h3>
-        <button (click)="openNavigation()">Navigovat</button>
-      </div>
-    </div>
+              <h3>Stáhněte si zvukové záznamy</h3>
+              <div *ngIf="downloadStatus | async as state" [ngSwitch]="state">
+                <button *ngSwitchCase="'not-downloaded'" (click)="download()">Stáhnout</button>
+                <p *ngSwitchCase="'downloading'">Stahuji... {{ downloadProgress | async | percent }}</p>
+                <p *ngSwitchCase="'checking'">Kontroluji...</p>
+                <p *ngSwitchCase="'downloaded'">Staženo.</p>
 
-    <div class="box">
-      <div class="icon">
-        <img src="assets/img/icons/headphones.svg" alt="Telefon" />
-      </div>
-      <div class="content">
-        <h3>Připojte sluchátka a vyzkoušejte zvuk</h3>
-        <div class="test">
-          <app-player [track]="testTrack" mode="light"></app-player>
-        </div>
-      </div>
-    </div>
+                <p *ngSwitchCase="'error'">
+                  Nastala Chyba při stahování.<br />
+                  <button (click)="download()">Zkusit znovu</button>
+                </p>
 
-    <div class="box">
-      <div class="icon">
-        <img src="assets/img/icons/headphones.svg" alt="Telefon" />
-      </div>
-      <div class="content">
-        <h3>Stáhněte si zvukové záznamy</h3>
-        <div *ngIf="downloadStatus | async as state" [ngSwitch]="state">
-          <button *ngSwitchCase="'not-downloaded'" (click)="download()">Stáhnout</button>
-          <p *ngSwitchCase="'downloading'">Stahuji... {{ downloadProgress | async | percent }}</p>
-          <p *ngSwitchCase="'checking'">Kontroluji...</p>
-          <p *ngSwitchCase="'downloaded'">Staženo.</p>
+                <p class="mt-3">
+                  <label *ngIf="(downloadStatus | async) !== 'downloaded'">
+                    <input type="checkbox" (change)="skipDownload($event)" />
+                    Přehrávat přímo z internetu
+                  </label>
+                </p>
+              </div>
+            </div>
+          </div>
+        </main>
+        <main class="row" *ngIf="currentChapter === Chapter.attention">
+          <div class="col-lg-6">
+            <i class="bi bi-exclamation-triangle fs-1"></i>
+            <div class="mt-3">
+              <h3>Prosím, dávejte pozor a choďte po chodníku.</h3>
 
-          <p *ngSwitchCase="'error'">
-            Nastala Chyba při stahování.<br />
-            <button (click)="download()">Zkusit znovu</button>
-          </p>
-        </div>
-
-        <p class="mt-3">
-          <label *ngIf="(downloadStatus | async) !== 'downloaded'">
-            <input type="checkbox" (change)="skipDownload($event)" />
-            Přehrávat přímo z internetu
-          </label>
-        </p>
-      </div>
-    </div>
-
-    <div class="warning">
-      <h2>Prosím dávejte pozor!</h2>
+              <button class="btn btn-primary" routerLink="/walk"
+                [disabled]="!downloadSkipped && (downloadStatus | async) !== 'downloaded'">
+                Spustit audiowalk
+              </button>
+            </div>
+          </div>
+        </main>
+        <footer class="row py-5">
+          <div class="col-4">
+            <button type="button" class="btn btn-link text-secondary-emphasis" (click)="backChapter()">
+              <i class="bi bi-chevron-left"></i>&nbsp;Zpět</button>
+          </div>
+          <div class="col-4 text-center">
+            <i *ngFor="let chapter of chapterOrder; let i = index"
+              [class]="'bi bi-dot fs-3 ' + ((chapterOrder.indexOf(chapter) === chapterOrder.indexOf(currentChapter)) ? '' : 'text-secondary-emphasis')"></i>
+          </div>
+          <div class="col-4 text-end">
+            <button class="btn btn-primary" (click)="nextChapter()"
+              *ngIf="chapterOrder.indexOf(currentChapter) !== chapterOrder.length - 1">
+              Další
+            </button>
+          </div>
+        </footer>
+      </section>
     </div>
   </app-page-content>
-
-  <app-page-footer>
-    <button
-      class="primary"
-      routerLink="/walk"
-      [disabled]="!downloadSkipped && (downloadStatus | async) !== 'downloaded'"
-    >
-      Spustit audiowalk
-    </button>
-  </app-page-footer>
 </app-page>

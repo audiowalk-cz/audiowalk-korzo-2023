@@ -5,6 +5,7 @@
 
 .player {
   border-radius: 20px;
+  height: 140px;
 
   padding: 2em 2em;
 
@@ -12,6 +13,7 @@
 
   backdrop-filter: blur(10px);
 }
+
 .player.light {
   background-color: rgba(255, 255, 255, 0.2);
 }
@@ -20,13 +22,14 @@
   padding: 0;
 
   .button-icon {
-    width: 5em;
-    height: 5em;
+    width: 70px;
+    height: 70px;
     position: relative;
     border-radius: 100%;
     transition-duration: 0.2s;
     transition-timing-function: ease-out;
     transform-origin: center center;
+    background: rgba(255, 255, 255, 0);
 
     img {
       position: absolute;

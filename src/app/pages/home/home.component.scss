@@ -1,9 +1,14 @@
 :host {
   display: block;
   position: relative;
-
+  height: 100vh;
   background: url("/assets/img/home-bg.png") no-repeat top left fixed;
   background-size: cover;
+  overflow-y: scroll;
+}
+
+app-page {
+  height: 100vh;
 }
 
 app-page-content {
