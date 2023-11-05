@@ -82,25 +82,26 @@ h6 {
   color: white;
 }
 
-button {
+.btn {
   cursor: pointer;
-  padding: 0 3em;
+  padding: 5px 10px;
+  margin: 5px;
 }
 
-button.primary {
+.btn.primary {
   background-color: #fff;
   color: #000;
   font-weight: bold;
   text-transform: uppercase;
 }
 
-button.button-icon {
+.btn.button-icon {
   padding: 0;
   border: 0;
   height: auto;
 }
 
-button:disabled {
+.btn:disabled {
   pointer-events: none;
   opacity: 0.1;
 }
@@ -142,4 +143,8 @@ footer {
   flex-shrink: 0;
   display: flex;
   width: 100%;
+}
+
+.fs-0 {
+  font-size: 72px
 }

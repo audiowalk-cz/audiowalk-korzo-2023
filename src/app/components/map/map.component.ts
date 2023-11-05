@@ -73,7 +73,7 @@ export class MapComponent implements AfterViewInit, OnChanges {
       realPath,
       {
         top: 200,
-        bottom: 80,
+        bottom: 150,
         left: 20,
         right: 20,
       },

@@ -1,18 +1,23 @@
 <app-page>
   <app-page-content>
-    <h2>Příběh je u konce&hellip;</h2>
+    <div class="container-sm">
+      <div class="row text-center">
+        <div class="col">
 
-    <app-video *ngIf="endTrack" [track]="endTrack"></app-video>
+          <h3 class="mt-5 mb-5">Příběh je u konce&hellip;</h3>
 
-    <h3 class="mt-5">Líbil se vám audiowalk?</h3>
+          <app-video *ngIf="endTrack" [track]="endTrack"></app-video>
 
-    <p class="buttons"><button (click)="share()">Sdílet na facebook</button></p>
-    <p class="buttons"><button (click)="share()">Sdílet na instagram</button></p>
+          <h3 class="mt-5">Líbil se vám audiowalk?</h3>
 
-    <h2 class="mt-5">Děkujeme!</h2>
+          <button class="btn btn-outline-primary" (click)="share()">Sdílet na facebook</button>
+          <button class="btn btn-outline-primary" (click)="share()">Sdílet na instagram</button>
+
+          <h2 class="mt-3 mb-5">Děkujeme!</h2>
+
+          <button class="btn btn-primary mt-3 mb-5" routerLink="/">Návrat na úvod</button>
+        </div>
+      </div>
+    </div>
   </app-page-content>
-
-  <app-page-footer>
-    <button class="primary" routerLink="/">Návrat na úvod</button>
-  </app-page-footer>
 </app-page>

@@ -1,16 +1,18 @@
-.chapter {
-  border-bottom: 1px solid #999;
-  padding: 1em 0;
+:host {
+  button {
+    border: none;
+    background: none;
+    color: white
+  }
 }
-.title {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  h3 {
-    min-height: 2em;
-    flex-grow: 1;
-  }
-  .play {
-    padding-left: 2em;
-  }
+
+.card {
+  background-color: rgba(255, 255, 255, .1);
+  color: white;
+}
+
+
+.text-blur {
+  filter: blur(3px);
+  -webkit-filter: blur(3px);
 }
