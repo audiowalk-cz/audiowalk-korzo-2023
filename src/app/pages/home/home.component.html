@@ -1,12 +1,40 @@
 <app-page>
-  <app-page-content>
-    <img src="assets/img/icons/headphones.svg" alt="logo" class="logo" />
-    <h1>Studentská revolta ‘89</h1>
-    <p>Audiowalk po Starém městě <br />po svědectvích událostí <br />po 17. listopadu 1989</p>
+  <div class="container">
+    <div class="row">
 
-    <p>7 zastavení a 7 procházek s příběhem Anety a Davida.</p>
-  </app-page-content>
-  <app-page-footer>
-    <button class="primary" routerLink="/tutorial">Spustit audiowalk</button>
-  </app-page-footer>
+      <div class="col-lg-6">
+        <section class="home">
+          <div class="row">
+            <div class="col-lg-12 col-md-10">
+              <img src="assets/img/icons/headphones.svg" alt="logo" class="logo" />
+              <h1 data-aos="fade-up" data-aos-delay="100" class="aos-init aos-animate">Studentská<br />revolta ‘89</h1>
+              <p data-aos="fade-up" data-aos-delay="200" class="aos-init aos-animate my-3 fs-2">
+                Audiowalk ve&nbsp;Starém městě o&nbsp;svědectvích událostí po&nbsp;17.&nbsp;listopadu&nbsp;1989
+              </p>
+              <button class="btn btn-primary btn-lg mt-3" routerLink="/tutorial">Spustit audiowalk</button>
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="col-lg-6">
+        <section class="features">
+          <div class="row">
+            <div *ngFor="let feature of features; let i = index" class="col-lg-6 mb-5">
+              <div class="card bg-light border-0 h-100">
+                <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+                  <div class="text-white mb-1 mt-4">
+                    <i [class]="'fs-1 bi bi-'+feature.icon"></i>
+                  </div>
+                  <h2 class="fs-4 mb-2 fw-bold">{{ feature.title }}</h2>
+                  <p class="mb-0 fs-8">
+                    {{ feature.text }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
 </app-page>

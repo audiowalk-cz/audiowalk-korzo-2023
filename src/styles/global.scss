@@ -11,15 +11,15 @@ html {
   user-select: none;
 }
 
-app-root > *:not(router-outlet) {
+app-root>*:not(router-outlet) {
   display: block;
   height: 100%;
 }
 
 h1 {
-  font-size: 48px;
+  font-size: 64px;
   font-weight: 900;
-  line-height: 63px;
+  line-height: 72px;
   letter-spacing: 0em;
 }
 
@@ -32,20 +32,34 @@ h6 {
   margin: 0;
 }
 
+.btn-primary {
+  background-color: white;
+  border: none;
+  border-radius: 48px;
+  color: black;
+  font-family: "Roboto Flex";
+  text-transform: uppercase;
+  font-weight: 600;
+  padding: 8px 40px;
+  transition-duration: .2s;
+}
+
+.btn-primary:hover {
+  background-color: white;
+  box-shadow: 0px 0px 20px rgba(255, 255, 255, .5);
+  border: none;
+  color: black;
+}
+
 button {
   cursor: pointer;
-  background: none;
-  border: 1px solid #fff;
-  height: 40px;
-  border-radius: 20px;
-  color: #fff;
   padding: 0 3em;
 }
 
 button.primary {
   background-color: #fff;
   color: #000;
-  font-weight: 900;
+  font-weight: bold;
   text-transform: uppercase;
 }
 
@@ -62,4 +76,13 @@ button:disabled {
 
 .selectable {
   user-select: auto;
+}
+
+
+.card.bg-light {
+  background-color: rgba(0, 0, 0, .7) !important;
+  color: white;
+
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
 }

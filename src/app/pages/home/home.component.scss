@@ -1,12 +1,25 @@
 :host {
   display: block;
   position: relative;
-
+  height: 100vh;
   background: url("/assets/img/home-bg.png") no-repeat top left fixed;
   background-size: cover;
+  overflow-y: scroll;
+}
+
+app-page {
+  height: 100vh;
 }
 
 app-page-content {
   padding: 2em;
   padding-top: 40vh;
+}
+
+section {
+  height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
