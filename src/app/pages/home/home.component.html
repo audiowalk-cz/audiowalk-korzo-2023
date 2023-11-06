@@ -1,9 +1,9 @@
 <app-page>
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-6">
-        <section class="home">
-          <main class="d-flex align-items-start">
+  <app-page-content>
+    <div class="container">
+      <div class="row h-100">
+        <div class="col-lg-6 d-flex flex-column vh-100">
+          <div class="flex-grow-1 d-flex flex-column align-items-start justify-content-center">
             <img src="assets/img/icons/headphones.svg" alt="logo" class="logo" />
             <h1 class="mt-3">Studentská<br />revolta ‘89
             </h1>
@@ -13,16 +13,17 @@
               po&nbsp;17.&nbsp;listopadu&nbsp;1989
             </p>
             <button class="btn btn-primary btn-lg mt-3" routerLink="/tutorial">
-              Spustit audiowalk <i class="bi bi-arrow-right"></i> </button>
-          </main>
-          <footer class="d-lg-none">
-            <p class="text-center fs-6 mt-5 ">Více o audiowalku<br><i class="bi bi-chevron-down"></i></p>
-          </footer>
-        </section>
-      </div>
-      <div class="col-lg-6">
-        <section class="features">
-          <div class="row">
+              Spustit audiowalk <i class="bi bi-arrow-right"></i>
+            </button>
+            <!-- <div class="d-lg-none text-center">
+              <p class="text-center fs-6 mt-5 ">
+                Více o audiowalku<br><i class="bi bi-chevron-down"></i>
+              </p>
+            </div> -->
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="row d-flex justify-content-center align-items-center h-100">
             <div *ngFor="let feature of features; let i = index" class="col-lg-6 mb-5">
               <div class="card bg-light border-0 h-100">
                 <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
@@ -37,8 +38,8 @@
               </div>
             </div>
           </div>
-        </section>
+        </div>
       </div>
     </div>
-  </div>
+  </app-page-content>
 </app-page>
