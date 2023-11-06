@@ -2,13 +2,12 @@
   display: block;
   border-radius: 20px;
   background-color: rgba(0, 0, 0, 0.7);
-  padding: 1.5em 2em;
   backdrop-filter: blur(10px);
 
 }
 
 sup {
-  font-size: 50%;
+  font-size: 40%;
 }
 
 svg {
@@ -25,4 +24,9 @@ hr {
 
 .track-info {
   opacity: .67;
+}
+
+.text-walk-duration {
+  font-family: "Roboto Flex";
+  font-size: 12px
 }

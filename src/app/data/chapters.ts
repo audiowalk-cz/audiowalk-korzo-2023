@@ -37,4 +37,28 @@ export const Chapters: Chapter[] = [
     pathIndex: 3,
     track: TrackId["spejbl-4"],
   },
+  {
+    directions: "Jděte směrem k Vltavě, přes piazettu Národního divadla do ulice Na Struze.",
+    durationMinutes: 6,
+    title: "Setkání s StB",
+    description: "Setkání s StB bylo ...",
+    pathIndex: 4,
+    track: TrackId["spejbl-5"],
+  },
+  {
+    directions: "Jděte směrem k Vltavě, přes piazettu Národního divadla do ulice Na Struze.",
+    durationMinutes: 2,
+    title: "Setkání s StB",
+    description: "Setkání s StB bylo ...",
+    pathIndex: 5,
+    track: TrackId["spejbl-6"],
+  },
+  {
+    directions: "Jděte směrem k Vltavě, přes piazettu Národního divadla do ulice Na Struze.",
+    durationMinutes: 4,
+    title: "Setkání s StB",
+    description: "Setkání s StB bylo ...",
+    pathIndex: 6,
+    track: TrackId["spejbl-7"],
+  },
 ];

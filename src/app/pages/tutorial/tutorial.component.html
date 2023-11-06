@@ -6,8 +6,9 @@
           <div class="col-lg-6">
             <i class="bi bi-person-walking fs-0"></i>
             <div class="mt-3">
-              <h3>Dojděte na&nbsp;piazettu Národního&nbsp;divadla (Náměstí&nbsp;Václava&nbsp;Havla)
-                na&nbsp;Starém&nbsp;Městě.</h3>
+              <h2>Začátek trasy</h2>
+              <p class="mt-2">Dojděte na&nbsp;piazettu Národního&nbsp;divadla (Náměstí&nbsp;Václava&nbsp;Havla)
+                na&nbsp;Starém&nbsp;Městě.</p>
               <button class="btn btn-outline-primary mt-5" (click)="openNavigation()">
                 Navigovat&nbsp;&nbsp;&nbsp;<i class="bi bi-box-arrow-up-right"></i></button>
             </div>
@@ -17,8 +18,9 @@
           <div class="col-lg-6">
             <i class="bi bi-earbuds fs-0"></i>
             <div class="mt-3">
-              <h3>Připojte sluchátka a vyzkoušejte zvuk.</h3>
-              <div class="test mt-5">
+              <h2>Test přehrávání</h2>
+              <p class="mt-2">Připojte sluchátka a vyzkoušejte zvuk kliknutím na ikonku.</p>
+              <div class="mt-5">
                 <app-player [track]="testTrack" mode="light"></app-player>
               </div>
             </div>
@@ -28,16 +30,19 @@
           <div class="col-lg-6">
             <i class="bi bi-cloud-download fs-0"></i>
             <div class="mt-3">
-
-              <h3>Stáhněte si zvukové záznamy</h3>
+              <h2>Offline</h2>
               <p class="mt-2">
-                Doporučujeme vám si stáhnout veškerá média audiowalku do zařízení.
-                Stažení můžete provést na wifi či přes mobilní data a během audiowalku nebudete potřebovat mobilní
-                připojení.
+                Doporučujeme si stáhnout audiowalku<br>do mobilního zařízení.<br>
+                Stažení můžete provést předem, webový prohížeč si jej uloží ikdyž jej ukončíte.
               </p>
               <div class="mt-5" *ngIf="downloadStatus | async as state" [ngSwitch]="state">
-                <button class="btn btn-outline-primary" *ngSwitchCase="'not-downloaded'"
-                  (click)="download()">Stáhnout</button>
+                <div *ngSwitchCase="'not-downloaded'">
+
+                  <button class="btn btn-outline-primary" (click)="download()">
+                    Stáhnout <i class="bi bi-download"></i>
+                  </button>
+                  <p class="text-secondary">(cca 70MB)</p>
+                </div>
                 <p *ngSwitchCase="'downloading'">
                   <i class="bi bi-hourglass-split"></i> Stahuji... {{ downloadProgress | async | percent }}
                 </p>
@@ -48,17 +53,10 @@
                   <i class="bi bi-check-circle"></i> Hotovo, audiowalk je připraven pro offline použití!
                 </p>
 
-                <p class="text-warning" *ngSwitchCase="'error'">
+                <p class="text-warning mt-2" *ngSwitchCase="'error'">
                   <i class="bi bi-emoji-frown"></i>
                   Nastala Chyba při stahování.<br />
                   <button class="btn btn-outline-primary" (click)="download()">Zkusit znovu</button>
-                </p>
-
-                <p class="mt-3">
-                  <label *ngIf="(downloadStatus | async) !== 'downloaded'">
-                    <input type="checkbox" (change)="skipDownload($event)" />
-                    Přehrávat přímo z internetu
-                  </label>
                 </p>
               </div>
             </div>
@@ -66,33 +64,36 @@
         </main>
         <main class="row" *ngIf="currentChapter === Chapter.attention">
           <div class="col-lg-6">
-            <i class="bi bi-exclamation-triangle fs-0"></i>
+            <i class="bi bi-heart-fill fs-0"></i>
             <div class="mt-3">
-              <h3>Prosím, dávejte pozor<br>a choďte po chodníku.</h3>
-              <p class="mt-3">
-                Opravdu prosím dávejte pozor na sebe<br>i na všdchny kolem sebe <i class="bi bi-heart"></i>
+              <h2>Bezpečnost</h2>
+              <p class="mt-2">
+                Opravdu prosím dávejte pozor na sebe<br>i na všechny kolem sebe!
               </p>
 
-              <button class="btn btn-primary mt-5" routerLink="/walk"
-                [disabled]="!downloadSkipped && (downloadStatus | async) !== 'downloaded'">
-                Spustit audiowalk
+              <button class="btn btn-primary mt-5" routerLink="/walk">
+                Spustit audiowalk <i class="bi bi-play-circle-fill"></i>
               </button>
+
+              <p *ngIf="!downloadSkipped && (downloadStatus | async) !== 'downloaded'" class="text-warning mt-2">
+                Přehrávání bude stahovat<br>data o objemu cca 70MB!
+              </p>
             </div>
           </div>
         </main>
-        <footer class="row py-5">
+        <footer class="row py-4 w-100">
           <div class="col-4 d-flex align-items-center">
-            <button type="button" class="btn btn-link text-secondary-emphasis" (click)="backChapter()">
-              <i class="bi bi-caret-left-fill"></i>&nbsp;Zpět</button>
+            <button type="button" class="btn btn-link text-secondary" (click)="backChapter()">
+              Zpět</button>
           </div>
-          <div class="col-4 text-center d-flex align-items-center">
+          <div class="col-4 d-flex align-items-center justify-content-center">
             <i *ngFor="let chapter of chapterOrder; let i = index"
               [class]="'bi bi-dot fs-3 ' + ((chapterOrder.indexOf(chapter) === chapterOrder.indexOf(currentChapter)) ? '' : 'text-secondary-emphasis')"></i>
           </div>
-          <div class="col-4 text-end d-flex align-items-center">
+          <div class="col-4 d-flex align-items-center justify-content-end">
             <button class="btn btn-primary" (click)="nextChapter()"
               *ngIf="chapterOrder.indexOf(currentChapter) !== chapterOrder.length - 1">
-              Další <i class="bi bi-caret-right-fill"></i>
+              Další
             </button>
           </div>
         </footer>

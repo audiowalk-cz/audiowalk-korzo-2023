@@ -5,10 +5,10 @@ html {
   background-color: #000;
   color: #fff;
   font-family: "Roboto Slab";
-  min-height: 100%;
-  height: 100%;
+  min-height: 100vh;
   overscroll-behavior-y: contain;
   user-select: none;
+  min-height: -webkit-fill-available;
 }
 
 app-root>*:not(router-outlet) {
@@ -32,15 +32,24 @@ h6 {
   margin: 0;
 }
 
+
+.btn {
+  cursor: pointer;
+  padding: 8px 20px;
+  margin: 5px;
+  text-transform: uppercase;
+  font-family: "Roboto Flex";
+}
+
+
 .btn-primary {
   background-color: white;
   border: none;
   border-radius: 48px;
   color: black;
   font-family: "Roboto Flex";
-  text-transform: uppercase;
+  // text-transform: uppercase;
   font-weight: 600;
-  padding: 8px 40px;
   transition-duration: .2s;
 }
 
@@ -55,10 +64,7 @@ h6 {
   border-color: white;
   border-radius: 48px;
   color: white;
-  font-family: "Roboto Flex";
-  text-transform: uppercase;
   font-weight: 600;
-  padding: 8px 40px;
   transition-duration: .2s;
 }
 
@@ -73,7 +79,6 @@ h6 {
 .btn-link {
   color: white;
   font-family: "Roboto Flex";
-  text-transform: uppercase;
   font-weight: 600;
   transition-duration: .2s;
 }
@@ -82,17 +87,11 @@ h6 {
   color: white;
 }
 
-.btn {
-  cursor: pointer;
-  padding: 5px 10px;
-  margin: 5px;
-}
-
 .btn.primary {
   background-color: #fff;
   color: #000;
   font-weight: bold;
-  text-transform: uppercase;
+  // text-transform: uppercase;
 }
 
 .btn.button-icon {
@@ -120,17 +119,17 @@ h6 {
 }
 
 section {
-  height: 100vh;
-  min-height: 100%;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
 
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
 }
 
 main {
-  flex-grow: 1;
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -140,9 +139,9 @@ main {
 header,
 main,
 footer {
-  flex-shrink: 0;
-  display: flex;
-  width: 100%;
+  // flex-shrink: 0;
+  // display: flex;
+  // width: 100%;
 }
 
 .fs-0 {

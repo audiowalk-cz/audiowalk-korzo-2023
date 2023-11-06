@@ -5,6 +5,9 @@ export enum TrackId {
   "spejbl-2" = "spejbl-2",
   "spejbl-3" = "spejbl-3",
   "spejbl-4" = "spejbl-4",
+  "spejbl-5" = "spejbl-5",
+  "spejbl-6" = "spejbl-6",
+  "spejbl-7" = "spejbl-7",
   "havel" = "havel",
 }
 
@@ -33,6 +36,27 @@ export const Tracks: { [key in TrackId]: { id: key } & TrackDefinition } = {
   "spejbl-4": {
     id: TrackId["spejbl-4"],
     title: "Spejbl 4",
+    url: "assets/audio/spejbl-1.mp3",
+    type: "audio",
+    mimeType: "audio/mpeg",
+  },
+  "spejbl-5": {
+    id: TrackId["spejbl-5"],
+    title: "Spejbl 5",
+    url: "assets/audio/spejbl-1.mp3",
+    type: "audio",
+    mimeType: "audio/mpeg",
+  },
+  "spejbl-6": {
+    id: TrackId["spejbl-6"],
+    title: "Spejbl 6",
+    url: "assets/audio/spejbl-1.mp3",
+    type: "audio",
+    mimeType: "audio/mpeg",
+  },
+  "spejbl-7": {
+    id: TrackId["spejbl-7"],
+    title: "Spejbl 7",
     url: "assets/audio/spejbl-1.mp3",
     type: "audio",
     mimeType: "audio/mpeg",
