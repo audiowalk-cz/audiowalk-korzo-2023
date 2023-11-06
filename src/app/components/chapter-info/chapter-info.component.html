@@ -11,11 +11,13 @@
     </div>
   </div>
   <div class="track-info row">
-    <div class="col-3 text-center  d-flex align-items-center justify-content-center">
-      <i class="bi bi-person-walking fs-4"></i><br>
-      <span class="text-walk-duration">
-        {{ chapter.durationMinutes }} MIN
-      </span>
+    <div class="col-3 text-center d-flex align-items-center justify-content-center">
+      <div>
+        <i class="bi bi-person-walking fs-4"></i>
+        <div class="text-walk-duration">
+          {{ chapter.durationMinutes }} MIN
+        </div>
+      </div>
     </div>
     <div class="col-9  d-flex align-items-center justify-content-center">
       <p class="m-0">{{ chapter.directions }}</p>
