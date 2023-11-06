@@ -66,7 +66,7 @@ export class MapComponent implements AfterViewInit, OnChanges {
     await this.flyTo(
       realPath,
       {
-        top: 200,
+        top: 180,
         bottom: 150,
         left: 20,
         right: 20,
@@ -159,7 +159,7 @@ export class MapComponent implements AfterViewInit, OnChanges {
       w: wrapperBR.width,
       h: wrapperBR.height,
       cx: wrapperBR.x + wrapperBR.width / 2,
-      cy: wrapperBR.y + wrapperBR.height / 2,
+      cy: wrapperBR.y + (padding.top + (wrapperBR.height - padding.top - padding.bottom) / 2),
     };
     const target = {
       x: targetBR.x,
