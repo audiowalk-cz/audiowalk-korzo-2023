@@ -14,26 +14,3 @@ app-map {
   right: 0;
   bottom: 0;
 }
-
-.info {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding: 1em;
-  z-index: 1;
-
-  app-track-info {}
-}
-
-.player {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 1em;
-  z-index: 1;
-
-  app-player {}
-}

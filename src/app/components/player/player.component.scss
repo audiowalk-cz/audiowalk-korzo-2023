@@ -1,13 +1,11 @@
 :host {
   display: block;
   position: relative;
+  z-index: 10;
 }
 
 .player {
   border-radius: 20px;
-  height: 140px;
-
-  padding: 2em 2em;
 
   background-color: rgba(0, 0, 0, 0.7);
 
@@ -23,8 +21,10 @@
 
   .button-icon {
     border: none;
-    width: 70px;
-    height: 70px;
+    width: 100%;
+    max-width: 70px;
+    min-height: 50px;
+    max-height: 70px;
     position: relative;
     border-radius: 100%;
     transition-duration: 0.2s;

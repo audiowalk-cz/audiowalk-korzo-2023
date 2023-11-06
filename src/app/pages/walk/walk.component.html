@@ -1,22 +1,27 @@
 <app-map [chapter]="chapter"> </app-map>
 
-<div *ngIf="chapter" class="info">
-  <app-chapter-info [chapter]="chapter" [chapterIndex]="chapterIndex!" [chapterCount]="chapterCount"></app-chapter-info>
-</div>
+<div class="container h-100">
+  <div class="row flex-column justify-content-center h-100 py-3">
+    <div *ngIf="chapter" class="col-lg-6 col-md-8 mb-auto mx-auto">
+      <app-chapter-info [chapter]="chapter" [chapterIndex]="chapterIndex!"
+        [chapterCount]="chapterCount"></app-chapter-info>
+    </div>
 
-<div *ngIf="track" class="player" [ngSwitch]="track.type">
-  <app-player *ngSwitchCase="'audio'" [track]="track" [autoPlay]="true" (progress)="saveProgress($event)">
-    <app-player-menu>
-      <app-player-menu-item routerLink="/" class="text-danger">
-        <i class="bi bi-x"></i> Zavřít audiowalk
-      </app-player-menu-item>
-      <app-player-menu-item routerLink="/chapters">
-        <i class="bi bi-list-ol"></i> Přehled kapitol
-      </app-player-menu-item>
-      <app-player-menu-item (click)="nextChapter()">
-        <i class="bi bi-chevron-double-right"></i> Další kapitola
-      </app-player-menu-item>
-    </app-player-menu>
-  </app-player>
-  <app-video *ngSwitchCase="'video'" [track]="track"></app-video>
+    <div *ngIf="track" class="col-lg-6 col-md-8 mx-auto" [ngSwitch]="track.type">
+      <app-player *ngSwitchCase="'audio'" [track]="track" [autoPlay]="true" (progress)="saveProgress($event)">
+        <app-player-menu>
+          <app-player-menu-item routerLink="/" class="text-danger">
+            <i class="bi bi-x"></i> Zavřít audiowalk
+          </app-player-menu-item>
+          <app-player-menu-item routerLink="/chapters">
+            <i class="bi bi-list-ol"></i> Přehled kapitol
+          </app-player-menu-item>
+          <app-player-menu-item (click)="nextChapter()">
+            <i class="bi bi-chevron-double-right"></i> Další kapitola
+          </app-player-menu-item>
+        </app-player-menu>
+      </app-player>
+      <app-video *ngSwitchCase="'video'" [track]="track"></app-video>
+    </div>
+  </div>
 </div>
