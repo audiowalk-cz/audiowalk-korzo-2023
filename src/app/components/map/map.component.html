@@ -1,4 +1,4 @@
-<div class="map">
+<div class="map" (click)="enableGps()">
   <svg #originalSvg id="originalSvg" data-name="Vrstva 2" xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 1301.75 1504.5">
     <defs>
@@ -2676,6 +2676,12 @@
   </svg>
 
   <div #wrapper id="wrapper">
+    <svg #outputGps id="outputGps" width="1300" height="1500">
+      <circle r="50" fill="blue" cx="19" cy="20"></circle>
+      <circle *ngIf="gpsPositionNormal" r="30" fill="red" [attr.cx]="gpsPositionNormal[0]"
+        [attr.cy]="gpsPositionNormal[1]">
+      </circle>
+    </svg>
     <canvas #outputCanvas id="outputCanvas" width="1300" height="1500"></canvas>
   </div>
 </div>

@@ -9,11 +9,15 @@ import {
   ViewChild,
 } from "@angular/core";
 import rough from "roughjs";
-import { RoughCanvas } from "roughjs/bin/canvas";
 import { BehaviorSubject, Subject } from "rxjs";
 import { Chapter } from "src/app/schema/chapter";
 
-type GpsStatus = "on" | "off" | "error";
+// type GpsStatus = "on" | "off" | "error";
+enum GpsStatus {
+  "on",
+  "off",
+  "error"
+}
 
 @Component({
   selector: "app-map",
@@ -24,13 +28,18 @@ export class MapComponent implements AfterViewInit, OnChanges {
   @ViewChild("originalSvg") originalSvg!: ElementRef<SVGElement>;
   @ViewChild("wrapper") wrapper!: ElementRef<HTMLDivElement>;
   @ViewChild('outputCanvas') outputCanvas!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('outputGps') outputGps!: ElementRef<SVGElement>;
   outputSvg: SVGSVGElement;
   mapDrawn: boolean = false;
 
   @Input() chapter?: Chapter;
 
-  gpsStatus = new BehaviorSubject<GpsStatus>("off");
+  GpsStatus = GpsStatus;
+  gpsStatus = new BehaviorSubject<GpsStatus>(GpsStatus.off);
   gpsPosition = new Subject<[number, number]>();
+
+
+  gpsPositionNormal?: [number, number];
 
   gpsWatchSubscription?: number;
 
@@ -183,44 +192,73 @@ export class MapComponent implements AfterViewInit, OnChanges {
     const fromY = this.outputSvg.style.top ? parseFloat(this.outputSvg.style.top.slice(0, -2)) : 0;
     const toX = Math.round(fromX + move.dx);
     const toY = Math.round(fromY + move.dy);
-    this.outputSvg.style.left = toX + "px";
-    this.outputSvg.style.top = toY + "px";
 
-    this.outputSvg.style.transitionDuration = duration + "ms";
-    this.outputSvg.style.transformOrigin = `${view.cx - toX}px ${view.cy - toY}px`;
-    this.outputSvg.style.transform = `scale(${finalScale})`;
+    const style = {
+      left: toX + "px",
+      top: toY + "px",
+      transtionDuration: duration + "ms",
+      transformOrigin: `${view.cx - toX}px ${view.cy - toY}px`,
+      transform: `scale(${finalScale})`,
+    }
+
+    this.outputSvg.style.left = style.left;
+    this.outputSvg.style.top = style.top;
+    this.outputSvg.style.transitionDuration = style.transtionDuration;
+    this.outputSvg.style.transformOrigin = style.transformOrigin;
+    this.outputSvg.style.transform = style.transform;
 
 
-    this.outputCanvas.nativeElement.style.left = toX + "px";
-    this.outputCanvas.nativeElement.style.top = toY + "px";
+    this.outputCanvas.nativeElement.style.left = style.left;
+    this.outputCanvas.nativeElement.style.top = style.top;
+    this.outputCanvas.nativeElement.style.transitionDuration = style.transtionDuration;
+    this.outputCanvas.nativeElement.style.transformOrigin = style.transformOrigin;
+    this.outputCanvas.nativeElement.style.transform = style.transform;
 
-    this.outputCanvas.nativeElement.style.transitionDuration = duration + "ms";
-    this.outputCanvas.nativeElement.style.transformOrigin = `${view.cx - toX}px ${view.cy - toY}px`;
-    this.outputCanvas.nativeElement.style.transform = `scale(${finalScale})`;
+    this.outputGps.nativeElement.style.left = style.left;
+    this.outputGps.nativeElement.style.top = style.top;
+    this.outputGps.nativeElement.style.transitionDuration = style.transtionDuration;
+    this.outputGps.nativeElement.style.transformOrigin = style.transformOrigin;
+    this.outputGps.nativeElement.style.transform = style.transform;
   }
 
   enableGps() {
-    this.gpsStatus.next("on");
+    this.gpsStatus.next(GpsStatus.on);
     if (this.gpsWatchSubscription) navigator.geolocation!.clearWatch(this.gpsWatchSubscription);
 
     navigator.geolocation!.watchPosition(
       (position) => {
+        this.gpsPositionNormal = this.transformGpsPosition(position.coords)
         this.gpsPosition.next(this.transformGpsPosition(position.coords));
       },
       () => {
-        this.gpsStatus.next("error");
+        this.gpsStatus.next(GpsStatus.error);
       },
       { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
     );
   }
 
   disableGps() {
-    this.gpsStatus.next("off");
+    this.gpsStatus.next(GpsStatus.off);
     if (this.gpsWatchSubscription) navigator.geolocation!.clearWatch(this.gpsWatchSubscription);
   }
 
-  private transformGpsPosition(coordinates: { latitude: number; longitude: number }) {
+  private transformGpsPosition(
+    coordinates: { latitude: number; longitude: number }
+  ): [number, number] {
     // TODO: transform lat long to x y
-    return [0, 0] as [number, number];
+    const bounds = {
+      left: 14.4012178,
+      right: 14.4329778,
+      top: 50.0930953,
+      bottom: 50.0742572,
+    };
+    const sizes = {
+      height: 1500,
+      width: 1300,
+    }
+    return [
+      Math.round(sizes.width * (coordinates.longitude - bounds.left) / (bounds.right - bounds.left)),
+      Math.round(sizes.height - sizes.height * (coordinates.latitude - bounds.bottom) / (bounds.top - bounds.bottom)),
+    ];
   }
 }
