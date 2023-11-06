@@ -5,10 +5,9 @@ html {
   background-color: #000;
   color: #fff;
   font-family: "Roboto Slab";
-  min-height: 100vh;
+  min-height: 100dvh;
   overscroll-behavior-y: contain;
   user-select: none;
-  min-height: -webkit-fill-available;
 }
 
 app-root>*:not(router-outlet) {
@@ -90,7 +89,7 @@ h6 {
 .btn.primary {
   background-color: #fff;
   color: #000;
-  font-weight: bold;
+  // font-weight: bold;
   // text-transform: uppercase;
 }
 
@@ -119,8 +118,7 @@ h6 {
 }
 
 section {
-  min-height: 100vh;
-  min-height: -webkit-fill-available;
+  min-height: 100dvh;
 
   display: flex;
   flex-direction: column;

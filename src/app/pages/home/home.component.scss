@@ -1,7 +1,6 @@
 :host {
   display: flex;
-  min-height: 100vh;
-  min-height: -webkit-fill-available;
+  min-height: 100dvh;
   background: url("/assets/img/home-bg.png") no-repeat top left fixed;
   background-size: cover;
   overflow-y: scroll;
