@@ -1,12 +1,12 @@
-<div class="player p-4" [class.light]="mode === 'light'" [class.dark]="mode === 'dark'">
+<div class="player p-4 pb-2" [class.light]="mode === 'light'" [class.dark]="mode === 'dark'">
   <div class="progress-box">
     <app-progress-bar [progress]="progress"></app-progress-bar>
     <div class="total-time">{{ totalTime | time }}</div>
     <div class="current-time">{{ currentTime | time }}</div>
   </div>
 
-  <div class="controls-box row mt-2 mb-1">
-    <div class="col-4 d-flex justify-content-center align-items-center">
+  <div class="controls-box row mt-3">
+    <div class="col-4 d-flex justify-content-center">
       <button class="button-icon" (click)="rewind()">
         <img class="active" src="assets/img/icons/player/rewind.svg" alt="Rewind" />
       </button>

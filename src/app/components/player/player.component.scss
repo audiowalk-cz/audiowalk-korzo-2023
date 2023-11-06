@@ -18,13 +18,12 @@
 
 .controls-box {
   padding: 0;
+  height: 70px;
 
   .button-icon {
     border: none;
     width: 100%;
     max-width: 70px;
-    min-height: 50px;
-    max-height: 70px;
     position: relative;
     border-radius: 100%;
     transition-duration: 0.2s;
