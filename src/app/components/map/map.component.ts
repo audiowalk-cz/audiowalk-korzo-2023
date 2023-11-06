@@ -9,6 +9,7 @@ import {
   ViewChild,
 } from "@angular/core";
 import rough from "roughjs";
+import { RoughCanvas } from "roughjs/bin/canvas";
 import { BehaviorSubject, Subject } from "rxjs";
 import { Chapter } from "src/app/schema/chapter";
 
@@ -22,6 +23,7 @@ type GpsStatus = "on" | "off" | "error";
 export class MapComponent implements AfterViewInit, OnChanges {
   @ViewChild("originalSvg") originalSvg!: ElementRef<SVGElement>;
   @ViewChild("wrapper") wrapper!: ElementRef<HTMLDivElement>;
+  @ViewChild('outputCanvas') outputCanvas!: ElementRef<HTMLCanvasElement>;
   outputSvg: SVGSVGElement;
   mapDrawn: boolean = false;
 
@@ -34,24 +36,16 @@ export class MapComponent implements AfterViewInit, OnChanges {
 
   constructor(private renderer: Renderer2) {
     this.outputSvg = this.renderer.createElement("svg", "http://www.w3.org/2000/svg");
+    // this.outputCanvas = this.renderer.createElement("canvas", "http://www.w3.org/2000/canvas");
   }
 
   async ngAfterViewInit(): Promise<void> {
     this.drawMap();
     this.mapDrawn = true;
-    // if (this.trackId) this.flyToPath(this.trackId)
-    // this.main()
 
     setTimeout(() => {
       if (this.chapter) this.flyToPath(this.chapter.pathIndex);
     }, 200);
-
-    // setTimeout(() => {
-    //   this.flyToPath(0)
-    // }, 5000)
-    // setTimeout(() => {
-    //   this.flyToPath(3)
-    // }, 10000)
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -84,7 +78,9 @@ export class MapComponent implements AfterViewInit, OnChanges {
 
   drawMap() {
     this.wrapper.nativeElement.appendChild(this.outputSvg);
+    // this.wrapper.nativeElement.appendChild(this.outputCanvas);
     const rc = rough.svg(this.outputSvg);
+    const rcCanvas = rough.canvas(this.outputCanvas.nativeElement);
 
     const allPaths = this.originalSvg.nativeElement.querySelectorAll("path");
     if (!allPaths) return;
@@ -96,40 +92,47 @@ export class MapComponent implements AfterViewInit, OnChanges {
       const isWater = Array.from(path.classList).includes("cls-4");
       const isBuilding = Array.from(path.classList).includes("cls-2");
 
-      // if (isWater || isBuilding) continue;
-      // Use rough.js to draw a path based on the SVG path data
-      const svgpath = rc.path(
-        pathData,
-        isWater
-          ? {
-            roughness: 0,
-            fill: "rgba(130,192,234,.8)",
-            fillStyle: "solid",
-            // hachureAngle: 60,
-            // stroke: "rgba(130,192,234,0)",
-            strokeWidth: 0,
-            // hachureGap: 4,
-          }
-          : isBuilding
-            ? {
-              roughness: 0.1,
-              fill: "rgba(255,255,255,.5)",
-              fillStyle: "solid",
-              // fillWeight: 0.5,
-              // hachureAngle: -60,
-              // hachureGap: 2,
-              // stroke: "rgba(255,255,255,.75)",
-              // strokeWidth: 1,
-            }
-            : {
-              roughness: 0.5,
-              stroke: "rgba(255,255,255,0.1)",
-              strokeWidth: 4,
-            }
-      );
-      svgpath.classList.add(isWater ? "water" : isBuilding ? "building" : "path");
+      if (isWater) {
+        rcCanvas.path(pathData, {
+          roughness: 0,
+          fill: "rgba(130,192,234,.8)",
+          fillStyle: "solid",
+          // hachureAngle: 60,
+          // stroke: "rgba(130,192,234,0)",
+          strokeWidth: 0,
+          // hachureGap: 4,
+        })
+      }
+      if (isBuilding) {
+        const pathConfig = {
+          roughness: 0,
+          fill: "rgba(255,255,255,.5)",
+          fillStyle: "solid",
+          // fillWeight: 0.5,
+          // hachureAngle: -60,
+          // hachureGap: 2,
+          // stroke: "rgba(255,255,255,.75)",
+          // strokeWidth: 1,
+        };
+        rcCanvas.path(pathData, pathConfig)
+        // const svgpath = rc.path(pathData, pathConfig);
+        // svgpath.classList.add("building");
+        // this.outputSvg.appendChild(svgpath);
+      }
 
-      this.outputSvg.appendChild(svgpath);
+      if (isPath) {
+        // Use rough.js to draw a path based on the SVG path data
+        const svgpath = rc.path(
+          pathData, {
+          roughness: 0.1,
+          stroke: "rgba(255,255,255,0.1)",
+          strokeWidth: 4,
+        }
+        );
+        svgpath.classList.add("path");
+
+        this.outputSvg.appendChild(svgpath);
+      }
     }
     // const originalSvgBR = this.originalSvg.nativeElement.getBoundingClientRect();
     // this.outputSvg.style.width = originalSvgBR.width + "px";
@@ -186,6 +189,14 @@ export class MapComponent implements AfterViewInit, OnChanges {
     this.outputSvg.style.transitionDuration = duration + "ms";
     this.outputSvg.style.transformOrigin = `${view.cx - toX}px ${view.cy - toY}px`;
     this.outputSvg.style.transform = `scale(${finalScale})`;
+
+
+    this.outputCanvas.nativeElement.style.left = toX + "px";
+    this.outputCanvas.nativeElement.style.top = toY + "px";
+
+    this.outputCanvas.nativeElement.style.transitionDuration = duration + "ms";
+    this.outputCanvas.nativeElement.style.transformOrigin = `${view.cx - toX}px ${view.cy - toY}px`;
+    this.outputCanvas.nativeElement.style.transform = `scale(${finalScale})`;
   }
 
   enableGps() {
