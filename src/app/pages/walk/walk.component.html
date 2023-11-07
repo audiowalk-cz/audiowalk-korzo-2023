@@ -8,7 +8,8 @@
     </div>
 
     <div *ngIf="track" class="col-lg-6 col-md-8 mx-auto" [ngSwitch]="track.type">
-      <app-player *ngSwitchCase="'audio'" [track]="track" [autoPlay]="true" (progress)="saveProgress($event)">
+      <app-player *ngSwitchCase="'audio'" [track]="track" [autoPlay]="true" (progress)="saveProgress($event)"
+        (nextChapter)="nextChapter()">
         <app-player-menu>
           <app-player-menu-item routerLink="/" class="text-danger">
             <i class="bi bi-x"></i> Zavřít audiowalk

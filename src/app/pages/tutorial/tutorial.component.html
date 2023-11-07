@@ -47,7 +47,7 @@
                   <p class="text-secondary">(cca 70MB)</p>
                 </div>
                 <p *ngSwitchCase="'downloading'">
-                  <i class="bi bi-hourglass-split"></i> Stahuji... {{ downloadProgress | async | percent }}
+                  <i class="bi bi-hourglass-split"></i><br>Stahuji... {{ downloadProgress | async | percent }}
                 </p>
                 <p *ngSwitchCase="'checking'">
                   <i class="bi bi-hourglass-split"></i> Kontroluji...

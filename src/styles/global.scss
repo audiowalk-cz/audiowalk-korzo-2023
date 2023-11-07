@@ -17,9 +17,9 @@ html {
 // }
 
 h1 {
-  font-size: 64px;
+  font-size: 60px;
   font-weight: 900;
-  line-height: 72px;
+  line-height: 64px;
   letter-spacing: 0em;
 }
 
@@ -116,32 +116,6 @@ h6 {
 
   backdrop-filter: blur(10px);
   border-radius: 20px;
-}
-
-// section {
-//   // min-height: 100%;
-
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   justify-content: center;
-// }
-
-// main {
-//   flex: 1;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   flex-direction: column;
-//   margin-bottom: auto;
-// }
-
-header,
-main,
-footer {
-  // flex-shrink: 0;
-  // display: flex;
-  // width: 100%;
 }
 
 .fs-0 {

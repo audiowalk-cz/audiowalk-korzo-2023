@@ -2666,7 +2666,7 @@
         <circle class="cls-3" cx="626.03" cy="648.25" r="5.63" />
         <circle class="cls-3" cx="680.67" cy="592.5" r="5.63" />
         <circle class="cls-3" cx="636.82" cy="779.95" r="5.63" />
-        <circle class="cls-3" cx="543.69" cy="875.04" r="5.63" />
+        <!-- <circle class="cls-3" cx="543.69" cy="875.04" r="5.63" /> -->
         <circle class="cls-3" cx="549.32" cy="932.8" r="5.63" />
         <circle class="cls-3" cx="711.69" cy="928.67" r="5.63" />
         <circle class="cls-3" cx="911.48" cy="946.99" r="5.63" />
@@ -2676,12 +2676,24 @@
   </svg>
 
   <div #wrapper id="wrapper">
-    <svg #outputGps id="outputGps" width="1300" height="1500">
-      <circle r="50" fill="blue" cx="19" cy="20"></circle>
-      <circle *ngIf="gpsPositionNormal" r="30" fill="red" [attr.cx]="gpsPositionNormal[0]"
+    <svg #outputGps id="outputGps" width="1301.75" height="1504.5">
+      <circle *ngIf="gpsPosNormal1" r="5" fill="rgba(255,255,255,.5)" [attr.cx]="gpsPosNormal1[0]"
+        [attr.cy]="gpsPosNormal1[1]">
+      </circle>
+      <circle *ngIf="gpsPosNormal2" r="5" fill="rgba(255,255,255,.5)" [attr.cx]="gpsPosNormal2[0]"
+        [attr.cy]="gpsPosNormal2[1]">
+      </circle>
+      <circle *ngIf="gpsPositionNormal" r="5" fill="red" [attr.cx]="gpsPositionNormal[0]"
         [attr.cy]="gpsPositionNormal[1]">
       </circle>
     </svg>
-    <canvas #outputCanvas id="outputCanvas" width="1300" height="1500"></canvas>
+
+    <img src="assets/img/map.png" id="mapImg" #mapImg width="1301.75" height="1504.5">
+
+    <svg #outputSvg id="outputSvg" width="1301.75" height="1504.5">
+    </svg>
+    <!-- <svg #outputSvgClone id="outputSvgClone" width="1301.75" height="1504.5">
+    </svg>
+    <canvas #outputCanvas id="outputCanvas" width="1301.75" height="1504.5"></canvas> -->
   </div>
 </div>

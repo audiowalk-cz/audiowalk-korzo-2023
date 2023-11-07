@@ -27,6 +27,7 @@ export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
   @Input() mode: "light" | "dark" = "dark";
 
   @Output("progress") onProgress = new EventEmitter<number>();
+  @Output("nextChapter") nextChapter = new EventEmitter<void>();
 
   progress: number = 0;
   status: "playing" | "paused" | "ended" = "paused";
@@ -42,7 +43,7 @@ export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
 
   @ContentChild(PlayerMenuComponent) menu?: PlayerMenuComponent;
 
-  constructor(private cdRef: ChangeDetectorRef) {}
+  constructor(private cdRef: ChangeDetectorRef) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes["track"]) {
@@ -82,7 +83,7 @@ export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
       });
 
       this.audioPlayer.nativeElement.addEventListener("ended", (event) => {
-        this.status = "paused";
+        this.status = "ended";
       });
 
       this.audioPlayer.nativeElement.addEventListener("error", (event) => {
@@ -110,10 +111,10 @@ export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.audioPlayer.nativeElement.removeEventListener("play", () => {});
-    this.audioPlayer.nativeElement.removeEventListener("pause", () => {});
-    this.audioPlayer.nativeElement.removeEventListener("ended", () => {});
-    this.audioPlayer.nativeElement.removeEventListener("timeupdate", () => {});
+    this.audioPlayer.nativeElement.removeEventListener("play", () => { });
+    this.audioPlayer.nativeElement.removeEventListener("pause", () => { });
+    this.audioPlayer.nativeElement.removeEventListener("ended", () => { });
+    this.audioPlayer.nativeElement.removeEventListener("timeupdate", () => { });
   }
 
   async loadTrack(track: Track) {
@@ -149,6 +150,8 @@ export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
   async playPause() {
     if (this.status === "paused") {
       this.play();
+    } else if (this.status === "ended") {
+      this.nextChapter.emit();
     } else {
       this.pause();
     }

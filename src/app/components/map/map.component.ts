@@ -27,16 +27,25 @@ enum GpsStatus {
 export class MapComponent implements AfterViewInit, OnChanges {
   @ViewChild("originalSvg") originalSvg!: ElementRef<SVGElement>;
   @ViewChild("wrapper") wrapper!: ElementRef<HTMLDivElement>;
-  @ViewChild('outputCanvas') outputCanvas!: ElementRef<HTMLCanvasElement>;
+  // @ViewChild('outputCanvas') outputCanvas!: ElementRef<HTMLCanvasElement>;
   @ViewChild('outputGps') outputGps!: ElementRef<SVGElement>;
-  outputSvg: SVGSVGElement;
+  @ViewChild('outputSvg') outputSvg!: ElementRef<SVGSVGElement>;
+  // @ViewChild('outputSvgClone') outputSvgClone!: ElementRef<SVGSVGElement>;
+  @ViewChild('mapImg') mapImg!: ElementRef<HTMLImageElement>;
   mapDrawn: boolean = false;
+
+  mapSize = {
+    height: 1504.5,
+    width: 1301.75,
+  }
 
   @Input() chapter?: Chapter;
 
   GpsStatus = GpsStatus;
   gpsStatus = new BehaviorSubject<GpsStatus>(GpsStatus.off);
   gpsPosition = new Subject<[number, number]>();
+  gpsPosNormal1 = this.transformGpsPosition({ longitude: 14.4190303, latitude: 50.0863744 });
+  gpsPosNormal2 = this.transformGpsPosition({ longitude: 14.4157847, latitude: 50.0823156 });
 
 
   gpsPositionNormal?: [number, number];
@@ -44,8 +53,6 @@ export class MapComponent implements AfterViewInit, OnChanges {
   gpsWatchSubscription?: number;
 
   constructor(private renderer: Renderer2) {
-    this.outputSvg = this.renderer.createElement("svg", "http://www.w3.org/2000/svg");
-    // this.outputCanvas = this.renderer.createElement("canvas", "http://www.w3.org/2000/canvas");
   }
 
   async ngAfterViewInit(): Promise<void> {
@@ -65,15 +72,22 @@ export class MapComponent implements AfterViewInit, OnChanges {
   }
 
   async flyToPath(index: number) {
-    const paths = this.outputSvg.querySelectorAll(".path");
+    const paths = this.outputSvg.nativeElement.querySelectorAll(".path");
     for (const path of paths) {
       const svgPath = path.querySelector("path");
       if (svgPath) svgPath.style.stroke = "rgba(255,255,255,.1)";
     }
+    const circles = this.outputSvg.nativeElement.querySelectorAll(".circle");
+    for (const circle of circles) {
+      const svgPathCircle = circle.querySelector("path");
+      if (svgPathCircle) svgPathCircle.style.fill = "rgba(255,255,255,0)";
+    }
     const realPath = paths[index].querySelector("path");
-    if (!realPath) return;
+    const realPathCircle = circles[index].querySelector("path");
+    if (!realPath || !realPathCircle) return;
     await this.flyTo(
-      realPath,
+      realPath!,
+      realPathCircle,
       {
         top: 180,
         bottom: 150,
@@ -86,79 +100,95 @@ export class MapComponent implements AfterViewInit, OnChanges {
   }
 
   drawMap() {
-    this.wrapper.nativeElement.appendChild(this.outputSvg);
-    // this.wrapper.nativeElement.appendChild(this.outputCanvas);
-    const rc = rough.svg(this.outputSvg);
-    const rcCanvas = rough.canvas(this.outputCanvas.nativeElement);
+    const rc = rough.svg(this.outputSvg.nativeElement);
+    // const rcClone = rough.svg(this.outputSvgClone.nativeElement);
+    // const rcCanvas = rough.canvas(this.outputCanvas.nativeElement);
 
-    const allPaths = this.originalSvg.nativeElement.querySelectorAll("path");
+    const allPaths = this.originalSvg.nativeElement.querySelectorAll("path.cls-1");
+    const allWaters = this.originalSvg.nativeElement.querySelectorAll("path.cls-4");
+    const allBuildings = this.originalSvg.nativeElement.querySelectorAll("path.cls-2");
+    const allCircles = this.originalSvg.nativeElement.querySelectorAll("circle");
+
     if (!allPaths) return;
+    if (!allCircles) return;
     // Loop through the paths in the SVG
-    for (let path of allPaths) {
-      // Get the d attribute which contains path data
+    // for (let [i, path] of allWaters.entries()) {
+    //   const pathData = path.getAttribute("d")!;
+    //   const rcConfig = {
+    //     roughness: .5,
+    //     fill: "rgba(130,192,234,.5)",
+    //     fillStyle: "solid",
+    //     hachureAngle: 60,
+    //     stroke: "rgba(130,192,234,0)",
+    //     strokeWidth: 0,
+    //     hachureGap: 4,
+    //   }
+    //   rcCanvas.path(pathData, rcConfig);
+
+    //   const svgpath = rcClone.path(pathData, rcConfig);
+    //   this.outputSvgClone.nativeElement.appendChild(svgpath);
+    // }
+
+    // for (let [i, path] of allBuildings.entries()) {
+    //   const pathData = path.getAttribute("d")!;
+    //   const rcConfig = {
+    //     roughness: .5,
+    //     fill: "rgba(255,255,255,.5)",
+    //     fillStyle: "cross-hatch",
+    //     fillWeight: 0.5,
+    //     hachureAngle: -60,
+    //     hachureGap: 2,
+    //     stroke: "rgba(255,255,255,.75)",
+    //     strokeWidth: 1,
+    //   };
+    //   rcCanvas.path(pathData, rcConfig)
+
+    //   const svgpath = rcClone.path(pathData, rcConfig);
+    //   this.outputSvgClone.nativeElement.appendChild(svgpath);
+    // }
+
+    for (let [i, path] of allPaths.entries()) {
       const pathData = path.getAttribute("d")!;
-      const isPath = Array.from(path.classList).includes("cls-1");
-      const isWater = Array.from(path.classList).includes("cls-4");
-      const isBuilding = Array.from(path.classList).includes("cls-2");
+      const rcConfig = {
+        roughness: 0.3,
+        stroke: "rgba(255,255,255,0.1)",
+        strokeWidth: 4,
+      };
+      const svgpath = rc.path(pathData, rcConfig);
+      svgpath.classList.add("path");
 
-      if (isWater) {
-        rcCanvas.path(pathData, {
-          roughness: 0,
-          fill: "rgba(130,192,234,.8)",
-          fillStyle: "solid",
-          // hachureAngle: 60,
-          // stroke: "rgba(130,192,234,0)",
-          strokeWidth: 0,
-          // hachureGap: 4,
-        })
-      }
-      if (isBuilding) {
-        const pathConfig = {
-          roughness: 0,
-          fill: "rgba(255,255,255,.5)",
-          fillStyle: "solid",
-          // fillWeight: 0.5,
-          // hachureAngle: -60,
-          // hachureGap: 2,
-          // stroke: "rgba(255,255,255,.75)",
-          // strokeWidth: 1,
-        };
-        rcCanvas.path(pathData, pathConfig)
-        // const svgpath = rc.path(pathData, pathConfig);
-        // svgpath.classList.add("building");
-        // this.outputSvg.appendChild(svgpath);
-      }
+      this.outputSvg.nativeElement.appendChild(svgpath);
 
-      if (isPath) {
-        // Use rough.js to draw a path based on the SVG path data
-        const svgpath = rc.path(
-          pathData, {
-          roughness: 0.1,
-          stroke: "rgba(255,255,255,0.1)",
-          strokeWidth: 4,
-        }
-        );
-        svgpath.classList.add("path");
-
-        this.outputSvg.appendChild(svgpath);
+      const svgCircle = rc.circle(
+        allCircles[i].cx.baseVal.value,
+        allCircles[i].cy.baseVal.value,
+        20, {
+        roughness: 0.3,
+        fill: "rgba(255,255,255,0)",
+        fillStyle: "solid",
+        // stroke: "rgba(255,255,255,0.1)",
+        strokeWidth: 0,
       }
+      );
+      svgCircle.classList.add("circle");
+      this.outputSvg.nativeElement.appendChild(svgCircle);
     }
-    // const originalSvgBR = this.originalSvg.nativeElement.getBoundingClientRect();
-    // this.outputSvg.style.width = originalSvgBR.width + "px";
-    // this.outputSvg.style.height = originalSvgBR.height + "px";
   }
 
   async flyTo(
     targetElement: SVGPathElement,
+    targetElementCircle: SVGPathElement,
     padding: { top: number; left: number; bottom: number; right: number },
     duration: number,
     sleep: number
   ) {
     targetElement.style.stroke = "rgba(255,255,255,1)";
+    targetElementCircle.style.fill = "rgba(255,255,255,1)";
+
     const targetBR = targetElement.getBoundingClientRect();
     const wrapperBR = this.wrapper.nativeElement.getBoundingClientRect();
 
-    let currentScaleTxt = this.outputSvg.style.transform;
+    let currentScaleTxt = this.outputSvg.nativeElement.style.transform;
     if (!currentScaleTxt) {
       currentScaleTxt = "scale(1)";
     }
@@ -188,8 +218,8 @@ export class MapComponent implements AfterViewInit, OnChanges {
       dy: -(target.cy - view.cy) / currentScale,
     };
 
-    const fromX = this.outputSvg.style.left ? parseFloat(this.outputSvg.style.left.slice(0, -2)) : 0;
-    const fromY = this.outputSvg.style.top ? parseFloat(this.outputSvg.style.top.slice(0, -2)) : 0;
+    const fromX = this.outputSvg.nativeElement.style.left ? parseFloat(this.outputSvg.nativeElement.style.left.slice(0, -2)) : 0;
+    const fromY = this.outputSvg.nativeElement.style.top ? parseFloat(this.outputSvg.nativeElement.style.top.slice(0, -2)) : 0;
     const toX = Math.round(fromX + move.dx);
     const toY = Math.round(fromY + move.dy);
 
@@ -201,24 +231,30 @@ export class MapComponent implements AfterViewInit, OnChanges {
       transform: `scale(${finalScale})`,
     }
 
-    this.outputSvg.style.left = style.left;
-    this.outputSvg.style.top = style.top;
-    this.outputSvg.style.transitionDuration = style.transtionDuration;
-    this.outputSvg.style.transformOrigin = style.transformOrigin;
-    this.outputSvg.style.transform = style.transform;
+    this.outputSvg.nativeElement.style.left = style.left;
+    this.outputSvg.nativeElement.style.top = style.top;
+    this.outputSvg.nativeElement.style.transitionDuration = style.transtionDuration;
+    this.outputSvg.nativeElement.style.transformOrigin = style.transformOrigin;
+    this.outputSvg.nativeElement.style.transform = style.transform;
 
-
-    this.outputCanvas.nativeElement.style.left = style.left;
-    this.outputCanvas.nativeElement.style.top = style.top;
-    this.outputCanvas.nativeElement.style.transitionDuration = style.transtionDuration;
-    this.outputCanvas.nativeElement.style.transformOrigin = style.transformOrigin;
-    this.outputCanvas.nativeElement.style.transform = style.transform;
+    // this.outputCanvas.nativeElement.style.left = style.left;
+    // this.outputCanvas.nativeElement.style.top = style.top;
+    // this.outputCanvas.nativeElement.style.transitionDuration = style.transtionDuration;
+    // this.outputCanvas.nativeElement.style.transformOrigin = style.transformOrigin;
+    // this.outputCanvas.nativeElement.style.transform = style.transform;
 
     this.outputGps.nativeElement.style.left = style.left;
     this.outputGps.nativeElement.style.top = style.top;
     this.outputGps.nativeElement.style.transitionDuration = style.transtionDuration;
     this.outputGps.nativeElement.style.transformOrigin = style.transformOrigin;
     this.outputGps.nativeElement.style.transform = style.transform;
+
+    this.mapImg.nativeElement.style.left = style.left;
+    this.mapImg.nativeElement.style.top = style.top;
+    this.mapImg.nativeElement.style.transitionDuration = style.transtionDuration;
+    this.mapImg.nativeElement.style.transformOrigin = style.transformOrigin;
+    this.mapImg.nativeElement.style.transform = style.transform;
+
   }
 
   enableGps() {
@@ -245,20 +281,15 @@ export class MapComponent implements AfterViewInit, OnChanges {
   private transformGpsPosition(
     coordinates: { latitude: number; longitude: number }
   ): [number, number] {
-    // TODO: transform lat long to x y
     const bounds = {
-      left: 14.4012178,
-      right: 14.4329778,
-      top: 50.0930953,
-      bottom: 50.0742572,
+      left: 14.3976,
+      right: 14.4386,
+      top: 50.0997,
+      bottom: 50.0677,
     };
-    const sizes = {
-      height: 1500,
-      width: 1300,
-    }
     return [
-      Math.round(sizes.width * (coordinates.longitude - bounds.left) / (bounds.right - bounds.left)),
-      Math.round(sizes.height - sizes.height * (coordinates.latitude - bounds.bottom) / (bounds.top - bounds.bottom)),
+      Math.round(this.mapSize.width * (coordinates.longitude - bounds.left) / (bounds.right - bounds.left)),
+      Math.round(this.mapSize.height - this.mapSize.height * (coordinates.latitude - bounds.bottom) / (bounds.top - bounds.bottom)),
     ];
   }
 }

@@ -66,20 +66,21 @@
   width: 100%;
   position: relative;
 
-  .total-time {
-    color: rgba(255, 255, 255, 0.33);
-    position: absolute;
-    right: 0;
-    top: 12px;
-    font-size: 0.5em;
-  }
-
+  .total-time,
   .current-time {
     color: rgba(255, 255, 255, 0.33);
     position: absolute;
-    left: 0;
     top: 12px;
-    font-size: 0.5em;
+    font-size: 12px;
+    font-family: "Roboto Flex";
+  }
+
+  .current-time {
+    left: 0;
+  }
+
+  .total-time {
+    right: 0;
   }
 }
 
