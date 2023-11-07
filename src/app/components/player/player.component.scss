@@ -1,7 +1,7 @@
 :host {
   display: block;
   position: relative;
-  z-index: 10;
+  z-index: 100;
 }
 
 .player {
@@ -53,13 +53,24 @@
     }
   }
 
-  .button-icon:hover {
+  // .button-icon:hover,
+  .button-icon.hover {
     background: rgba(255, 255, 255, 0.1);
 
     img.active {
       transform: scale(0.9);
     }
   }
+
+  // @media (hover: none) {
+  //   .button-icon:hover {
+  //     background: rgba(255, 255, 255, 0);
+
+  //     img.active {
+  //       transform: scale(1);
+  //     }
+  //   }
+  // }
 }
 
 .progress-box {

@@ -1,19 +1,12 @@
 .map {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgb(28, 28, 28);
-
-  #originalSvg {
-    display: none;
-  }
+  // background-color: rgb(28, 28, 28);
 
   #wrapper {
-    height: 100%;
-    width: 100%;
-    position: relative;
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    overflow: hidden;
 
     svg {
       height: 1504.5px;

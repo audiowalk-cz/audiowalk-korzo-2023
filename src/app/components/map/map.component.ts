@@ -25,7 +25,7 @@ enum GpsStatus {
   styleUrls: ["./map.component.scss"],
 })
 export class MapComponent implements AfterViewInit, OnChanges {
-  @ViewChild("originalSvg") originalSvg!: ElementRef<SVGElement>;
+  // @ViewChild("originalSvg") originalSvg!: ElementRef<SVGElement>;
   @ViewChild("wrapper") wrapper!: ElementRef<HTMLDivElement>;
   // @ViewChild('outputCanvas') outputCanvas!: ElementRef<HTMLCanvasElement>;
   @ViewChild('outputGps') outputGps!: ElementRef<SVGElement>;
@@ -56,7 +56,7 @@ export class MapComponent implements AfterViewInit, OnChanges {
   }
 
   async ngAfterViewInit(): Promise<void> {
-    this.drawMap();
+    // this.drawMap();
     this.mapDrawn = true;
 
     setTimeout(() => {
@@ -104,10 +104,10 @@ export class MapComponent implements AfterViewInit, OnChanges {
     // const rcClone = rough.svg(this.outputSvgClone.nativeElement);
     // const rcCanvas = rough.canvas(this.outputCanvas.nativeElement);
 
-    const allPaths = this.originalSvg.nativeElement.querySelectorAll("path.cls-1");
-    const allWaters = this.originalSvg.nativeElement.querySelectorAll("path.cls-4");
-    const allBuildings = this.originalSvg.nativeElement.querySelectorAll("path.cls-2");
-    const allCircles = this.originalSvg.nativeElement.querySelectorAll("circle");
+    const allPaths = this.outputSvg.nativeElement.querySelectorAll("path.cls-1");
+    // const allWaters = this.outputSvg.nativeElement.querySelectorAll("path.cls-4");
+    // const allBuildings = this.outputSvg.nativeElement.querySelectorAll("path.cls-2");
+    const allCircles = this.outputSvg.nativeElement.querySelectorAll("circle");
 
     if (!allPaths) return;
     if (!allCircles) return;

@@ -40,6 +40,7 @@ export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
   currentTime?: number;
 
   @ViewChild("audioPlayer") audioPlayer!: ElementRef<HTMLAudioElement>;
+  @ViewChild("playPauseButton") playPauseButton!: ElementRef<HTMLButtonElement>;
 
   @ContentChild(PlayerMenuComponent) menu?: PlayerMenuComponent;
 
@@ -177,5 +178,15 @@ export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
 
   rewind() {
     this.audioPlayer.nativeElement.currentTime = Math.max(0, this.audioPlayer.nativeElement.currentTime - 10);
+  }
+
+
+  touchStart() {
+    console.log("touch");
+    this.playPauseButton.nativeElement.classList.add("hover");
+  }
+  touchEnd() {
+    console.log("touchend");
+    this.playPauseButton.nativeElement.classList.remove("hover");
   }
 }
