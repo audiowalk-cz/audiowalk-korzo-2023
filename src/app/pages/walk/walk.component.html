@@ -1,6 +1,6 @@
-<app-map [chapter]="chapter"> </app-map>
+<app-map [chapter]="chapter" class="container h-100"> </app-map>
 
-<div class="container h-100">
+<div class="container h-100 walk-player">
   <div class="row flex-column justify-content-center h-100 py-3">
     <div *ngIf="chapter" class="col-lg-6 col-md-8 mb-auto mx-auto">
       <app-chapter-info [chapter]="chapter" [chapterIndex]="chapterIndex!"
@@ -8,7 +8,7 @@
     </div>
 
     <div *ngIf="track" class="col-lg-6 col-md-8 mx-auto" [ngSwitch]="track.type">
-      <app-player *ngSwitchCase="'audio'" [track]="track" [autoPlay]="true" (progress)="saveProgress($event)"
+      <app-player *ngSwitchCase="'audio'" [track]="track" [autoPlay]="false" (progress)="saveProgress($event)"
         (nextChapter)="nextChapter()">
         <app-player-menu>
           <app-player-menu-item routerLink="/" class="text-danger">
