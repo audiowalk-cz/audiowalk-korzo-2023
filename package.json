@@ -16,6 +16,7 @@
     "@angular/platform-browser-dynamic": "^16.2.11",
     "@angular/router": "^16.2.11",
     "@angular/service-worker": "^16.2.11",
+    "@meddv/ngx-pinch-zoom": "^16.0.0",
     "@ngneat/until-destroy": "^10.0.0",
     "axios": "^1.6.0",
     "bootstrap": "^5.3.2",

@@ -5,6 +5,7 @@ import { EndComponent } from "./pages/end/end.component";
 import { HomeComponent } from "./pages/home/home.component";
 import { TutorialComponent } from "./pages/tutorial/tutorial.component";
 import { WalkComponent } from "./pages/walk/walk.component";
+import { TestComponent } from "./pages/test/test.component";
 
 const routes: Routes = [
   { path: "", component: HomeComponent },
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: "tutorial", component: TutorialComponent },
   { path: "end", component: EndComponent },
   { path: "chapters", component: ChaptersComponent },
+  { path: "test", component: TestComponent },
   { path: "**", redirectTo: "" },
 ];
 
@@ -19,4 +21,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

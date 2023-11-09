@@ -12,13 +12,13 @@
         (nextChapter)="nextChapter()">
         <app-player-menu>
           <app-player-menu-item routerLink="/" class="text-danger">
-            <i class="bi bi-x"></i> Zavřít audiowalk
+            <i class="bi bi-x-circle-fill"></i> Opustit audiowalk
           </app-player-menu-item>
           <app-player-menu-item routerLink="/chapters">
             <i class="bi bi-list-ol"></i> Přehled kapitol
           </app-player-menu-item>
           <app-player-menu-item (click)="nextChapter()">
-            <i class="bi bi-chevron-double-right"></i> Další kapitola
+            <i class="bi bi-fast-forward-fill"></i> Další kapitola
           </app-player-menu-item>
         </app-player-menu>
       </app-player>

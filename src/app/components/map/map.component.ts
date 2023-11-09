@@ -39,6 +39,12 @@ export class MapComponent implements AfterViewInit, OnChanges {
     width: 1301.75,
   }
 
+  currentView = {
+    scale: 1,
+    tX: 0,
+    tY: 0,
+  };
+
   @Input() chapter?: Chapter;
 
   GpsStatus = GpsStatus;
@@ -188,11 +194,11 @@ export class MapComponent implements AfterViewInit, OnChanges {
     const targetBR = targetElement.getBoundingClientRect();
     const wrapperBR = this.wrapper.nativeElement.getBoundingClientRect();
 
-    let currentScaleTxt = this.outputSvg.nativeElement.style.transform;
-    if (!currentScaleTxt) {
-      currentScaleTxt = "scale(1)";
-    }
-    const currentScale = parseFloat(currentScaleTxt.slice(6).slice(0, -1));
+    // let currentScaleTxt = this.outputSvg.nativeElement.style.transform;
+    // if (!currentScaleTxt) {
+    //   currentScaleTxt = "scale(1)";
+    // }
+    const currentScale = this.currentView.scale;
 
     const view = {
       w: wrapperBR.width,
@@ -212,14 +218,15 @@ export class MapComponent implements AfterViewInit, OnChanges {
     const scaleX = view.w / (target.w / currentScale + padding.left + padding.right);
     const scaleY = view.h / (target.h / currentScale + padding.top + padding.bottom);
     const finalScale = Math.min(scaleX, scaleY);
+    this.currentView.scale = finalScale;
 
     const move = {
       dx: -(target.cx - view.cx) / currentScale,
       dy: -(target.cy - view.cy) / currentScale,
     };
 
-    const fromX = this.outputSvg.nativeElement.style.left ? parseFloat(this.outputSvg.nativeElement.style.left.slice(0, -2)) : 0;
-    const fromY = this.outputSvg.nativeElement.style.top ? parseFloat(this.outputSvg.nativeElement.style.top.slice(0, -2)) : 0;
+    const fromX = this.currentView.tX;
+    const fromY = this.currentView.tY;
     const toX = Math.round(fromX + move.dx);
     const toY = Math.round(fromY + move.dy);
 
@@ -228,11 +235,18 @@ export class MapComponent implements AfterViewInit, OnChanges {
       top: toY + "px",
       transtionDuration: duration + "ms",
       transformOrigin: `${view.cx - toX}px ${view.cy - toY}px`,
-      transform: `scale(${finalScale})`,
+      // transform: `scale(${finalScale})`,
+      transform: `matrix(${finalScale}, 0, 0, ${finalScale}, ${toX}, ${toY})`,
     }
 
-    this.outputSvg.nativeElement.style.left = style.left;
-    this.outputSvg.nativeElement.style.top = style.top;
+    this.currentView.tX = toX;
+    this.currentView.tY = toY;
+
+
+    console.log(style.transform)
+
+    // this.outputSvg.nativeElement.style.left = style.left;
+    // this.outputSvg.nativeElement.style.top = style.top;
     this.outputSvg.nativeElement.style.transitionDuration = style.transtionDuration;
     this.outputSvg.nativeElement.style.transformOrigin = style.transformOrigin;
     this.outputSvg.nativeElement.style.transform = style.transform;
@@ -243,14 +257,14 @@ export class MapComponent implements AfterViewInit, OnChanges {
     // this.outputCanvas.nativeElement.style.transformOrigin = style.transformOrigin;
     // this.outputCanvas.nativeElement.style.transform = style.transform;
 
-    this.outputGps.nativeElement.style.left = style.left;
-    this.outputGps.nativeElement.style.top = style.top;
+    // this.outputGps.nativeElement.style.left = style.left;
+    // this.outputGps.nativeElement.style.top = style.top;
     this.outputGps.nativeElement.style.transitionDuration = style.transtionDuration;
     this.outputGps.nativeElement.style.transformOrigin = style.transformOrigin;
     this.outputGps.nativeElement.style.transform = style.transform;
 
-    this.mapImg.nativeElement.style.left = style.left;
-    this.mapImg.nativeElement.style.top = style.top;
+    // this.mapImg.nativeElement.style.left = style.left;
+    // this.mapImg.nativeElement.style.top = style.top;
     this.mapImg.nativeElement.style.transitionDuration = style.transtionDuration;
     this.mapImg.nativeElement.style.transformOrigin = style.transformOrigin;
     this.mapImg.nativeElement.style.transform = style.transform;

@@ -20,6 +20,8 @@ import { TutorialComponent } from "./pages/tutorial/tutorial.component";
 import { WalkComponent } from "./pages/walk/walk.component";
 import { TimePipe } from "./pipes/time.pipe";
 import { VideoComponent } from './components/video/video.component';
+import { PinchZoomModule } from "@meddv/ngx-pinch-zoom";
+import { TestComponent } from "./pages/test/test.component";
 
 @NgModule({
   declarations: [
@@ -40,6 +42,7 @@ import { VideoComponent } from './components/video/video.component';
     PlayerMenuComponent,
     PlayerMenuItemComponent,
     VideoComponent,
+    TestComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,8 +53,9 @@ import { VideoComponent } from './components/video/video.component';
       // or after 30 seconds (whichever comes first).
       registrationStrategy: "registerWhenStable:30000",
     }),
+    PinchZoomModule
   ],
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
