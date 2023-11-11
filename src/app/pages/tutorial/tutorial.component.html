@@ -8,9 +8,12 @@
             <i class="bi bi-person-walking fs-0"></i>
             <div class="mt-3">
               <h2>Začátek trasy</h2>
-              <p class="mt-2">Dojděte na&nbsp;piazettu Národního&nbsp;divadla (Náměstí&nbsp;Václava&nbsp;Havla)
-                na&nbsp;Starém&nbsp;Městě.</p>
-              <button class="btn btn-outline-primary mt-5" (click)="openNavigation()">
+              <p class="mt-3">Trasa začíná u&nbsp;Nové scény Národního Divadla,<br />má 7&nbsp;zastávek a trvá zhruba
+                70&nbsp;minut.</p>
+              <p class="mt-1">Dojděte k&nbsp;Srdci pro Václava Havla<br />(piazetta Národního divadla) na&nbsp;Starém
+                Městě
+              </p>
+              <button class="btn btn-outline-primary mt-3" (click)="openNavigation()">
                 Navigovat&nbsp;&nbsp;&nbsp;<i class="bi bi-box-arrow-up-right"></i></button>
             </div>
           </div>
@@ -21,7 +24,8 @@
             <i class="bi bi-earbuds fs-0"></i>
             <div class="mt-3">
               <h2>Test přehrávání</h2>
-              <p class="mt-2">Připojte sluchátka a vyzkoušejte zvuk kliknutím na ikonku.</p>
+              <p class="mt-3">Připojte sluchátka a vyzkoušejte zvuk kliknutím na ikonku.</p>
+              <p class="mt-1">Přehrávání zvuku pokračuje i po zhasnutí vašeho displeje.</p>
               <div class="mt-5">
                 <app-player [track]="testTrack" mode="light"></app-player>
               </div>
@@ -34,11 +38,12 @@
             <i class="bi bi-cloud-download fs-0"></i>
             <div class="mt-3">
               <h2>Offline</h2>
-              <p class="mt-2">
-                Doporučujeme si stáhnout audiowalku<br>do mobilního zařízení.<br>
-                Stažení můžete provést předem, webový prohížeč si jej uloží ikdyž jej ukončíte.
+              <p class="mt-3">
+                Doporučujeme si stáhnout audiowalku<br>do mobilního zařízení.
               </p>
-              <div class="mt-5" *ngIf="downloadStatus | async as state" [ngSwitch]="state">
+              <p class="mt-1">Stažení můžete provést předem,<br />webový prohížeč si jej uloží ikdyž jej ukončíte.
+              </p>
+              <div class="mt-3" *ngIf="downloadStatus | async as state" [ngSwitch]="state">
                 <div *ngSwitchCase="'not-downloaded'">
 
                   <button class="btn btn-outline-primary" (click)="download()">
@@ -68,14 +73,15 @@
         <div class="row flex-grow-1 d-flex align-items-center justify-content-center"
           *ngIf="currentChapter === Chapter.attention">
           <div class="col-lg-6">
-            <i class="bi bi-heart-fill fs-0"></i>
+            <i class="bi bi-heart fs-0"></i>
             <div class="mt-3">
               <h2>Bezpečnost</h2>
-              <p class="mt-2">
-                Opravdu prosím dávejte pozor na sebe<br>i na všechny kolem sebe!
+              <p class="mt-3">
+                Prosím i&nbsp;ponořeni v&nbsp;příběhu vnímejte svět kolem vás. A&nbsp;to nejen abyste vnímali prostředí
+                současné Prahy.
               </p>
 
-              <button class="btn btn-primary mt-5" routerLink="/walk">
+              <button class="btn btn-primary mt-3" routerLink="/walk">
                 Spustit audiowalk <i class="bi bi-play-circle-fill"></i>
               </button>
 

@@ -19,15 +19,15 @@
     width: 100%;
     position: relative;
 
-    svg,
-    img {
+    #outputSvg,
+    #outputGps,
+    #mapImg {
       height: 1504.5px;
       width: 1301.75px;
       position: absolute;
-      transition-duration: 1s;
       transition-timing-function: ease-in-out;
       transform: matrix(1, 0, 0, 1, 0, 0);
-      transform-origin: 750px 650px;
+      transform-origin: 0px 0px;
     }
 
     svg {

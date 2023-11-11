@@ -32,7 +32,8 @@ export class MapComponent implements AfterViewInit, OnChanges {
   @ViewChild('outputSvg') outputSvg!: ElementRef<SVGSVGElement>;
   // @ViewChild('outputSvgClone') outputSvgClone!: ElementRef<SVGSVGElement>;
   @ViewChild('mapImg') mapImg!: ElementRef<HTMLImageElement>;
-  mapDrawn: boolean = false;
+  ngViewInited: boolean = false;
+  lastFlyToIndex: number | null = null;
 
   mapSize = {
     height: 1504.5,
@@ -62,19 +63,23 @@ export class MapComponent implements AfterViewInit, OnChanges {
   }
 
   async ngAfterViewInit(): Promise<void> {
-    // this.drawMap();
-    this.mapDrawn = true;
-
     setTimeout(() => {
-      if (this.chapter) this.flyToPath(this.chapter.pathIndex);
-    }, 200);
+      this.ngViewInited = true;
+      this.flyToPathIfNeccesary();
+    }, 500);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes["chapter"]) {
-      if (this.chapter && this.mapDrawn) this.flyToPath(this.chapter.pathIndex);
-      // TODO: if trackId is undefined, fly to map overview
+      this.flyToPathIfNeccesary();
     }
+  }
+
+  async flyToPathIfNeccesary() {
+    if (!this.chapter || this.lastFlyToIndex === this.chapter?.pathIndex || !this.ngViewInited) return;
+    this.lastFlyToIndex = this.chapter.pathIndex;
+    this.flyToPath(this.chapter.pathIndex);
+
   }
 
   async flyToPath(index: number) {
@@ -231,10 +236,9 @@ export class MapComponent implements AfterViewInit, OnChanges {
     const toY = Math.round(fromY + move.dy);
 
     const style = {
-      left: toX + "px",
-      top: toY + "px",
       transtionDuration: duration + "ms",
       transformOrigin: `${view.cx - toX}px ${view.cy - toY}px`,
+      // transformOrigin: `${view.cx - toX}px ${view.cy - toY}px`,
       // transform: `scale(${finalScale})`,
       transform: `matrix(${finalScale}, 0, 0, ${finalScale}, ${toX}, ${toY})`,
     }
