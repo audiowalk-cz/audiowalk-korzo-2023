@@ -1,6 +1,7 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { PlayerComponent } from "src/app/components/player/player.component";
 import { Chapters } from "src/app/data/chapters";
 import { Chapter } from "src/app/schema/chapter";
 import { Track } from "src/app/schema/track";
@@ -20,6 +21,8 @@ export class WalkComponent implements OnInit {
   chapter?: Chapter;
   chapterIndex?: number;
   chapterCount = Chapters.length;
+
+  @ViewChild(PlayerComponent) player?: PlayerComponent;
 
   constructor(
     private router: Router,
@@ -43,6 +46,10 @@ export class WalkComponent implements OnInit {
 
   endWalk() {
     this.router.navigate(["/end"]);
+  }
+
+  restartChapter() {
+    this.player?.restart();
   }
 
   nextChapter() {

@@ -3,19 +3,30 @@
 <div class="container g-0 w-100 h-100 walk-player">
   <div class="row g-0 flex-column justify-content-center w-100 h-100 p-3">
     <div *ngIf="chapter" class="col-lg-6 col-md-8 mb-auto mx-auto">
-      <app-chapter-info [chapter]="chapter" [chapterIndex]="chapterIndex!"
-        [chapterCount]="chapterCount"></app-chapter-info>
+      <app-chapter-info
+        [chapter]="chapter"
+        [chapterIndex]="chapterIndex!"
+        [chapterCount]="chapterCount"
+      ></app-chapter-info>
     </div>
 
     <div *ngIf="track" class="col-lg-6 col-md-8 mx-auto" [ngSwitch]="track.type">
-      <app-player *ngSwitchCase="'audio'" [track]="track" [autoPlay]="false" (progress)="saveProgress($event)"
-        (nextChapter)="nextChapter()">
+      <app-player
+        *ngSwitchCase="'audio'"
+        [track]="track"
+        [autoPlay]="false"
+        (progress)="saveProgress($event)"
+        (nextChapter)="nextChapter()"
+      >
         <app-player-menu>
           <app-player-menu-item routerLink="/" class="text-danger">
             <i class="bi bi-x-circle-fill"></i> Opustit audiowalk
           </app-player-menu-item>
           <app-player-menu-item routerLink="/chapters">
             <i class="bi bi-list-ol"></i> Přehled kapitol
+          </app-player-menu-item>
+          <app-player-menu-item (click)="restartChapter()">
+            <i class="bi bi-skip-start-fill"></i> Začátek kapitoly
           </app-player-menu-item>
           <app-player-menu-item (click)="nextChapter()">
             <i class="bi bi-fast-forward-fill"></i> Další kapitola

@@ -44,7 +44,7 @@ export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
 
   @ContentChild(PlayerMenuComponent) menu?: PlayerMenuComponent;
 
-  constructor(private cdRef: ChangeDetectorRef) { }
+  constructor(private cdRef: ChangeDetectorRef) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes["track"]) {
@@ -112,10 +112,10 @@ export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.audioPlayer.nativeElement.removeEventListener("play", () => { });
-    this.audioPlayer.nativeElement.removeEventListener("pause", () => { });
-    this.audioPlayer.nativeElement.removeEventListener("ended", () => { });
-    this.audioPlayer.nativeElement.removeEventListener("timeupdate", () => { });
+    this.audioPlayer.nativeElement.removeEventListener("play", () => {});
+    this.audioPlayer.nativeElement.removeEventListener("pause", () => {});
+    this.audioPlayer.nativeElement.removeEventListener("ended", () => {});
+    this.audioPlayer.nativeElement.removeEventListener("timeupdate", () => {});
   }
 
   async loadTrack(track: Track) {
@@ -176,10 +176,13 @@ export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
     this.audioPlayer.nativeElement.src = "";
   }
 
+  restart() {
+    this.audioPlayer.nativeElement.currentTime = 0;
+  }
+
   rewind() {
     this.audioPlayer.nativeElement.currentTime = Math.max(0, this.audioPlayer.nativeElement.currentTime - 10);
   }
-
 
   touchStart() {
     console.log("touch");
