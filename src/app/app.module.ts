@@ -23,6 +23,7 @@ import { VideoComponent } from './components/video/video.component';
 import { PinchZoomModule } from "@meddv/ngx-pinch-zoom";
 import { TestComponent } from "./pages/test/test.component";
 import { ShareComponent } from "./pages/share/share.component";
+import { PinchableComponent } from './components/pinchable/pinchable.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { ShareComponent } from "./pages/share/share.component";
     PlayerMenuItemComponent,
     VideoComponent,
     TestComponent,
-    ShareComponent
+    ShareComponent,
+    PinchableComponent
   ],
   imports: [
     BrowserModule,
