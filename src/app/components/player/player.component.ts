@@ -99,6 +99,12 @@ export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
         this.offline = false;
       });
 
+      this.audioPlayer.nativeElement.addEventListener("loadedmetadata", (event) => {
+        if (this.audioPlayer.nativeElement.duration) {
+          this.totalTime = this.audioPlayer.nativeElement.duration;
+        }
+      });
+
       this.audioPlayer.nativeElement.addEventListener("timeupdate", (event) => {
         this.currentTime = this.audioPlayer.nativeElement.currentTime;
         this.onProgress.emit(this.currentTime);
