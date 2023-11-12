@@ -34,7 +34,10 @@ export class LocationService {
         this.gpsPosition.next(position);
         if (this.gpsStatus.value !== GpsStatus.on) this.gpsStatus.next(GpsStatus.on);
       },
-      () => this.gpsStatus.next(GpsStatus.error),
+      (err) => {
+        this.gpsStatus.next(GpsStatus.error);
+        console.error(err);
+      },
       { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
     );
 
