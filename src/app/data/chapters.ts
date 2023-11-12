@@ -8,7 +8,7 @@ export const Chapters: Chapter[] = [
     durationMinutes: 14,
     description: "",
     pathIndex: 0,
-    track: TrackId["spejbl-1"],
+    track: TrackId["track-1"],
   },
   {
     title: "Střetnutí s letáky a prádlem",
@@ -16,7 +16,7 @@ export const Chapters: Chapter[] = [
     durationMinutes: 3,
     description: "",
     pathIndex: 1,
-    track: TrackId["spejbl-2"],
+    track: TrackId["track-2"],
   },
   {
     title: "Ty jsi tam byl taky?",
@@ -24,7 +24,7 @@ export const Chapters: Chapter[] = [
     durationMinutes: 10,
     description: "",
     pathIndex: 2,
-    track: TrackId["spejbl-3"],
+    track: TrackId["track-3"],
   },
   {
     title: "Citlivé materiály",
@@ -32,7 +32,7 @@ export const Chapters: Chapter[] = [
     durationMinutes: 7,
     description: "",
     pathIndex: 3,
-    track: TrackId["spejbl-4"],
+    track: TrackId["track-4"],
   },
   {
     title: "Ve škole života není prázdnin",
@@ -40,7 +40,7 @@ export const Chapters: Chapter[] = [
     durationMinutes: 9,
     description: "",
     pathIndex: 4,
-    track: TrackId["spejbl-5"],
+    track: TrackId["track-5"],
   },
   {
     title: "Divadelní stávka",
@@ -48,7 +48,7 @@ export const Chapters: Chapter[] = [
     durationMinutes: 12,
     description: "",
     pathIndex: 5,
-    track: TrackId["spejbl-6"],
+    track: TrackId["track-6"],
   },
   {
     title: "Co bude pak?",
@@ -56,6 +56,6 @@ export const Chapters: Chapter[] = [
     durationMinutes: 6,
     description: "",
     pathIndex: 6,
-    track: TrackId["spejbl-7"],
+    track: TrackId["track-7"],
   },
 ];

@@ -1,62 +1,62 @@
 import { TrackDefinition } from "../schema/track";
 
 export enum TrackId {
-  "spejbl-1" = "spejbl-1",
-  "spejbl-2" = "spejbl-2",
-  "spejbl-3" = "spejbl-3",
-  "spejbl-4" = "spejbl-4",
-  "spejbl-5" = "spejbl-5",
-  "spejbl-6" = "spejbl-6",
-  "spejbl-7" = "spejbl-7",
+  "track-1" = "track-1",
+  "track-2" = "track-2",
+  "track-3" = "track-3",
+  "track-4" = "track-4",
+  "track-5" = "track-5",
+  "track-6" = "track-6",
+  "track-7" = "track-7",
   "havel" = "havel",
 }
 
 export const Tracks: { [key in TrackId]: { id: key } & TrackDefinition } = {
-  "spejbl-1": {
-    id: TrackId["spejbl-1"],
+  "track-1": {
+    id: TrackId["track-1"],
     title: "Spejbl 1",
-    url: "assets/audio/spejbl-1.mp3",
+    url: "assets/audio/track-1.mp3",
     type: "audio",
     mimeType: "audio/mpeg",
   },
-  "spejbl-2": {
-    id: TrackId["spejbl-2"],
+  "track-2": {
+    id: TrackId["track-2"],
     title: "Spejbl 2",
-    url: "assets/audio/spejbl-2.mp3",
+    url: "assets/audio/track-2.mp3",
     type: "audio",
     mimeType: "audio/mpeg",
   },
-  "spejbl-3": {
-    id: TrackId["spejbl-3"],
-    title: "Spejbl 3",
-    url: "assets/audio/spejbl-3.mp3",
+  "track-3": {
+    id: TrackId["track-3"],
+    title: "track 3",
+    url: "assets/audio/track-3.mp3",
     type: "audio",
     mimeType: "audio/mpeg",
   },
-  "spejbl-4": {
-    id: TrackId["spejbl-4"],
-    title: "Spejbl 4",
-    url: "assets/audio/spejbl-4.mp3",
+  "track-4": {
+    id: TrackId["track-4"],
+    title: "track 4",
+    url: "assets/audio/track-4.mp3",
     type: "audio",
     mimeType: "audio/mpeg",
   },
-  "spejbl-5": {
-    id: TrackId["spejbl-5"],
-    title: "Spejbl 5",
+  "track-5": {
+    id: TrackId["track-5"],
+    title: "track 5",
     url: "assets/audio/spejbl-5.mp3",
     type: "audio",
     mimeType: "audio/mpeg",
   },
-  "spejbl-6": {
-    id: TrackId["spejbl-6"],
-    title: "Spejbl 6",
+  "track-6": {
+    id: TrackId["track-6"],
+    title: "track 6",
     url: "assets/audio/spejbl-6.mp3",
     type: "audio",
     mimeType: "audio/mpeg",
   },
-  "spejbl-7": {
-    id: TrackId["spejbl-7"],
-    title: "Spejbl 7",
+  "track-7": {
+    id: TrackId["track-7"],
+    title: "track 7",
     url: "assets/audio/spejbl-7.mp3",
     type: "audio",
     mimeType: "audio/mpeg",
