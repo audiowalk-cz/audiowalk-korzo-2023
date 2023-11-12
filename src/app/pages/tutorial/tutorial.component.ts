@@ -1,32 +1,34 @@
-import { Component } from "@angular/core";
-import { Router } from "@angular/router";
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { TrackDefinition } from "src/app/schema/track";
+import { LocationService } from "src/app/services/location.service";
 import { MediaService } from "src/app/services/media.service";
 
 export enum Chapter {
   "navigation",
   "sound",
   "download",
+  "gps",
   "attention",
-};
+}
+
+@UntilDestroy()
 @Component({
   selector: "app-tutorial",
   templateUrl: "./tutorial.component.html",
   styleUrls: ["./tutorial.component.scss"],
 })
-export class TutorialComponent {
-  currentChapter: Chapter = Chapter.navigation;
+export class TutorialComponent implements OnInit {
+  currentChapter?: Chapter;
   Chapter = Chapter;
-  chapterOrder = [
-    Chapter.navigation,
-    Chapter.sound,
-    Chapter.download,
-    Chapter.attention,
-  ];
+  chapterOrder = [Chapter.navigation, Chapter.sound, Chapter.download, Chapter.gps, Chapter.attention];
 
   public downloadStatus = this.mediaService.downloadStatus;
   public downloadProgress = this.mediaService.downloadProgress;
   public downloadSkipped = false;
+
+  public gpsStatus = this.locationService.gpsStatus;
 
   readonly testTrack: TrackDefinition = {
     id: "test",
@@ -38,8 +40,19 @@ export class TutorialComponent {
 
   constructor(
     private router: Router,
-    private mediaService: MediaService
-  ) { }
+    private route: ActivatedRoute,
+    private mediaService: MediaService,
+    private locationService: LocationService
+  ) {}
+
+  ngOnInit(): void {
+    this.route.queryParams.pipe(untilDestroyed(this)).subscribe((params) => {
+      const chapter = parseInt(params["chapter"]);
+
+      if (!chapter || this.chapterOrder[chapter - 1] === undefined) this.openDefaultChapter();
+      this.currentChapter = this.chapterOrder[chapter - 1];
+    });
+  }
 
   openNavigation() {
     const address = "Nám. Václava Havla, 110 00 Nové Město";
@@ -56,22 +69,35 @@ export class TutorialComponent {
     this.downloadSkipped = inputEl.checked;
   }
 
+  enableGps() {
+    this.locationService.enableGps();
+  }
+
+  disableGps() {
+    this.locationService.disableGps();
+  }
+
+  openChapter(chapter: number) {
+    this.router.navigate(["/tutorial"], { queryParams: { chapter: chapter + 1 } });
+  }
+
+  openDefaultChapter() {
+    this.openChapter(0);
+  }
+
   nextChapter() {
+    if (this.currentChapter === undefined) return;
     const currentChapterIndex = this.chapterOrder.indexOf(this.currentChapter);
-    this.currentChapter = this.chapterOrder[
-      Math.min(
-        currentChapterIndex + 1,
-        this.chapterOrder.length - 1
-      )
-    ]
+    this.openChapter(Math.min(currentChapterIndex + 1, this.chapterOrder.length - 1));
   }
 
   backChapter() {
+    if (this.currentChapter === undefined) return;
     const currentChapterIndex = this.chapterOrder.indexOf(this.currentChapter);
     if (currentChapterIndex === 0) {
       this.router.navigate(["/"]);
     } else {
-      this.currentChapter = this.chapterOrder[currentChapterIndex - 1]
+      this.openChapter(currentChapterIndex - 1);
     }
   }
 }

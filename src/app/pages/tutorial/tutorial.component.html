@@ -2,24 +2,30 @@
   <app-page-content>
     <div class="container-sm h-100">
       <div class="h-100 d-flex flex-column text-center">
-        <div class="row flex-grow-1 d-flex align-items-center justify-content-center"
-          *ngIf="currentChapter === Chapter.navigation">
+        <div
+          class="row flex-grow-1 d-flex align-items-center justify-content-center"
+          *ngIf="currentChapter === Chapter.navigation"
+        >
           <div class="col-lg-6">
             <i class="bi bi-person-walking fs-0"></i>
             <div class="mt-3">
               <h2>Začátek trasy</h2>
-              <p class="mt-3">Trasa začíná u&nbsp;Nové scény Národního Divadla,<br />má 7&nbsp;zastávek a trvá zhruba
-                70&nbsp;minut.</p>
-              <p class="mt-1">Dojděte k&nbsp;Srdci pro Václava Havla<br />(piazetta Národního divadla) na&nbsp;Starém
-                Městě
+              <p class="mt-3">
+                Trasa začíná u&nbsp;Nové scény Národního Divadla,<br />má 7&nbsp;zastávek a trvá zhruba 70&nbsp;minut.
+              </p>
+              <p class="mt-1">
+                Dojděte k&nbsp;Srdci pro Václava Havla<br />(piazetta Národního divadla) na&nbsp;Starém Městě
               </p>
               <button class="btn btn-outline-primary mt-3" (click)="openNavigation()">
-                Navigovat&nbsp;&nbsp;&nbsp;<i class="bi bi-box-arrow-up-right"></i></button>
+                Navigovat&nbsp;&nbsp;&nbsp;<i class="bi bi-box-arrow-up-right"></i>
+              </button>
             </div>
           </div>
         </div>
-        <div class="row flex-grow-1 d-flex align-items-center justify-content-center"
-          *ngIf="currentChapter === Chapter.sound">
+        <div
+          class="row flex-grow-1 d-flex align-items-center justify-content-center"
+          *ngIf="currentChapter === Chapter.sound"
+        >
           <div class="col-lg-6">
             <i class="bi bi-earbuds fs-0"></i>
             <div class="mt-3">
@@ -32,31 +38,27 @@
             </div>
           </div>
         </div>
-        <div class="row flex-grow-1 d-flex align-items-center justify-content-center"
-          *ngIf="currentChapter === Chapter.download">
+        <div
+          class="row flex-grow-1 d-flex align-items-center justify-content-center"
+          *ngIf="currentChapter === Chapter.download"
+        >
           <div class="col-lg-6">
             <i class="bi bi-cloud-download fs-0"></i>
             <div class="mt-3">
               <h2>Offline</h2>
-              <p class="mt-3">
-                Doporučujeme si stáhnout audiowalku<br>do mobilního zařízení.
-              </p>
-              <p class="mt-1">Stažení můžete provést předem,<br />webový prohížeč si jej uloží ikdyž jej ukončíte.
-              </p>
+              <p class="mt-3">Doporučujeme si stáhnout audiowalku<br />do mobilního zařízení.</p>
+              <p class="mt-1">Stažení můžete provést předem,<br />webový prohížeč si jej uloží ikdyž jej ukončíte.</p>
               <div class="mt-3" *ngIf="downloadStatus | async as state" [ngSwitch]="state">
                 <div *ngSwitchCase="'not-downloaded'">
-
                   <button class="btn btn-outline-primary" (click)="download()">
                     Stáhnout <i class="bi bi-download"></i>
                   </button>
                   <p class="text-secondary">(cca 70MB)</p>
                 </div>
                 <p *ngSwitchCase="'downloading'">
-                  <i class="bi bi-hourglass-split"></i><br>Stahuji... {{ downloadProgress | async | percent }}
+                  <i class="bi bi-hourglass-split"></i><br />Stahuji... {{ downloadProgress | async | percent }}
                 </p>
-                <p *ngSwitchCase="'checking'">
-                  <i class="bi bi-hourglass-split"></i> Kontroluji...
-                </p>
+                <p *ngSwitchCase="'checking'"><i class="bi bi-hourglass-split"></i> Kontroluji...</p>
                 <p class="text-success" *ngSwitchCase="'downloaded'">
                   <i class="bi bi-check-circle"></i> Hotovo, audiowalk je připraven pro offline použití!
                 </p>
@@ -70,8 +72,49 @@
             </div>
           </div>
         </div>
-        <div class="row flex-grow-1 d-flex align-items-center justify-content-center"
-          *ngIf="currentChapter === Chapter.attention">
+
+        <div
+          class="row flex-grow-1 d-flex align-items-center justify-content-center"
+          *ngIf="currentChapter === Chapter.gps"
+        >
+          <div class="col-lg-6">
+            <i class="bi bi-cloud-download fs-0"></i>
+            <div class="mt-3">
+              <h2>GPS</h2>
+              <p class="mt-3">Pro lepší oriantaci v mapě si můžete zapnout zobrazování vaší polohy pomcí GPS</p>
+              <p class="mt-1">
+                Vaše poloha nabude nikam odesílána, pouze zobrazena v mapě. Zobrazení polohy nevyžaduje připojení k
+                internetu.
+              </p>
+              <div class="mt-3" *ngIf="gpsStatus | async as state" [ngSwitch]="state">
+                <div *ngSwitchCase="'off'">
+                  <button class="btn btn-outline-primary" (click)="enableGps()">Zapnout GPS</button>
+                </div>
+                <div *ngSwitchCase="'on'">
+                  <p class="text-success"><i class="bi bi-crosshair"></i>&nbsp;GPS zapnuta</p>
+                  <button class="btn btn-outline-primary" (click)="disableGps()">Vypnout GPS</button>
+                </div>
+                <div *ngSwitchCase="'searching'">
+                  <p class="text-warning"><i class="bi bi-crosshair"></i>Hledám polohu&hellip;</p>
+                  <button class="btn btn-outline-primary" (click)="disableGps()">Vypnout GPS</button>
+                </div>
+                <p *ngSwitchCase="'searching'"></p>
+
+                <p class="text-warning mt-2" *ngSwitchCase="'error'">
+                  <i class="bi bi-emoji-frown"></i>
+                  Nastala Chyba při zapínání GPS. Pokud jste omylem odmítli poskytování polohy, musíte jej opět povolit
+                  v oprávnění stránky v nastavení prohlížeče.<br />
+                  <button class="btn btn-outline-primary" (click)="enableGps()">Zkusit znovu</button>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="row flex-grow-1 d-flex align-items-center justify-content-center"
+          *ngIf="currentChapter === Chapter.attention"
+        >
           <div class="col-lg-6">
             <i class="bi bi-heart fs-0"></i>
             <div class="mt-3">
@@ -86,23 +129,32 @@
               </button>
 
               <p *ngIf="!downloadSkipped && (downloadStatus | async) !== 'downloaded'" class="text-warning mt-2">
-                Přehrávání bude stahovat<br>data o objemu cca 70MB!
+                Přehrávání bude stahovat<br />data o objemu cca 70MB!
               </p>
             </div>
           </div>
         </div>
         <footer class="row py-4">
           <div class="col-4 d-flex align-items-center">
-            <button type="button" class="btn btn-link text-secondary" (click)="backChapter()">
-              Zpět</button>
+            <button type="button" class="btn btn-link text-secondary" (click)="backChapter()">Zpět</button>
           </div>
           <div class="col-4 d-flex align-items-center justify-content-center">
-            <i *ngFor="let chapter of chapterOrder; let i = index"
-              [class]="'bi bi-dot fs-3 ' + ((chapterOrder.indexOf(chapter) === chapterOrder.indexOf(currentChapter)) ? '' : 'text-secondary-emphasis')"></i>
+            <i
+              *ngFor="let chapter of chapterOrder; let i = index"
+              [class]="
+                'bi bi-dot fs-3 ' +
+                (currentChapter !== undefined && chapterOrder.indexOf(chapter) === chapterOrder.indexOf(currentChapter)
+                  ? ''
+                  : 'text-secondary-emphasis')
+              "
+            ></i>
           </div>
           <div class="col-4 d-flex align-items-center justify-content-end">
-            <button class="btn btn-primary" (click)="nextChapter()"
-              *ngIf="chapterOrder.indexOf(currentChapter) !== chapterOrder.length - 1">
+            <button
+              class="btn btn-primary"
+              (click)="nextChapter()"
+              *ngIf="currentChapter !== undefined && chapterOrder.indexOf(currentChapter) !== chapterOrder.length - 1"
+            >
               Další
             </button>
           </div>

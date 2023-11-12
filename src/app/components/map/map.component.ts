@@ -8,17 +8,13 @@ import {
   SimpleChanges,
   ViewChild,
 } from "@angular/core";
+import { UntilDestroy } from "@ngneat/until-destroy";
 import rough from "roughjs";
-import { BehaviorSubject, Subject } from "rxjs";
+import { map } from "rxjs";
 import { Chapter } from "src/app/schema/chapter";
+import { LocationService } from "src/app/services/location.service";
 
-// type GpsStatus = "on" | "off" | "error";
-enum GpsStatus {
-  "on",
-  "off",
-  "error"
-}
-
+@UntilDestroy()
 @Component({
   selector: "app-map",
   templateUrl: "./map.component.html",
@@ -28,17 +24,17 @@ export class MapComponent implements AfterViewInit, OnChanges {
   // @ViewChild("originalSvg") originalSvg!: ElementRef<SVGElement>;
   @ViewChild("wrapper") wrapper!: ElementRef<HTMLDivElement>;
   // @ViewChild('outputCanvas') outputCanvas!: ElementRef<HTMLCanvasElement>;
-  @ViewChild('outputGps') outputGps!: ElementRef<SVGElement>;
-  @ViewChild('outputSvg') outputSvg!: ElementRef<SVGSVGElement>;
+  @ViewChild("outputGps") outputGps!: ElementRef<SVGElement>;
+  @ViewChild("outputSvg") outputSvg!: ElementRef<SVGSVGElement>;
   // @ViewChild('outputSvgClone') outputSvgClone!: ElementRef<SVGSVGElement>;
-  @ViewChild('mapImg') mapImg!: ElementRef<HTMLImageElement>;
+  @ViewChild("mapImg") mapImg!: ElementRef<HTMLImageElement>;
   ngViewInited: boolean = false;
   lastFlyToIndex: number | null = null;
 
   mapSize = {
     height: 1504.5,
     width: 1301.75,
-  }
+  };
 
   currentView = {
     scale: 1,
@@ -48,19 +44,14 @@ export class MapComponent implements AfterViewInit, OnChanges {
 
   @Input() chapter?: Chapter;
 
-  GpsStatus = GpsStatus;
-  gpsStatus = new BehaviorSubject<GpsStatus>(GpsStatus.off);
-  gpsPosition = new Subject<[number, number]>();
-  gpsPosNormal1 = this.transformGpsPosition({ longitude: 14.4190303, latitude: 50.0863744 });
-  gpsPosNormal2 = this.transformGpsPosition({ longitude: 14.4157847, latitude: 50.0823156 });
+  gpsPosition = this.locationService.gpsPosition.pipe(
+    map((pos) => (pos ? this.transformGpsPosition(pos.coords) : null))
+  );
 
+  gpsPosNormal1 = this.transformGpsPosition({ longitude: 14.4190303, latitude: 50.0863744, heading: null });
+  gpsPosNormal2 = this.transformGpsPosition({ longitude: 14.4157847, latitude: 50.0823156, heading: null });
 
-  gpsPositionNormal?: [number, number];
-
-  gpsWatchSubscription?: number;
-
-  constructor(private renderer: Renderer2) {
-  }
+  constructor(private renderer: Renderer2, private locationService: LocationService) {}
 
   async ngAfterViewInit(): Promise<void> {
     // this.wrapper.nativeElement.style.transition = "opacity 1s ease-in-out";
@@ -81,7 +72,6 @@ export class MapComponent implements AfterViewInit, OnChanges {
     if (!this.chapter || this.lastFlyToIndex === this.chapter?.pathIndex || !this.ngViewInited) return;
     this.lastFlyToIndex = this.chapter.pathIndex;
     this.flyToPath(this.chapter.pathIndex);
-
   }
 
   async flyToPath(index: number) {
@@ -172,17 +162,13 @@ export class MapComponent implements AfterViewInit, OnChanges {
 
       this.outputSvg.nativeElement.appendChild(svgpath);
 
-      const svgCircle = rc.circle(
-        allCircles[i].cx.baseVal.value,
-        allCircles[i].cy.baseVal.value,
-        20, {
+      const svgCircle = rc.circle(allCircles[i].cx.baseVal.value, allCircles[i].cy.baseVal.value, 20, {
         roughness: 0.3,
         fill: "rgba(255,255,255,0)",
         fillStyle: "solid",
         // stroke: "rgba(255,255,255,0.1)",
         strokeWidth: 0,
-      }
-      );
+      });
       svgCircle.classList.add("circle");
       this.outputSvg.nativeElement.appendChild(svgCircle);
     }
@@ -243,13 +229,12 @@ export class MapComponent implements AfterViewInit, OnChanges {
       // transformOrigin: `${view.cx - toX}px ${view.cy - toY}px`,
       // transform: `scale(${finalScale})`,
       transform: `matrix(${finalScale}, 0, 0, ${finalScale}, ${toX}, ${toY})`,
-    }
+    };
 
     this.currentView.tX = toX;
     this.currentView.tY = toY;
 
-
-    console.log(style.transform)
+    console.log(style.transform);
 
     // this.outputSvg.nativeElement.style.left = style.left;
     // this.outputSvg.nativeElement.style.top = style.top;
@@ -274,42 +259,24 @@ export class MapComponent implements AfterViewInit, OnChanges {
     this.mapImg.nativeElement.style.transitionDuration = style.transtionDuration;
     this.mapImg.nativeElement.style.transformOrigin = style.transformOrigin;
     this.mapImg.nativeElement.style.transform = style.transform;
-
-  }
-
-  enableGps() {
-    this.gpsStatus.next(GpsStatus.on);
-    if (this.gpsWatchSubscription) navigator.geolocation!.clearWatch(this.gpsWatchSubscription);
-
-    navigator.geolocation!.watchPosition(
-      (position) => {
-        this.gpsPositionNormal = this.transformGpsPosition(position.coords)
-        this.gpsPosition.next(this.transformGpsPosition(position.coords));
-      },
-      () => {
-        this.gpsStatus.next(GpsStatus.error);
-      },
-      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
-    );
-  }
-
-  disableGps() {
-    this.gpsStatus.next(GpsStatus.off);
-    if (this.gpsWatchSubscription) navigator.geolocation!.clearWatch(this.gpsWatchSubscription);
   }
 
   private transformGpsPosition(
-    coordinates: { latitude: number; longitude: number }
-  ): [number, number] {
+    coords: Pick<GeolocationCoordinates, "latitude" | "longitude" | "heading">
+  ): [number, number, number | null] {
     const bounds = {
       left: 14.3976,
       right: 14.4386,
       top: 50.0997,
       bottom: 50.0677,
     };
-    return [
-      Math.round(this.mapSize.width * (coordinates.longitude - bounds.left) / (bounds.right - bounds.left)),
-      Math.round(this.mapSize.height - this.mapSize.height * (coordinates.latitude - bounds.bottom) / (bounds.top - bounds.bottom)),
-    ];
+
+    const x = Math.round((this.mapSize.width * (coords.longitude - bounds.left)) / (bounds.right - bounds.left));
+    const y = Math.round(
+      this.mapSize.height - (this.mapSize.height * (coords.latitude - bounds.bottom)) / (bounds.top - bounds.bottom)
+    );
+    const heading = coords.heading || null;
+
+    return [x, y, heading];
   }
 }
