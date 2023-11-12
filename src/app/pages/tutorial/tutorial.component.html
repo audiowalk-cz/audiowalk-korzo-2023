@@ -4,7 +4,7 @@
       <div class="h-100 d-flex flex-column text-center">
         <div
           class="row flex-grow-1 d-flex align-items-center justify-content-center"
-          *ngIf="currentChapter === Chapter.navigation"
+          *ngIf="tutorialStep === TutorialSteps.navigation"
         >
           <div class="col-lg-6">
             <i class="bi bi-person-walking fs-0"></i>
@@ -24,7 +24,7 @@
         </div>
         <div
           class="row flex-grow-1 d-flex align-items-center justify-content-center"
-          *ngIf="currentChapter === Chapter.sound"
+          *ngIf="tutorialStep === TutorialSteps.sound"
         >
           <div class="col-lg-6">
             <i class="bi bi-earbuds fs-0"></i>
@@ -40,7 +40,7 @@
         </div>
         <div
           class="row flex-grow-1 d-flex align-items-center justify-content-center"
-          *ngIf="currentChapter === Chapter.download"
+          *ngIf="tutorialStep === TutorialSteps.download"
         >
           <div class="col-lg-6">
             <i class="bi bi-cloud-download fs-0"></i>
@@ -75,7 +75,7 @@
 
         <div
           class="row flex-grow-1 d-flex align-items-center justify-content-center"
-          *ngIf="currentChapter === Chapter.gps"
+          *ngIf="tutorialStep === TutorialSteps.gps"
         >
           <div class="col-lg-6">
             <i class="bi bi-geo-alt fs-0"></i>
@@ -113,7 +113,7 @@
 
         <div
           class="row flex-grow-1 d-flex align-items-center justify-content-center"
-          *ngIf="currentChapter === Chapter.attention"
+          *ngIf="tutorialStep === TutorialSteps.attention"
         >
           <div class="col-lg-6">
             <i class="bi bi-heart fs-0"></i>
@@ -124,8 +124,14 @@
                 současné Prahy.
               </p>
 
-              <button class="btn btn-primary mt-3" routerLink="/walk">
+              <button *ngIf="!(currentChapter | async)" class="btn btn-primary mt-3" routerLink="/walk">
                 Spustit audiowalk <i class="bi bi-play-circle-fill"></i>
+              </button>
+              <button *ngIf="currentChapter | async" class="btn btn-primary mt-3" routerLink="/walk">
+                Pokračovat v audiowalku <i class="bi bi-play-circle-fill"></i>
+              </button>
+              <button *ngIf="currentChapter | async" class="btn btn-outline-primary mt-3" routerLink="/chapters">
+                Výběr kapitol <i class="bi bi-list-ul"></i>
               </button>
 
               <p *ngIf="!downloadSkipped && (downloadStatus | async) !== 'downloaded'" class="text-warning mt-2">
@@ -140,10 +146,11 @@
           </div>
           <div class="col-4 d-flex align-items-center justify-content-center">
             <i
-              *ngFor="let chapter of chapterOrder; let i = index"
+              *ngFor="let chapter of tutorialStepsOrder; let i = index"
               [class]="
                 'bi bi-dot fs-3 ' +
-                (currentChapter !== undefined && chapterOrder.indexOf(chapter) === chapterOrder.indexOf(currentChapter)
+                (tutorialStep !== undefined &&
+                tutorialStepsOrder.indexOf(chapter) === tutorialStepsOrder.indexOf(tutorialStep)
                   ? ''
                   : 'text-secondary-emphasis')
               "
@@ -153,7 +160,9 @@
             <button
               class="btn btn-primary"
               (click)="nextChapter()"
-              *ngIf="currentChapter !== undefined && chapterOrder.indexOf(currentChapter) !== chapterOrder.length - 1"
+              *ngIf="
+                tutorialStep !== undefined && tutorialStepsOrder.indexOf(tutorialStep) !== tutorialStepsOrder.length - 1
+              "
             >
               Další
             </button>

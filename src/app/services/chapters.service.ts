@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { BehaviorSubject } from "rxjs";
 import { Chapters } from "../data/chapters";
 import { LocalStorageService } from "./local-storage.service";
 
@@ -6,7 +7,11 @@ import { LocalStorageService } from "./local-storage.service";
   providedIn: "root",
 })
 export class ChaptersService {
-  constructor(private localStorage: LocalStorageService) {}
+  currentChapter = new BehaviorSubject<number | null>(null);
+
+  constructor(private localStorage: LocalStorageService) {
+    this.getCurrentChapter().then((chapter) => this.currentChapter.next(chapter));
+  }
 
   getChapters() {
     return Chapters;
@@ -18,6 +23,7 @@ export class ChaptersService {
   }
 
   async saveCurrentChapter(chapter: number) {
+    this.currentChapter.next(chapter);
     await this.localStorage.set("chapter", chapter);
   }
 }

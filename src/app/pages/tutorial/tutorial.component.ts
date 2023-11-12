@@ -2,10 +2,11 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { TrackDefinition } from "src/app/schema/track";
+import { ChaptersService } from "src/app/services/chapters.service";
 import { LocationService } from "src/app/services/location.service";
 import { MediaService } from "src/app/services/media.service";
 
-export enum Chapter {
+export enum TutorialSteps {
   "navigation",
   "sound",
   "download",
@@ -20,15 +21,23 @@ export enum Chapter {
   styleUrls: ["./tutorial.component.scss"],
 })
 export class TutorialComponent implements OnInit {
-  currentChapter?: Chapter;
-  Chapter = Chapter;
-  chapterOrder = [Chapter.navigation, Chapter.sound, Chapter.download, Chapter.gps, Chapter.attention];
+  tutorialStep?: TutorialSteps;
+  TutorialSteps = TutorialSteps;
+  tutorialStepsOrder = [
+    TutorialSteps.navigation,
+    TutorialSteps.sound,
+    TutorialSteps.download,
+    TutorialSteps.gps,
+    TutorialSteps.attention,
+  ];
 
   public downloadStatus = this.mediaService.downloadStatus;
   public downloadProgress = this.mediaService.downloadProgress;
   public downloadSkipped = false;
 
   public gpsStatus = this.locationService.gpsStatus;
+
+  public currentChapter = this.chaptersService.currentChapter;
 
   readonly testTrack: TrackDefinition = {
     id: "test",
@@ -42,15 +51,16 @@ export class TutorialComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private mediaService: MediaService,
-    private locationService: LocationService
+    private locationService: LocationService,
+    private chaptersService: ChaptersService
   ) {}
 
   ngOnInit(): void {
     this.route.queryParams.pipe(untilDestroyed(this)).subscribe((params) => {
       const chapter = parseInt(params["chapter"]);
 
-      if (!chapter || this.chapterOrder[chapter - 1] === undefined) this.openDefaultChapter();
-      this.currentChapter = this.chapterOrder[chapter - 1];
+      if (!chapter || this.tutorialStepsOrder[chapter - 1] === undefined) this.openDefaultChapter();
+      this.tutorialStep = this.tutorialStepsOrder[chapter - 1];
     });
   }
 
@@ -86,14 +96,14 @@ export class TutorialComponent implements OnInit {
   }
 
   nextChapter() {
-    if (this.currentChapter === undefined) return;
-    const currentChapterIndex = this.chapterOrder.indexOf(this.currentChapter);
-    this.openChapter(Math.min(currentChapterIndex + 1, this.chapterOrder.length - 1));
+    if (this.tutorialStep === undefined) return;
+    const currentChapterIndex = this.tutorialStepsOrder.indexOf(this.tutorialStep);
+    this.openChapter(Math.min(currentChapterIndex + 1, this.tutorialStepsOrder.length - 1));
   }
 
   backChapter() {
-    if (this.currentChapter === undefined) return;
-    const currentChapterIndex = this.chapterOrder.indexOf(this.currentChapter);
+    if (this.tutorialStep === undefined) return;
+    const currentChapterIndex = this.tutorialStepsOrder.indexOf(this.tutorialStep);
     if (currentChapterIndex === 0) {
       this.router.navigate(["/"]);
     } else {
