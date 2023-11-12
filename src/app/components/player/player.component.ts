@@ -130,6 +130,13 @@ export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
     navigator.mediaSession.metadata = new MediaMetadata({
       title: track.title ?? "Track",
       album: "Studentská revolta '89",
+      artwork: [
+        {
+          src: "/assets/img/media-bg.jpg",
+          sizes: "512x512",
+          type: "image/jpeg",
+        },
+      ],
     });
 
     this.cdRef.detectChanges();
