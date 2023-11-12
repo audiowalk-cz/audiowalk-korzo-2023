@@ -67,7 +67,7 @@ export class WalkComponent implements OnInit {
   }
 
   private openChapter(i: number) {
-    this.router.navigate(["/walk"], { queryParams: { chapter: String(i) } });
+    this.router.navigate(["/walk"], { queryParams: { chapter: String(i) }, replaceUrl: true });
   }
 
   private async loadChapter(chapter: number) {
