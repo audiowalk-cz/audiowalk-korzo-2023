@@ -63,7 +63,9 @@ export class MapComponent implements AfterViewInit, OnChanges {
   }
 
   async ngAfterViewInit(): Promise<void> {
+    // this.wrapper.nativeElement.style.transition = "opacity 1s ease-in-out";
     setTimeout(() => {
+      this.wrapper.nativeElement.classList.add("active");
       this.ngViewInited = true;
       this.flyToPathIfNeccesary();
     }, 500);
@@ -105,7 +107,7 @@ export class MapComponent implements AfterViewInit, OnChanges {
         left: 20,
         right: 20,
       },
-      2000,
+      2500,
       2000
     );
   }

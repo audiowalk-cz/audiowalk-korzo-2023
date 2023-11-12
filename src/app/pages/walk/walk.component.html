@@ -1,7 +1,7 @@
-<app-map [chapter]="chapter" class="container h-100"> </app-map>
+<app-map [chapter]="chapter" class="w-100 h-100"> </app-map>
 
-<div class="container h-100 walk-player">
-  <div class="row flex-column justify-content-center h-100 py-3">
+<div class="container g-0 w-100 h-100 walk-player">
+  <div class="row g-0 flex-column justify-content-center w-100 h-100 p-3">
     <div *ngIf="chapter" class="col-lg-6 col-md-8 mb-auto mx-auto">
       <app-chapter-info [chapter]="chapter" [chapterIndex]="chapterIndex!"
         [chapterCount]="chapterCount"></app-chapter-info>

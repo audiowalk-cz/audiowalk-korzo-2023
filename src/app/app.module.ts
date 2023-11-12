@@ -22,6 +22,7 @@ import { TimePipe } from "./pipes/time.pipe";
 import { VideoComponent } from './components/video/video.component';
 import { PinchZoomModule } from "@meddv/ngx-pinch-zoom";
 import { TestComponent } from "./pages/test/test.component";
+import { ShareComponent } from "./pages/share/share.component";
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { TestComponent } from "./pages/test/test.component";
     PlayerMenuItemComponent,
     VideoComponent,
     TestComponent,
+    ShareComponent
   ],
   imports: [
     BrowserModule,
