@@ -53,7 +53,6 @@ export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    console.log(this.menu);
     if (this.track) this.loadTrack(this.track);
 
     if (navigator.mediaSession) {
@@ -123,6 +122,15 @@ export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
     this.audioPlayer.nativeElement.removeEventListener("ended", () => {});
     this.audioPlayer.nativeElement.removeEventListener("timeupdate", () => {});
 
+    navigator.mediaSession.setActionHandler("play", null);
+    navigator.mediaSession.setActionHandler("pause", null);
+    navigator.mediaSession.setActionHandler("previoustrack", null);
+    navigator.mediaSession.setActionHandler("nexttrack", null);
+
+    this.audioPlayer.nativeElement.pause();
+    this.audioPlayer.nativeElement.currentTime = 0;
+    this.audioPlayer.nativeElement.src = "";
+    navigator.mediaSession.playbackState = "none";
     navigator.mediaSession.metadata = null;
   }
 
@@ -181,14 +189,6 @@ export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
   pause() {
     this.audioPlayer.nativeElement.pause();
     navigator.mediaSession.playbackState = "paused";
-  }
-
-  stop() {
-    this.audioPlayer.nativeElement.pause();
-    navigator.mediaSession.playbackState = "paused";
-    this.audioPlayer.nativeElement.currentTime = 0;
-    navigator.mediaSession.metadata = null;
-    this.audioPlayer.nativeElement.src = "";
   }
 
   restart() {
