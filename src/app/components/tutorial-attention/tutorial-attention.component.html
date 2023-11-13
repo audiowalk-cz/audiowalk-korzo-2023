@@ -1,0 +1,32 @@
+<div class="row flex-grow-1 d-flex align-items-center justify-content-center">
+  <div class="col-lg-6">
+    <i class="bi bi-heart fs-0"></i>
+    <div class="mt-3">
+      <h2>Bezpečnost</h2>
+      <p class="mt-3">
+        Prosím i&nbsp;ponořeni v&nbsp;příběhu vnímejte svět kolem vás. A&nbsp;to nejen abyste vnímali prostředí současné
+        Prahy.
+      </p>
+
+      <p *ngIf="(downloadStatus | async) !== 'downloaded'" class="text-warning mt-2">
+        Přehrávání bude stahovat<br />data o objemu cca 70MB!
+      </p>
+
+      <div>
+        <button *ngIf="!(currentChapter | async)" class="btn btn-primary mt-3" routerLink="/walk">
+          Spustit audiowalk <i class="bi bi-play-circle-fill"></i>
+        </button>
+      </div>
+      <div>
+        <button *ngIf="currentChapter | async" class="btn btn-primary mt-3" routerLink="/walk">
+          Pokračovat v audiowalku <i class="bi bi-play-circle-fill"></i>
+        </button>
+      </div>
+      <div>
+        <button *ngIf="currentChapter | async" class="btn btn-outline-primary mt-3" routerLink="/chapters">
+          Zvolit jinou kapitolu <i class="bi bi-list-ul"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

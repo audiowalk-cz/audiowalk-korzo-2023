@@ -1,0 +1,32 @@
+<div class="row flex-grow-1 d-flex align-items-center justify-content-center">
+  <div class="col-lg-6">
+    <i class="bi bi-cloud-download fs-0"></i>
+    <div class="mt-3">
+      <h2>Offline</h2>
+      <p class="mt-3">Doporučujeme si stáhnout audiowalk<br />do mobilního zařízení.</p>
+      <p class="mt-1">Stažení můžete provést předem,<br />audiowalk zůstane uložený i když zavřete webový prohlížeč.</p>
+      <div class="mt-3" *ngIf="downloadStatus | async as state" [ngSwitch]="state">
+        <div *ngSwitchCase="'not-downloaded'">
+          <button class="btn btn-outline-primary" (click)="download()">Stáhnout <i class="bi bi-download"></i></button>
+          <p class="text-secondary">(cca 70MB)</p>
+        </div>
+        <p *ngSwitchCase="'downloading'">
+          <i class="bi bi-hourglass-split"></i><br />Stahuji... {{ downloadProgress | async | percent }}
+        </p>
+        <p *ngSwitchCase="'checking'"><i class="bi bi-hourglass-split"></i> Kontroluji...</p>
+        <p class="text-success" *ngSwitchCase="'downloaded'">
+          <i class="bi bi-check-circle"></i> Hotovo, audiowalk je připraven pro&nbsp;offline použití!
+        </p>
+        <p *ngSwitchCase="'downloaded'">
+          <a class="text-danger clickable" (click)="delete()">Smazat uložený audiowalk</a>
+        </p>
+
+        <p class="text-warning mt-2" *ngSwitchCase="'error'">
+          <i class="bi bi-emoji-frown"></i>
+          Nastala Chyba při stahování.<br />
+          <button class="btn btn-outline-primary" (click)="download()">Zkusit znovu</button>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

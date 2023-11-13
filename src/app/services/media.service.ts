@@ -68,6 +68,16 @@ export class MediaService {
     }
   }
 
+  async deleteTracks() {
+    const trackDefs = Object.values(Tracks);
+
+    for (let [i, track] of trackDefs.entries()) {
+      await this.fileStorageService.delete(track.id).catch();
+    }
+
+    await this.updateDownloadStatus();
+  }
+
   async saveTrackProgress(track: TrackDefinition, progress: number) {
     await this.localStorageService.set(`progress-${track.id}`, progress);
   }

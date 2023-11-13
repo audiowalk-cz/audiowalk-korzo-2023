@@ -1,0 +1,36 @@
+<div class="row flex-grow-1 d-flex align-items-center justify-content-center">
+  <div class="col-lg-6">
+    <i class="bi bi-geo-alt fs-0"></i>
+    <div class="mt-3">
+      <h2>GPS</h2>
+      <p class="mt-3">Pro lepší orientaci v&nbsp;mapě si můžete zapnout zobrazování vaší polohy pomocí GPS</p>
+      <p class="mt-1">
+        Vaše poloha se nikde neukládá, je pouze zobrazena v&nbsp;mapě.<br />Zobrazení polohy nevyžaduje připojení
+        k&nbsp;internetu.
+      </p>
+      <div class="mt-3" *ngIf="gpsStatus | async as state" [ngSwitch]="state">
+        <div *ngSwitchCase="'off'">
+          <button class="btn btn-outline-primary" (click)="enableGps()">
+            Zapnout GPS <i class="bi bi-geo-alt"></i>
+          </button>
+        </div>
+        <div *ngSwitchCase="'on'">
+          <p class="text-success"><i class="bi bi-crosshair"></i>&nbsp;GPS zapnuta</p>
+          <button class="btn btn-outline-primary" (click)="disableGps()">Vypnout GPS</button>
+        </div>
+        <div *ngSwitchCase="'searching'">
+          <p class="text-warning"><i class="bi bi-crosshair"></i>&nbsp;Hledám polohu&hellip;</p>
+          <button class="btn btn-outline-primary" (click)="disableGps()">Vypnout GPS</button>
+        </div>
+        <p *ngSwitchCase="'searching'"></p>
+
+        <p class="text-warning mt-2" *ngSwitchCase="'error'">
+          <i class="bi bi-emoji-frown"></i>
+          Nastala Chyba při zapínání GPS. Pokud jste omylem odmítli poskytování polohy, musíte jej opět povolit v
+          oprávnění stránky v nastavení prohlížeče.<br />
+          <button class="btn btn-outline-primary" (click)="enableGps()">Zkusit znovu</button>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

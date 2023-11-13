@@ -23,6 +23,11 @@ import { VideoComponent } from './components/video/video.component';
 import { PinchZoomModule } from "@meddv/ngx-pinch-zoom";
 import { TestComponent } from "./pages/test/test.component";
 import { ShareComponent } from "./pages/share/share.component";
+import { TutorialNavigationComponent } from './components/tutorial-navigation/tutorial-navigation.component';
+import { TutorialSoundComponent } from './components/tutorial-sound/tutorial-sound.component';
+import { TutorialDownloadComponent } from './components/tutorial-download/tutorial-download.component';
+import { TutorialGpsComponent } from './components/tutorial-gps/tutorial-gps.component';
+import { TutorialAttentionComponent } from './components/tutorial-attention/tutorial-attention.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +49,12 @@ import { ShareComponent } from "./pages/share/share.component";
     PlayerMenuItemComponent,
     VideoComponent,
     TestComponent,
-    ShareComponent
+    ShareComponent,
+    TutorialNavigationComponent,
+    TutorialSoundComponent,
+    TutorialDownloadComponent,
+    TutorialGpsComponent,
+    TutorialAttentionComponent
   ],
   imports: [
     BrowserModule,
