@@ -43,14 +43,14 @@ export const Tracks: { [key in TrackId]: { id: key } & TrackDefinition } = {
   "track-5": {
     id: TrackId["track-5"],
     title: "track 5",
-    url: "assets/audio/spejbl-5.mp3",
+    url: "assets/audio/track-5.mp3",
     type: "audio",
     mimeType: "audio/mpeg",
   },
   "track-6": {
     id: TrackId["track-6"],
     title: "track 6",
-    url: "assets/audio/spejbl-6.mp3",
+    url: "assets/audio/track-6.mp3",
     type: "audio",
     mimeType: "audio/mpeg",
   },
