@@ -44,7 +44,7 @@ export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
 
   @ContentChild(PlayerMenuComponent) menu?: PlayerMenuComponent;
 
-  constructor(private cdRef: ChangeDetectorRef) { }
+  constructor(private cdRef: ChangeDetectorRef) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes["track"]) {
@@ -118,10 +118,10 @@ export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.audioPlayer.nativeElement.removeEventListener("play", () => { });
-    this.audioPlayer.nativeElement.removeEventListener("pause", () => { });
-    this.audioPlayer.nativeElement.removeEventListener("ended", () => { });
-    this.audioPlayer.nativeElement.removeEventListener("timeupdate", () => { });
+    this.audioPlayer.nativeElement.removeEventListener("play", () => {});
+    this.audioPlayer.nativeElement.removeEventListener("pause", () => {});
+    this.audioPlayer.nativeElement.removeEventListener("ended", () => {});
+    this.audioPlayer.nativeElement.removeEventListener("timeupdate", () => {});
   }
 
   async loadTrack(track: Track) {
@@ -138,7 +138,7 @@ export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
       album: "Studentská revolta '89",
       artwork: [
         {
-          src: "/assets/img/media-bg.jpg",
+          src: "https://studentskarevolta89.cz/assets/img/media-bg.jpg",
           sizes: "512x512",
           type: "image/jpeg",
         },
