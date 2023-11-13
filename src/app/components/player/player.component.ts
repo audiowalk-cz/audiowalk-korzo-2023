@@ -122,6 +122,8 @@ export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
     this.audioPlayer.nativeElement.removeEventListener("pause", () => {});
     this.audioPlayer.nativeElement.removeEventListener("ended", () => {});
     this.audioPlayer.nativeElement.removeEventListener("timeupdate", () => {});
+
+    navigator.mediaSession.metadata = null;
   }
 
   async loadTrack(track: Track) {
