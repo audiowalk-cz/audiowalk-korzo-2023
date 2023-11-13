@@ -29,7 +29,7 @@ export class WalkComponent implements OnInit {
     private mediaService: MediaService,
     private route: ActivatedRoute,
     private chapterService: ChaptersService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.route.queryParams.pipe(untilDestroyed(this)).subscribe((params) => {
@@ -45,7 +45,8 @@ export class WalkComponent implements OnInit {
   }
 
   endWalk() {
-    this.router.navigate(["/end"]);
+    // this.router.navigate(["/end"]);
+    this.router.navigate(["/share"]);
   }
 
   restartChapter() {

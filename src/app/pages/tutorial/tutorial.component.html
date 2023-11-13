@@ -2,10 +2,8 @@
   <app-page-content>
     <div class="container-sm h-100">
       <div class="h-100 d-flex flex-column text-center">
-        <div
-          class="row flex-grow-1 d-flex align-items-center justify-content-center"
-          *ngIf="tutorialStep === TutorialSteps.navigation"
-        >
+        <div class="row flex-grow-1 d-flex align-items-center justify-content-center"
+          *ngIf="tutorialStep === TutorialSteps.navigation">
           <div class="col-lg-6">
             <i class="bi bi-person-walking fs-0"></i>
             <div class="mt-3">
@@ -22,32 +20,28 @@
             </div>
           </div>
         </div>
-        <div
-          class="row flex-grow-1 d-flex align-items-center justify-content-center"
-          *ngIf="tutorialStep === TutorialSteps.sound"
-        >
+        <div class="row flex-grow-1 d-flex align-items-center justify-content-center"
+          *ngIf="tutorialStep === TutorialSteps.sound">
           <div class="col-lg-6">
             <i class="bi bi-earbuds fs-0"></i>
             <div class="mt-3">
               <h2>Test přehrávání</h2>
-              <p class="mt-3">Připojte sluchátka a vyzkoušejte zvuk kliknutím na ikonku.</p>
-              <p class="mt-1">Přehrávání zvuku pokračuje i po zhasnutí vašeho displeje.</p>
+              <p class="mt-3">Připojte sluchátka a vyzkoušejte zvuk.</p>
+              <p class="mt-1">Přehrávání zvuku pokračuje i&nbsp;po&nbsp;zhasnutí vašeho displeje.</p>
               <div class="mt-5">
                 <app-player [track]="testTrack" mode="light"></app-player>
               </div>
             </div>
           </div>
         </div>
-        <div
-          class="row flex-grow-1 d-flex align-items-center justify-content-center"
-          *ngIf="tutorialStep === TutorialSteps.download"
-        >
+        <div class="row flex-grow-1 d-flex align-items-center justify-content-center"
+          *ngIf="tutorialStep === TutorialSteps.download">
           <div class="col-lg-6">
             <i class="bi bi-cloud-download fs-0"></i>
             <div class="mt-3">
               <h2>Offline</h2>
-              <p class="mt-3">Doporučujeme si stáhnout audiowalku<br />do mobilního zařízení.</p>
-              <p class="mt-1">Stažení můžete provést předem,<br />webový prohížeč si jej uloží ikdyž jej ukončíte.</p>
+              <p class="mt-3">Doporučujeme si stáhnout audiowalk<br />do mobilního zařízení.</p>
+              <p class="mt-1">Stažení můžete provést předem,<br />webový prohížeč si jej uloží, ikdyž jej ukončíte.</p>
               <div class="mt-3" *ngIf="downloadStatus | async as state" [ngSwitch]="state">
                 <div *ngSwitchCase="'not-downloaded'">
                   <button class="btn btn-outline-primary" (click)="download()">
@@ -60,7 +54,7 @@
                 </p>
                 <p *ngSwitchCase="'checking'"><i class="bi bi-hourglass-split"></i> Kontroluji...</p>
                 <p class="text-success" *ngSwitchCase="'downloaded'">
-                  <i class="bi bi-check-circle"></i> Hotovo, audiowalk je připraven pro offline použití!
+                  <i class="bi bi-check-circle"></i> Hotovo, audiowalk je připraven pro&nbsp;offline použití!
                 </p>
 
                 <p class="text-warning mt-2" *ngSwitchCase="'error'">
@@ -73,29 +67,28 @@
           </div>
         </div>
 
-        <div
-          class="row flex-grow-1 d-flex align-items-center justify-content-center"
-          *ngIf="tutorialStep === TutorialSteps.gps"
-        >
+        <div class="row flex-grow-1 d-flex align-items-center justify-content-center"
+          *ngIf="tutorialStep === TutorialSteps.gps">
           <div class="col-lg-6">
             <i class="bi bi-geo-alt fs-0"></i>
             <div class="mt-3">
               <h2>GPS</h2>
-              <p class="mt-3">Pro lepší oriantaci v mapě si můžete zapnout zobrazování vaší polohy pomcí GPS</p>
+              <p class="mt-3">Pro lepší orientaci v&nbsp;mapě si můžete zapnout zobrazování vaší polohy pomocí GPS</p>
               <p class="mt-1">
-                Vaše poloha nabude nikam odesílána, pouze zobrazena v mapě. Zobrazení polohy nevyžaduje připojení k
-                internetu.
+                Vaše poloha se nikde neukládá, je pouze zobrazena v&nbsp;mapě.<br />Zobrazení polohy nevyžaduje
+                připojení k&nbsp;internetu.
               </p>
               <div class="mt-3" *ngIf="gpsStatus | async as state" [ngSwitch]="state">
                 <div *ngSwitchCase="'off'">
-                  <button class="btn btn-outline-primary" (click)="enableGps()">Zapnout GPS</button>
+                  <button class="btn btn-outline-primary" (click)="enableGps()">Zapnout GPS <i
+                      class="bi bi-geo-alt"></i></button>
                 </div>
                 <div *ngSwitchCase="'on'">
                   <p class="text-success"><i class="bi bi-crosshair"></i>&nbsp;GPS zapnuta</p>
                   <button class="btn btn-outline-primary" (click)="disableGps()">Vypnout GPS</button>
                 </div>
                 <div *ngSwitchCase="'searching'">
-                  <p class="text-warning"><i class="bi bi-crosshair"></i>Hledám polohu&hellip;</p>
+                  <p class="text-warning"><i class="bi bi-crosshair"></i>&nbsp;Hledám polohu&hellip;</p>
                   <button class="btn btn-outline-primary" (click)="disableGps()">Vypnout GPS</button>
                 </div>
                 <p *ngSwitchCase="'searching'"></p>
@@ -111,10 +104,8 @@
           </div>
         </div>
 
-        <div
-          class="row flex-grow-1 d-flex align-items-center justify-content-center"
-          *ngIf="tutorialStep === TutorialSteps.attention"
-        >
+        <div class="row flex-grow-1 d-flex align-items-center justify-content-center"
+          *ngIf="tutorialStep === TutorialSteps.attention">
           <div class="col-lg-6">
             <i class="bi bi-heart fs-0"></i>
             <div class="mt-3">
@@ -124,19 +115,28 @@
                 současné Prahy.
               </p>
 
-              <button *ngIf="!(currentChapter | async)" class="btn btn-primary mt-3" routerLink="/walk">
-                Spustit audiowalk <i class="bi bi-play-circle-fill"></i>
-              </button>
-              <button *ngIf="currentChapter | async" class="btn btn-primary mt-3" routerLink="/walk">
-                Pokračovat v audiowalku <i class="bi bi-play-circle-fill"></i>
-              </button>
-              <button *ngIf="currentChapter | async" class="btn btn-outline-primary mt-3" routerLink="/chapters">
-                Výběr kapitol <i class="bi bi-list-ul"></i>
-              </button>
 
               <p *ngIf="!downloadSkipped && (downloadStatus | async) !== 'downloaded'" class="text-warning mt-2">
                 Přehrávání bude stahovat<br />data o objemu cca 70MB!
               </p>
+
+              <div>
+                <button *ngIf="!(currentChapter | async)" class="btn btn-primary mt-3" routerLink="/walk">
+                  Spustit audiowalk <i class="bi bi-play-circle-fill"></i>
+                </button>
+              </div>
+              <div>
+                <button *ngIf="currentChapter | async" class="btn btn-primary mt-3" routerLink="/walk">
+                  Pokračovat v audiowalku <i class="bi bi-play-circle-fill"></i>
+                </button>
+              </div>
+              <div>
+                <button *ngIf="currentChapter | async" class="btn btn-outline-primary mt-3" routerLink="/chapters">
+                  Zvolit jinou kapitolu <i class="bi bi-list-ul"></i>
+                </button>
+              </div>
+
+
             </div>
           </div>
         </div>
@@ -145,25 +145,18 @@
             <button type="button" class="btn btn-link text-secondary" (click)="backChapter()">Zpět</button>
           </div>
           <div class="col-4 d-flex align-items-center justify-content-center">
-            <i
-              *ngFor="let chapter of tutorialStepsOrder; let i = index"
-              [class]="
+            <i *ngFor="let chapter of tutorialStepsOrder; let i = index" [class]="
                 'bi bi-dot fs-3 ' +
                 (tutorialStep !== undefined &&
                 tutorialStepsOrder.indexOf(chapter) === tutorialStepsOrder.indexOf(tutorialStep)
                   ? ''
                   : 'text-secondary-emphasis')
-              "
-            ></i>
+              "></i>
           </div>
           <div class="col-4 d-flex align-items-center justify-content-end">
-            <button
-              class="btn btn-primary"
-              (click)="nextChapter()"
-              *ngIf="
+            <button class="btn btn-primary" (click)="nextChapter()" *ngIf="
                 tutorialStep !== undefined && tutorialStepsOrder.indexOf(tutorialStep) !== tutorialStepsOrder.length - 1
-              "
-            >
+              ">
               Další
             </button>
           </div>
