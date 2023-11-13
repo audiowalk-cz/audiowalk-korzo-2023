@@ -32,8 +32,13 @@
       transform-origin: 0px 0px;
     }
 
+
     svg {
       z-index: 1;
+    }
+
+    #outputGps {
+      z-index: 2;
     }
 
     img {}

@@ -45,8 +45,8 @@ export class WalkComponent implements OnInit {
   }
 
   endWalk() {
-    // this.router.navigate(["/end"]);
-    this.router.navigate(["/share"]);
+    this.router.navigate(["/end"]);
+    // this.router.navigate(["/share"]);
   }
 
   restartChapter() {

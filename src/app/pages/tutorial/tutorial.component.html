@@ -1,43 +1,37 @@
 <app-page>
   <app-page-content>
     <div class="container-sm h-100">
-      <div class="h-100 d-flex flex-column text-center">
-        <main>
-          <app-tutorial-navigation *ngIf="tutorialStep === TutorialSteps.navigation"></app-tutorial-navigation>
-          <app-tutorial-sound *ngIf="tutorialStep === TutorialSteps.sound"></app-tutorial-sound>
-          <app-tutorial-download *ngIf="tutorialStep === TutorialSteps.download"></app-tutorial-download>
-          <app-tutorial-gps *ngIf="tutorialStep === TutorialSteps.gps"></app-tutorial-gps>
-          <app-tutorial-attention *ngIf="tutorialStep === TutorialSteps.attention"></app-tutorial-attention>
-        </main>
+      <div class="row h-100 d-flex justify-content-center">
+        <div class="col-lg-6 h-100 d-flex flex-column">
+          <main class="d-flex mb-auto text-center justify-content-center">
+            <app-tutorial-navigation *ngIf="tutorialStep === TutorialSteps.navigation"></app-tutorial-navigation>
+            <app-tutorial-sound *ngIf="tutorialStep === TutorialSteps.sound"></app-tutorial-sound>
+            <app-tutorial-download *ngIf="tutorialStep === TutorialSteps.download"></app-tutorial-download>
+            <app-tutorial-gps *ngIf="tutorialStep === TutorialSteps.gps"></app-tutorial-gps>
+            <app-tutorial-attention *ngIf="tutorialStep === TutorialSteps.attention"></app-tutorial-attention>
+          </main>
 
-        <footer class="row py-4">
-          <div class="col-4 d-flex align-items-center">
-            <button type="button" class="btn btn-link text-secondary" (click)="previousStep()">Zpět</button>
-          </div>
-          <div class="col-4 d-flex align-items-center justify-content-center">
-            <i
-              *ngFor="let chapter of tutorialStepsOrder; let i = index"
-              [class]="
-                'bi bi-dot fs-3 ' +
-                (tutorialStep !== undefined &&
-                tutorialStepsOrder.indexOf(chapter) === tutorialStepsOrder.indexOf(tutorialStep)
-                  ? ''
-                  : 'text-secondary-emphasis')
-              "
-            ></i>
-          </div>
-          <div class="col-4 d-flex align-items-center justify-content-end">
-            <button
-              class="btn btn-primary"
-              (click)="nextStep()"
-              *ngIf="
-                tutorialStep !== undefined && tutorialStepsOrder.indexOf(tutorialStep) !== tutorialStepsOrder.length - 1
-              "
-            >
-              Další
-            </button>
-          </div>
-        </footer>
+          <footer class="row py-4">
+            <div class="col-4 d-flex align-items-center">
+              <button type="button" class="btn btn-link text-secondary" (click)="previousStep()">Zpět</button>
+            </div>
+            <div class="col-4 d-flex align-items-center justify-content-center">
+              <i *ngFor="let chapter of tutorialStepsOrder; let i = index" [class]="     'bi fs-8 ' +
+                      (tutorialStep !== undefined &&
+                      tutorialStepsOrder.indexOf(chapter) === tutorialStepsOrder.indexOf(tutorialStep)
+                        ? 'bi-circle-fill'
+                        : 'bi-circle')">
+              </i>
+            </div>
+            <div class="col-4 d-flex align-items-center justify-content-end">
+              <button class="btn btn-primary" (click)="nextStep()" *ngIf="
+                      tutorialStep !== undefined && tutorialStepsOrder.indexOf(tutorialStep) !== tutorialStepsOrder.length - 1
+                    ">
+                Další
+              </button>
+            </div>
+          </footer>
+        </div>
       </div>
     </div>
   </app-page-content>

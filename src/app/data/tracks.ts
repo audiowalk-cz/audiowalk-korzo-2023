@@ -9,6 +9,7 @@ export enum TrackId {
   "track-6" = "track-6",
   "track-7" = "track-7",
   "havel" = "havel",
+  "thanksTrack" = "thanksTrack",
 }
 
 export const Tracks: { [key in TrackId]: { id: key } & TrackDefinition } = {
@@ -65,6 +66,13 @@ export const Tracks: { [key in TrackId]: { id: key } & TrackDefinition } = {
     id: TrackId["havel"],
     title: "Proslov na Václavském náměstí",
     url: "assets/video/havel.mp4",
+    type: "video",
+    mimeType: "video/mp4",
+  },
+  thanksTrack: {
+    id: TrackId["thanksTrack"],
+    title: "Děkujeme za poslech!",
+    url: "assets/audio/track-8.mp3",
     type: "video",
     mimeType: "video/mp4",
   },

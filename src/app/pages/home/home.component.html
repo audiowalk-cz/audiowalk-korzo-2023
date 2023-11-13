@@ -26,14 +26,13 @@
           <div class="row d-flex justify-content-center align-items-center">
             <div *ngFor="let feature of features; let i = index" class="col-xl-6 col-lg-6 mb-4">
               <div class="card bg-light border-0 h-100">
-                <div class="card-body text-center p-lg-5 pt-0 pt-lg-0">
+                <div class="card-body text-center p-lg-4 p-5 pt-0 pt-lg-0">
                   <div class="text-white mb-1 mt-4">
-                    <i [class]="'fs-1 bi bi-'+feature.icon"></i>
+                    <i *ngIf="feature.type === 'icon'" [class]="'fs-1 bi bi-'+feature.icon"></i>
+                    <img *ngIf="feature.type === 'img'" [src]="feature.icon" alt="icon" class="fs-1 mt-3 mb-3" />
                   </div>
-                  <h2 class="fs-4 mb-2 fw-bold">{{ feature.title }}</h2>
-                  <p class="mb-0 fs-8">
-                    {{ feature.text }}
-                  </p>
+                  <!-- <h2 *ngIf="feature.type === 'icon'" class="fs-4 mb-2 fw-bold">{{ feature.title }}</h2> -->
+                  <p class="mb-0 fs-6" [innerHTML]="feature.text"> </p>
                 </div>
               </div>
             </div>

@@ -3,14 +3,18 @@
     <div class="container-sm h-100">
       <div class="h-100 d-flex flex-column text-center">
         <div class="row flex-grow-1 d-flex align-items-center justify-content-center">
-          <div class="col">
+          <div class="col-lg-6">
             <h3 class="mt-5 mb-5">Příběh je u konce&hellip;</h3>
-            <p>Pusťte si video na závěr:</p>
+            <!-- <p>Pusťte si video na závěr:</p> -->
 
-            <div class="row">
+            <!-- <div class="row">
               <div class="col-lg-6 mx-auto">
                 <app-video class="mx-auto" *ngIf="endTrack" [track]="endTrack"></app-video>
+                
               </div>
+            </div> -->
+            <div class="mt-5">
+              <app-player [track]="thanksTrack" mode="light"></app-player>
             </div>
           </div>
         </div>

@@ -81,6 +81,7 @@ h6 {
   font-family: "Roboto Flex";
   font-weight: 600;
   transition-duration: .2s;
+  text-decoration: none;
 }
 
 .btn-link:hover {
@@ -120,4 +121,9 @@ h6 {
 
 .fs-0 {
   font-size: 72px
+}
+
+.fs-8 {
+  font-size: 10px;
+  letter-spacing: 10px;
 }

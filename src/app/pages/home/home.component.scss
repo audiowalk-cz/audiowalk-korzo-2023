@@ -5,4 +5,9 @@
   background: url("/assets/img/home-bg.png") no-repeat top center fixed;
   background-size: 100%;
   overflow-y: scroll;
+
+  img {
+    max-height: 50px;
+    max-width: 100%;
+  }
 }
