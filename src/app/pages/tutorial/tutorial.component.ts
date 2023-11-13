@@ -42,7 +42,7 @@ export class TutorialComponent implements OnInit {
   readonly testTrack: TrackDefinition = {
     id: "test",
     title: "Testovací nahrávka",
-    url: "assets/audio/spejbl-1.mp3",
+    url: "assets/audio/track-0.mp3",
     type: "audio",
     mimeType: "audio/mpeg",
   };
@@ -53,7 +53,7 @@ export class TutorialComponent implements OnInit {
     private mediaService: MediaService,
     private locationService: LocationService,
     private chaptersService: ChaptersService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.route.queryParams.pipe(untilDestroyed(this)).subscribe((params) => {
