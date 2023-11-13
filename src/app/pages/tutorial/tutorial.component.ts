@@ -53,14 +53,14 @@ export class TutorialComponent implements OnInit {
     private mediaService: MediaService,
     private locationService: LocationService,
     private chaptersService: ChaptersService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.route.queryParams.pipe(untilDestroyed(this)).subscribe((params) => {
-      const chapter = parseInt(params["chapter"]);
+      const step = parseInt(params["step"]);
 
-      if (!chapter || this.tutorialStepsOrder[chapter - 1] === undefined) this.openDefaultChapter();
-      this.tutorialStep = this.tutorialStepsOrder[chapter - 1];
+      if (!step || this.tutorialStepsOrder[step - 1] === undefined) this.openDefaultStep();
+      this.tutorialStep = this.tutorialStepsOrder[step - 1];
     });
   }
 
@@ -87,27 +87,27 @@ export class TutorialComponent implements OnInit {
     this.locationService.disableGps();
   }
 
-  openChapter(chapter: number) {
-    this.router.navigate(["/tutorial"], { queryParams: { chapter: chapter + 1 } });
+  openStep(step: number, replaceUrl = false) {
+    this.router.navigate(["/tutorial"], { queryParams: { step: step + 1 }, replaceUrl });
   }
 
-  openDefaultChapter() {
-    this.openChapter(0);
+  openDefaultStep() {
+    this.openStep(0, true);
   }
 
-  nextChapter() {
+  nextStep() {
     if (this.tutorialStep === undefined) return;
     const currentChapterIndex = this.tutorialStepsOrder.indexOf(this.tutorialStep);
-    this.openChapter(Math.min(currentChapterIndex + 1, this.tutorialStepsOrder.length - 1));
+    this.openStep(Math.min(currentChapterIndex + 1, this.tutorialStepsOrder.length - 1));
   }
 
-  backChapter() {
+  previousStep() {
     if (this.tutorialStep === undefined) return;
     const currentChapterIndex = this.tutorialStepsOrder.indexOf(this.tutorialStep);
     if (currentChapterIndex === 0) {
       this.router.navigate(["/"]);
     } else {
-      this.openChapter(currentChapterIndex - 1);
+      this.openStep(currentChapterIndex - 1);
     }
   }
 }

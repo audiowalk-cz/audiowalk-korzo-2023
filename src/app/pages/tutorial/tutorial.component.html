@@ -2,8 +2,10 @@
   <app-page-content>
     <div class="container-sm h-100">
       <div class="h-100 d-flex flex-column text-center">
-        <div class="row flex-grow-1 d-flex align-items-center justify-content-center"
-          *ngIf="tutorialStep === TutorialSteps.navigation">
+        <div
+          class="row flex-grow-1 d-flex align-items-center justify-content-center"
+          *ngIf="tutorialStep === TutorialSteps.navigation"
+        >
           <div class="col-lg-6">
             <i class="bi bi-person-walking fs-0"></i>
             <div class="mt-3">
@@ -20,8 +22,10 @@
             </div>
           </div>
         </div>
-        <div class="row flex-grow-1 d-flex align-items-center justify-content-center"
-          *ngIf="tutorialStep === TutorialSteps.sound">
+        <div
+          class="row flex-grow-1 d-flex align-items-center justify-content-center"
+          *ngIf="tutorialStep === TutorialSteps.sound"
+        >
           <div class="col-lg-6">
             <i class="bi bi-earbuds fs-0"></i>
             <div class="mt-3">
@@ -34,8 +38,10 @@
             </div>
           </div>
         </div>
-        <div class="row flex-grow-1 d-flex align-items-center justify-content-center"
-          *ngIf="tutorialStep === TutorialSteps.download">
+        <div
+          class="row flex-grow-1 d-flex align-items-center justify-content-center"
+          *ngIf="tutorialStep === TutorialSteps.download"
+        >
           <div class="col-lg-6">
             <i class="bi bi-cloud-download fs-0"></i>
             <div class="mt-3">
@@ -67,8 +73,10 @@
           </div>
         </div>
 
-        <div class="row flex-grow-1 d-flex align-items-center justify-content-center"
-          *ngIf="tutorialStep === TutorialSteps.gps">
+        <div
+          class="row flex-grow-1 d-flex align-items-center justify-content-center"
+          *ngIf="tutorialStep === TutorialSteps.gps"
+        >
           <div class="col-lg-6">
             <i class="bi bi-geo-alt fs-0"></i>
             <div class="mt-3">
@@ -80,8 +88,9 @@
               </p>
               <div class="mt-3" *ngIf="gpsStatus | async as state" [ngSwitch]="state">
                 <div *ngSwitchCase="'off'">
-                  <button class="btn btn-outline-primary" (click)="enableGps()">Zapnout GPS <i
-                      class="bi bi-geo-alt"></i></button>
+                  <button class="btn btn-outline-primary" (click)="enableGps()">
+                    Zapnout GPS <i class="bi bi-geo-alt"></i>
+                  </button>
                 </div>
                 <div *ngSwitchCase="'on'">
                   <p class="text-success"><i class="bi bi-crosshair"></i>&nbsp;GPS zapnuta</p>
@@ -104,8 +113,10 @@
           </div>
         </div>
 
-        <div class="row flex-grow-1 d-flex align-items-center justify-content-center"
-          *ngIf="tutorialStep === TutorialSteps.attention">
+        <div
+          class="row flex-grow-1 d-flex align-items-center justify-content-center"
+          *ngIf="tutorialStep === TutorialSteps.attention"
+        >
           <div class="col-lg-6">
             <i class="bi bi-heart fs-0"></i>
             <div class="mt-3">
@@ -114,7 +125,6 @@
                 Prosím i&nbsp;ponořeni v&nbsp;příběhu vnímejte svět kolem vás. A&nbsp;to nejen abyste vnímali prostředí
                 současné Prahy.
               </p>
-
 
               <p *ngIf="!downloadSkipped && (downloadStatus | async) !== 'downloaded'" class="text-warning mt-2">
                 Přehrávání bude stahovat<br />data o objemu cca 70MB!
@@ -135,28 +145,33 @@
                   Zvolit jinou kapitolu <i class="bi bi-list-ul"></i>
                 </button>
               </div>
-
-
             </div>
           </div>
         </div>
         <footer class="row py-4">
           <div class="col-4 d-flex align-items-center">
-            <button type="button" class="btn btn-link text-secondary" (click)="backChapter()">Zpět</button>
+            <button type="button" class="btn btn-link text-secondary" (click)="previousStep()">Zpět</button>
           </div>
           <div class="col-4 d-flex align-items-center justify-content-center">
-            <i *ngFor="let chapter of tutorialStepsOrder; let i = index" [class]="
+            <i
+              *ngFor="let chapter of tutorialStepsOrder; let i = index"
+              [class]="
                 'bi bi-dot fs-3 ' +
                 (tutorialStep !== undefined &&
                 tutorialStepsOrder.indexOf(chapter) === tutorialStepsOrder.indexOf(tutorialStep)
                   ? ''
                   : 'text-secondary-emphasis')
-              "></i>
+              "
+            ></i>
           </div>
           <div class="col-4 d-flex align-items-center justify-content-end">
-            <button class="btn btn-primary" (click)="nextChapter()" *ngIf="
+            <button
+              class="btn btn-primary"
+              (click)="nextStep()"
+              *ngIf="
                 tutorialStep !== undefined && tutorialStepsOrder.indexOf(tutorialStep) !== tutorialStepsOrder.length - 1
-              ">
+              "
+            >
               Další
             </button>
           </div>
