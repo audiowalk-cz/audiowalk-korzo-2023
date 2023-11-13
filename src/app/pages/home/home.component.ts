@@ -10,12 +10,22 @@ export class HomeComponent {
     {
       title: "Trasa",
       icon: "map",
-      text: "Trasa začíná na piazettě Národního divadla, má 7 zastávek a trvá 45 minut.",
+      text: "Trasa začíná u Národního divadla, má 7 zastávek a trvá cca 70 minut.",
     },
     {
       title: "Poslech",
       icon: "phone",
       text: "Audio si můžete na webu stáhnout předem offline. Objem dat je cca 70MB.",
+    },
+    {
+      title: "Díky že můžem",
+      icon: "heart",
+      text: "Projekt byl vytvořen pod záštitou projektu Díky že můžem",
+    },
+    {
+      title: "DAMU",
+      icon: "heart",
+      text: "Audiowalk byl natočen díky umělcům z Divadelní fakulty AMU",
     }
   ];
 
