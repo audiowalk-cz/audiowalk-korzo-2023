@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "ng serve",
-    "build": "ng build"
+    "build": "ng build",
+    "release": "git checkout release && git merge --ff-only master && git push --follow-tags && git checkout master"
   },
   "private": true,
   "dependencies": {
