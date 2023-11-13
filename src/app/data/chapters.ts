@@ -4,14 +4,14 @@ import { TrackId } from "./tracks";
 export const Chapters: Chapter[] = [
   {
     title: "Co se stalo?",
-    directions: "Jděte po nábřeží, kolem divadla Na Zábradlí až před Divadelní fakultu AMU",
+    directions: "Jděte po nábřeží, kolem divadla Na&nbsp;Zábradlí až před Divadelní fakultu AMU",
     durationMinutes: 14,
     description: "",
     pathIndex: 0,
     track: TrackId["track-1"],
   },
   {
-    title: "Střetnutí s letáky a prádlem",
+    title: "Střetnutí s&nbsp;letáky a&nbsp;prádlem",
     directions: "Vydejte se k&nbsp;mléčnému baru (dnes pivnice U&nbsp;Kata) přes Mariánské náměstí, za&nbsp;magistrát HMP.",
     durationMinutes: 3,
     description: "",
@@ -19,7 +19,7 @@ export const Chapters: Chapter[] = [
     track: TrackId["track-2"],
   },
   {
-    title: "Ty jsi tam byl taky?",
+    title: "Ty jsi tam b<span class='text-danger'>i</span>l taky?",
     directions: "Jděte směrem k&nbsp;Národní třídě, k&nbsp;Hlavnímu sídlu StB na začátku ulice Bartolomějská.",
     durationMinutes: 10,
     description: "",

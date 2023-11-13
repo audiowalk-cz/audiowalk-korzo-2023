@@ -23,7 +23,7 @@
                     <h5>{{ i + 1 }}</h5>
                   </div>
                   <div class="col-9 d-flex align-items-center">
-                    <h5>{{ chapter.title }}</h5>
+                    <h5 [innerHTML]="chapter.title"></h5>
                   </div>
                   <div class="col-2 text-end d-flex align-items-center">
                     <i class="bi bi-play-circle-fill fs-1"></i>
