@@ -2,12 +2,12 @@
 
 <div class="container g-0 w-100 h-100 walk-player">
   <div class="row g-0 flex-column justify-content-center w-100 h-100 p-3">
-    <div *ngIf="chapter" class="col-lg-6 col-md-8 mb-auto mx-auto">
+    <div *ngIf="chapter" class="col-xl-4 col-lg-6 col-md-8 mb-auto mx-auto">
       <app-chapter-info [chapter]="chapter" [chapterIndex]="chapterIndex!"
         [chapterCount]="chapterCount"></app-chapter-info>
     </div>
 
-    <div *ngIf="track" class="col-lg-6 col-md-8 mx-auto" [ngSwitch]="track.type">
+    <div *ngIf="track" class="col-xl-4 col-lg-6 col-md-8 mx-auto" [ngSwitch]="track.type">
       <app-player *ngSwitchCase="'audio'" [track]="track" [autoPlay]="true" (progress)="saveProgress($event)"
         (nextChapter)="nextChapter()">
         <app-player-menu>

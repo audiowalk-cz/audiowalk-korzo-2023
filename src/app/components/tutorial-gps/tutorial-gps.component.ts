@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { AnalyticsService } from "src/app/services/analytics.service";
 import { LocationService } from "src/app/services/location.service";
 
 @Component({
@@ -9,9 +10,13 @@ import { LocationService } from "src/app/services/location.service";
 export class TutorialGpsComponent {
   public gpsStatus = this.locationService.gpsStatus;
 
-  constructor(private locationService: LocationService) {}
+  constructor(
+    private locationService: LocationService,
+    private analytics: AnalyticsService,
+  ) { }
 
   enableGps() {
+    this.analytics.trackEvent("gpsOn", {});
     this.locationService.enableGps();
   }
 
