@@ -7,34 +7,87 @@
   z-index: 100;
 
   h1 {
+    position: relative;
     font-size: 64px;
     line-height: 68px;
+
+    sup {
+      position: absolute;
+      top: 22px;
+      font-size: 15px;
+      letter-spacing: 3px;
+    }
+  }
+
+  h2 {
+    font-size: 1.3em;
   }
 }
 
-sup {
-  font-size: 40%;
-  letter-spacing: 3px;
-  top: -1em;
-}
 
 svg {
   width: 40px;
 }
 
 p {
-  font-size: 80%;
+  font-size: 85%;
 }
 
 hr {
   opacity: .67;
 }
 
-.track-info {
-  opacity: .67;
-}
+.track-info {}
 
 .text-walk-duration {
   font-family: "Roboto Flex";
   font-size: 12px
+}
+
+.img-wrapper {
+  // overflow: hidden;
+  width: 100%;
+  min-height: 100%;
+  position: relative;
+
+  .height-wrapper {
+    position: relative;
+
+    img {
+      border-radius: 12px;
+      position: relative;
+      min-width: 50px;
+      width: 100%;
+      height: auto;
+      left: 0;
+      top: 0;
+      // object-fit: cover;
+    }
+
+    i {
+      position: absolute;
+      left: calc(50% - 16px);
+      top: calc(50% - 24px);
+      font-size: 32px;
+      z-index: 10;
+    }
+  }
+
+}
+
+.menu-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.menu {
+  position: absolute;
+  bottom: 100%;
+  right: 0;
+  margin-bottom: 10px;
 }

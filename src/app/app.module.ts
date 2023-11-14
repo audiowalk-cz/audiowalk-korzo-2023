@@ -31,6 +31,7 @@ import { TestComponent } from "./pages/test/test.component";
 import { TutorialComponent } from "./pages/tutorial/tutorial.component";
 import { WalkComponent } from "./pages/walk/walk.component";
 import { TimePipe } from "./pipes/time.pipe";
+import { ChapterPhotoComponent } from "./components/chapter-photo/chapter-photo.component";
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { TimePipe } from "./pipes/time.pipe";
     TutorialAttentionComponent,
     LegalComponent,
     AuthorsComponent,
+    ChapterPhotoComponent,
   ],
   imports: [
     BrowserModule,
@@ -75,4 +77,4 @@ import { TimePipe } from "./pipes/time.pipe";
   providers: [{ provide: ErrorHandler, useClass: AppErrorHandler }],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

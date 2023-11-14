@@ -10,4 +10,5 @@ export class ChapterInfoComponent {
   @Input() chapter!: Chapter;
   @Input() chapterIndex!: number;
   @Input() chapterCount!: number;
+  showPhoto = false;
 }

@@ -1,27 +1,39 @@
-<div class=" px-4 pt-3 pb-4">
+<div class=" px-3 pt-3 pb-4">
 
   <div class="row mb-2">
-    <div class="col-3 text-center d-flex align-items-start justify-content-center">
+    <div class="col-3 d-flex flex-column p-0 align-items-center justify-content-center">
       <h1 *ngIf="chapterIndex && chapterCount">
         {{ chapterIndex }}<sup>/{{ chapterCount }}</sup>
       </h1>
+      <div class="text-walk-duration w-100 text-center">
+        <!-- <i class="bi bi-person-walking"></i><br> -->
+        {{ chapter.durationMinutes }} MIN
+      </div>
     </div>
-    <div class="col-9 d-flex align-items-center justify-content-start">
-      <h2 [innerHTML]="chapter.title"></h2>
+    <div class="col-6 d-flex flex-column align-items-center justify-content-center">
+      <h2 [innerHTML]="chapter.title" class="text-center"></h2>
+    </div>
+    <div class="col-3 text-center d-flex align-items-start justify-content-end">
+      <div class="img-wrapper d-flex align-items-center">
+        <a (click)="showPhoto = true" class="d-block height-wrapper">
+          <img [src]="'assets/img/photos/photo_'+chapterIndex+'.jpg'">
+          <i class="bi bi-zoom-in"></i>
+        </a>
+      </div>
     </div>
   </div>
   <div class="track-info row">
-    <div class="col-3 text-center d-flex align-items-start justify-content-center">
-      <div>
-        <i class="bi bi-person-walking fs-4"></i>
-        <div class="text-walk-duration">
-          {{ chapter.durationMinutes }} MIN
-        </div>
-      </div>
-    </div>
-    <div class="col-9  d-flex align-items-center justify-content-start">
-      <p class="m-0" [innerHTML]="chapter.directions">
+    <div class="text-center">
+      <p class="m-0 mt-2 text-secondary">
+        <span [innerHTML]="chapter.directions"></span><br>
       </p>
     </div>
   </div>
+</div>
+
+<div *ngIf="showPhoto" class="menu-backdrop" (click)="showPhoto = false"></div>
+<div *ngIf="showPhoto" class="menu" (click)="showPhoto = false">
+  <app-chapter-photo>
+    <img [src]="'assets/img/photos/photo_'+chapterIndex+'.jpg'">
+  </app-chapter-photo>
 </div>
