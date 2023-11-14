@@ -122,16 +122,18 @@ export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
     this.audioPlayer.nativeElement.removeEventListener("ended", () => {});
     this.audioPlayer.nativeElement.removeEventListener("timeupdate", () => {});
 
-    navigator.mediaSession.setActionHandler("play", null);
-    navigator.mediaSession.setActionHandler("pause", null);
-    navigator.mediaSession.setActionHandler("previoustrack", null);
-    navigator.mediaSession.setActionHandler("nexttrack", null);
+    if (navigator.mediaSession) {
+      navigator.mediaSession.setActionHandler("play", null);
+      navigator.mediaSession.setActionHandler("pause", null);
+      navigator.mediaSession.setActionHandler("previoustrack", null);
+      navigator.mediaSession.setActionHandler("nexttrack", null);
+      navigator.mediaSession.playbackState = "none";
+      navigator.mediaSession.metadata = null;
+    }
 
     this.audioPlayer.nativeElement.pause();
     this.audioPlayer.nativeElement.currentTime = 0;
     this.audioPlayer.nativeElement.src = "";
-    navigator.mediaSession.playbackState = "none";
-    navigator.mediaSession.metadata = null;
   }
 
   async loadTrack(track: Track) {
@@ -143,17 +145,19 @@ export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
     this.currentTime = 0;
     this.status = "paused";
 
-    navigator.mediaSession.metadata = new MediaMetadata({
-      title: track.title ?? "Track",
-      album: "Studentská revolta '89",
-      artwork: [
-        {
-          src: "https://studentskarevolta89.cz/assets/img/media-bg.jpg",
-          sizes: "512x512",
-          type: "image/jpeg",
-        },
-      ],
-    });
+    if (navigator.mediaSession && MediaMetadata) {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: track.title ?? "Track",
+        album: "Studentská revolta '89",
+        artwork: [
+          {
+            src: "https://studentskarevolta89.cz/assets/img/media-bg.jpg",
+            sizes: "512x512",
+            type: "image/jpeg",
+          },
+        ],
+      });
+    }
 
     this.cdRef.detectChanges();
 
@@ -183,12 +187,12 @@ export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
 
   async play() {
     await this.audioPlayer.nativeElement.play();
-    navigator.mediaSession.playbackState = "playing";
+    if (navigator.mediaSession) navigator.mediaSession.playbackState = "playing";
   }
 
   pause() {
     this.audioPlayer.nativeElement.pause();
-    navigator.mediaSession.playbackState = "paused";
+    if (navigator.mediaSession) navigator.mediaSession.playbackState = "paused";
   }
 
   restart() {
