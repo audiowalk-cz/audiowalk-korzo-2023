@@ -69,51 +69,51 @@ export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
       navigator.mediaSession.setActionHandler("previoustrack", () => {
         this.rewind();
       });
-
-      // navigator.mediaSession.setActionHandler("nexttrack", () => {
-      //   this.onNext.emit();
-      // });
-
-      this.audioPlayer.nativeElement.addEventListener("play", (event) => {
-        this.status = "playing";
-      });
-
-      this.audioPlayer.nativeElement.addEventListener("pause", (event) => {
-        this.status = "paused";
-      });
-
-      this.audioPlayer.nativeElement.addEventListener("ended", (event) => {
-        this.status = this.mode === "light" ? "paused" : "ended";
-      });
-
-      this.audioPlayer.nativeElement.addEventListener("error", (event) => {
-        this.error = "Nastala chyba při přehrávání";
-      });
-
-      window.addEventListener("offline", (e) => {
-        this.offline = true;
-      });
-
-      window.addEventListener("online", (e) => {
-        this.offline = false;
-      });
-
-      this.audioPlayer.nativeElement.addEventListener("loadedmetadata", (event) => {
-        if (this.audioPlayer.nativeElement.duration) {
-          this.totalTime = this.audioPlayer.nativeElement.duration;
-        }
-      });
-
-      this.audioPlayer.nativeElement.addEventListener("timeupdate", (event) => {
-        this.currentTime = this.audioPlayer.nativeElement.currentTime;
-        this.onProgress.emit(this.currentTime);
-        if (this.audioPlayer.nativeElement.duration) {
-          this.totalTime = this.audioPlayer.nativeElement.duration;
-          this.progress = this.audioPlayer.nativeElement.currentTime / this.audioPlayer.nativeElement.duration;
-        }
-        this.cdRef.detectChanges();
-      });
     }
+
+    // navigator.mediaSession.setActionHandler("nexttrack", () => {
+    //   this.onNext.emit();
+    // });
+
+    this.audioPlayer.nativeElement.addEventListener("play", (event) => {
+      this.status = "playing";
+    });
+
+    this.audioPlayer.nativeElement.addEventListener("pause", (event) => {
+      this.status = "paused";
+    });
+
+    this.audioPlayer.nativeElement.addEventListener("ended", (event) => {
+      this.status = this.mode === "light" ? "paused" : "ended";
+    });
+
+    this.audioPlayer.nativeElement.addEventListener("error", (event) => {
+      this.error = "Nastala chyba při přehrávání";
+    });
+
+    window.addEventListener("offline", (e) => {
+      this.offline = true;
+    });
+
+    window.addEventListener("online", (e) => {
+      this.offline = false;
+    });
+
+    this.audioPlayer.nativeElement.addEventListener("loadedmetadata", (event) => {
+      if (this.audioPlayer.nativeElement.duration) {
+        this.totalTime = this.audioPlayer.nativeElement.duration;
+      }
+    });
+
+    this.audioPlayer.nativeElement.addEventListener("timeupdate", (event) => {
+      this.currentTime = this.audioPlayer.nativeElement.currentTime;
+      this.onProgress.emit(this.currentTime);
+      if (this.audioPlayer.nativeElement.duration) {
+        this.totalTime = this.audioPlayer.nativeElement.duration;
+        this.progress = this.audioPlayer.nativeElement.currentTime / this.audioPlayer.nativeElement.duration;
+      }
+      this.cdRef.detectChanges();
+    });
   }
 
   ngOnDestroy(): void {

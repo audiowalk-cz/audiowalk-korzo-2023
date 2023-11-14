@@ -4,7 +4,11 @@
     <div class="mt-3">
       <h2>Offline</h2>
       <p class="mt-3">Doporučujeme si stáhnout audiowalk<br />do mobilního zařízení.</p>
-      <p class="mt-1">Stažení můžete provést předem,<br />audiowalk zůstane uložený i když zavřete webový prohlížeč.</p>
+      <p class="mt-1">
+        Stažení můžete provést předem,<br />audiowalk zůstane uložený i když zavřete webový prohlížeč. Dejte si ale
+        pozor, abyste neměli audiowalk spuštěný ve vestavěném prohlížeči jiné aplikace (např. WhatsApp, Messenger), v
+        takovém případě se po zavření může smazat.
+      </p>
       <div class="mt-3" *ngIf="downloadStatus | async as state" [ngSwitch]="state">
         <div *ngSwitchCase="'not-downloaded'">
           <button class="btn btn-outline-primary" (click)="download()">Stáhnout <i class="bi bi-download"></i></button>

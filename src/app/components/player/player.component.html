@@ -12,12 +12,25 @@
       </button>
     </div>
     <div class="col-4 d-flex justify-content-center">
-      <button #playPauseButton class="button-icon button-playpause" (click)="playPause()" (touchstart)="touchStart()"
-        (touchend)="touchEnd()">
-        <img id="play" [ngClass]="{ active: status === 'paused' }" src="assets/img/icons/player/play.svg"
-          alt="Rewind" />
-        <img id="pause" [ngClass]="{ active: status === 'playing' }" src="assets/img/icons/player/pause.svg"
-          alt="Rewind" />
+      <button
+        #playPauseButton
+        class="button-icon button-playpause"
+        (click)="playPause()"
+        (touchstart)="touchStart()"
+        (touchend)="touchEnd()"
+      >
+        <img
+          id="play"
+          [ngClass]="{ active: status === 'paused' }"
+          src="assets/img/icons/player/play.svg"
+          alt="Rewind"
+        />
+        <img
+          id="pause"
+          [ngClass]="{ active: status === 'playing' }"
+          src="assets/img/icons/player/pause.svg"
+          alt="Rewind"
+        />
         <img id="next" [ngClass]="{ active: status === 'ended' }" src="assets/img/icons/player/next3.svg" alt="Next" />
       </button>
     </div>
