@@ -20,7 +20,7 @@ export const Chapters: Chapter[] = [
   },
   {
     title: "Ty jsi tam b<span class='text-danger'>i</span>l taky?",
-    directions: "Jděte směrem k&nbsp;Národní třídě, k&nbsp;Hlavnímu sídlu StB na začátku ulice Bartolomějská.",
+    directions: "Jděte směrem k&nbsp;Národní třídě, zahněte do Bartolomějské k&nbsp;Hlavnímu sídlu StB (kachličkovaný dům s&nbsp;pověstným sklepením).",
     durationMinutes: 10,
     description: "",
     pathIndex: 2,
@@ -28,7 +28,7 @@ export const Chapters: Chapter[] = [
   },
   {
     title: "Citlivé materiály",
-    directions: "Pokračujte Bartolomějskou k&nbsp;Vltavě, poté doleva v Divadelní ulicí podchodem až do&nbsp;ulice Na&nbsp;Struze k&nbsp;archivu StB (dnes Archiv bezpečnostních složek).",
+    directions: "Pokračujte Bartolomějskou k&nbsp;Vltavě, poté doleva v Divadelní ulicí podchodem až do&nbsp;ulice Na&nbsp;Struze k&nbsp;archivu StB (dnes Archiv bezp. složek).",
     durationMinutes: 7,
     description: "",
     pathIndex: 3,
@@ -36,7 +36,7 @@ export const Chapters: Chapter[] = [
   },
   {
     title: "Ve škole života není prázdnin",
-    directions: "Vydejte se směrem ke stanici Národní třída. Pokud nebude zavřený, použijte průchod na&nbsp;zastávku Lazarská až k pedagogické fakultě UK.",
+    directions: "Vydejte se směrem ke stanici Národní třída.<br>Pokud bude otevřený, využijte průchod na&nbsp;zastávku Lazarská až k&nbsp;pedagogické fakultě UK.",
     durationMinutes: 9,
     description: "",
     pathIndex: 4,

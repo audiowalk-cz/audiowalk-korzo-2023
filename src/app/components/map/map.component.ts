@@ -51,7 +51,7 @@ export class MapComponent implements AfterViewInit, OnChanges {
   gpsPosNormal1 = this.transformGpsPosition({ longitude: 14.4190303, latitude: 50.0863744, heading: null });
   gpsPosNormal2 = this.transformGpsPosition({ longitude: 14.4157847, latitude: 50.0823156, heading: null });
 
-  constructor(private renderer: Renderer2, private locationService: LocationService) {}
+  constructor(private renderer: Renderer2, private locationService: LocationService) { }
 
   async ngAfterViewInit(): Promise<void> {
     // this.wrapper.nativeElement.style.transition = "opacity 1s ease-in-out";
@@ -75,22 +75,17 @@ export class MapComponent implements AfterViewInit, OnChanges {
   }
 
   async flyToPath(index: number) {
-    const paths = this.outputSvg.nativeElement.querySelectorAll(".path");
+    const paths = this.outputSvg.nativeElement.querySelectorAll(".track path") as NodeListOf<SVGPathElement>;
     for (const path of paths) {
-      const svgPath = path.querySelector("path");
-      if (svgPath) svgPath.style.stroke = "rgba(255,255,255,.1)";
+      if (path) path.style.strokeOpacity = "0";
     }
-    const circles = this.outputSvg.nativeElement.querySelectorAll(".circle");
-    for (const circle of circles) {
-      const svgPathCircle = circle.querySelector("path");
-      if (svgPathCircle) svgPathCircle.style.fill = "rgba(255,255,255,0)";
-    }
-    const realPath = paths[index].querySelector("path");
-    const realPathCircle = circles[index].querySelector("path");
-    if (!realPath || !realPathCircle) return;
+
+    const selectedTrack = this.outputSvg.nativeElement.querySelector(`.track-${index + 1}`) as SVGGElement
+    const selectedPaths = selectedTrack.querySelectorAll("path") as NodeListOf<SVGPathElement>;
+    if (!selectedTrack || selectedPaths.length === 0) return;
     await this.flyTo(
-      realPath!,
-      realPathCircle,
+      selectedTrack,
+      [...selectedPaths],
       {
         top: 200,
         bottom: 150,
@@ -102,95 +97,20 @@ export class MapComponent implements AfterViewInit, OnChanges {
     );
   }
 
-  drawMap() {
-    const rc = rough.svg(this.outputSvg.nativeElement);
-    // const rcClone = rough.svg(this.outputSvgClone.nativeElement);
-    // const rcCanvas = rough.canvas(this.outputCanvas.nativeElement);
-
-    const allPaths = this.outputSvg.nativeElement.querySelectorAll("path.cls-1");
-    // const allWaters = this.outputSvg.nativeElement.querySelectorAll("path.cls-4");
-    // const allBuildings = this.outputSvg.nativeElement.querySelectorAll("path.cls-2");
-    const allCircles = this.outputSvg.nativeElement.querySelectorAll("circle");
-
-    if (!allPaths) return;
-    if (!allCircles) return;
-    // Loop through the paths in the SVG
-    // for (let [i, path] of allWaters.entries()) {
-    //   const pathData = path.getAttribute("d")!;
-    //   const rcConfig = {
-    //     roughness: .5,
-    //     fill: "rgba(130,192,234,.5)",
-    //     fillStyle: "solid",
-    //     hachureAngle: 60,
-    //     stroke: "rgba(130,192,234,0)",
-    //     strokeWidth: 0,
-    //     hachureGap: 4,
-    //   }
-    //   rcCanvas.path(pathData, rcConfig);
-
-    //   const svgpath = rcClone.path(pathData, rcConfig);
-    //   this.outputSvgClone.nativeElement.appendChild(svgpath);
-    // }
-
-    // for (let [i, path] of allBuildings.entries()) {
-    //   const pathData = path.getAttribute("d")!;
-    //   const rcConfig = {
-    //     roughness: .5,
-    //     fill: "rgba(255,255,255,.5)",
-    //     fillStyle: "cross-hatch",
-    //     fillWeight: 0.5,
-    //     hachureAngle: -60,
-    //     hachureGap: 2,
-    //     stroke: "rgba(255,255,255,.75)",
-    //     strokeWidth: 1,
-    //   };
-    //   rcCanvas.path(pathData, rcConfig)
-
-    //   const svgpath = rcClone.path(pathData, rcConfig);
-    //   this.outputSvgClone.nativeElement.appendChild(svgpath);
-    // }
-
-    for (let [i, path] of allPaths.entries()) {
-      const pathData = path.getAttribute("d")!;
-      const rcConfig = {
-        roughness: 0.3,
-        stroke: "rgba(255,255,255,0.1)",
-        strokeWidth: 4,
-      };
-      const svgpath = rc.path(pathData, rcConfig);
-      svgpath.classList.add("path");
-
-      this.outputSvg.nativeElement.appendChild(svgpath);
-
-      const svgCircle = rc.circle(allCircles[i].cx.baseVal.value, allCircles[i].cy.baseVal.value, 20, {
-        roughness: 0.3,
-        fill: "rgba(255,255,255,0)",
-        fillStyle: "solid",
-        // stroke: "rgba(255,255,255,0.1)",
-        strokeWidth: 0,
-      });
-      svgCircle.classList.add("circle");
-      this.outputSvg.nativeElement.appendChild(svgCircle);
-    }
-  }
-
   async flyTo(
-    targetElement: SVGPathElement,
-    targetElementCircle: SVGPathElement,
+    targetGroup: SVGGElement,
+    targetPaths: SVGPathElement[],
     padding: { top: number; left: number; bottom: number; right: number },
     duration: number,
     sleep: number
   ) {
-    targetElement.style.stroke = "rgba(255,255,255,1)";
-    targetElementCircle.style.fill = "rgba(255,255,255,1)";
+    for (const targetPath of targetPaths) {
+      targetPath.style.strokeOpacity = "1";
+    }
 
-    const targetBR = targetElement.getBoundingClientRect();
+    const targetBR = targetGroup.getBoundingClientRect();
     const wrapperBR = this.wrapper.nativeElement.getBoundingClientRect();
 
-    // let currentScaleTxt = this.outputSvg.nativeElement.style.transform;
-    // if (!currentScaleTxt) {
-    //   currentScaleTxt = "scale(1)";
-    // }
     const currentScale = this.currentView.scale;
 
     const view = {
