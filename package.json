@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "ng serve",
     "build": "ng build",
-    "release": "git checkout release && git merge --ff-only master && git push --follow-tags && git checkout master"
+    "release": "git checkout release && git merge --ff-only master && git push --follow-tags && git checkout master",
+    "prebuild": "node scripts/prebuild.js"
   },
   "private": true,
   "dependencies": {

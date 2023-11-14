@@ -1,4 +1,6 @@
 import { Component } from "@angular/core";
+import { config } from "src/config";
+import { version } from "src/version";
 
 @Component({
   selector: "app-home",
@@ -32,4 +34,6 @@ export class HomeComponent {
       text: "Audiowalk je dílem studentů z&nbsp;Divadelní fakulty AMU",
     },
   ];
+
+  version = config.production ? null : version;
 }
