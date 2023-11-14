@@ -27,12 +27,13 @@ export class MediaService {
     const trackDef = Tracks[trackId];
     if (!trackDef) throw new Error(`Track ${trackId} not found`);
 
-    const storedData = await this.fileStorageService.get<ArrayBuffer>(trackDef.id);
+    const storedData = await this.fileStorageService.get<ArrayBuffer>(trackDef.id).catch(() => null);
     const url = storedData ? URL.createObjectURL(new Blob([storedData], { type: trackDef.mimeType })) : trackDef.url;
     const isDownloaded = !!storedData;
 
     const progress = await this.localStorageService
       .get(`progress-${trackDef.id}`)
+      .catch(() => null)
       .then((value) => (value ? parseFloat(value) ?? 0 : undefined));
 
     return { ...trackDef, url, progress, isDownloaded };
@@ -40,12 +41,12 @@ export class MediaService {
 
   async updateDownloadStatus(): Promise<void> {
     this.downloadStatus.next("checking");
-    try {
-      const downloadStatus = await this.getTracks().then((tracks) => tracks.every((track) => track.isDownloaded));
-      this.downloadStatus.next(downloadStatus ? "downloaded" : "not-downloaded");
-    } catch {
-      this.downloadStatus.next("not-downloaded");
-    }
+
+    const downloadStatus = await this.getTracks()
+      .catch(() => [])
+      .then((tracks) => tracks.every((track) => track.isDownloaded));
+
+    this.downloadStatus.next(downloadStatus ? "downloaded" : "not-downloaded");
   }
 
   async downloadTracks() {
@@ -53,6 +54,7 @@ export class MediaService {
 
     this.downloadStatus.next("downloading");
     this.downloadProgress.next(0);
+
     try {
       for (let [i, track] of trackDefs.entries()) {
         const trackProgress = new Subject<number>();
@@ -79,7 +81,7 @@ export class MediaService {
   }
 
   async saveTrackProgress(track: TrackDefinition, progress: number) {
-    await this.localStorageService.set(`progress-${track.id}`, progress);
+    await this.localStorageService.set(`progress-${track.id}`, progress).catch();
   }
 
   private async downloadTrack(trackDef: TrackDefinition, progress: Subject<number>) {
