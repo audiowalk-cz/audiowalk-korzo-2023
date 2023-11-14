@@ -1,44 +1,51 @@
 <app-page>
   <app-page-content>
-    <div class="container">
+    <div class="container h-100">
       <div class="row h-100">
-        <div class="col-lg-6 d-flex flex-column vh-100">
-          <div class="flex-grow-1 d-flex flex-column align-items-start justify-content-center">
-            <img src="assets/img/icons/headphones.svg" alt="logo" class="logo" />
-            <h1 class="mt-3">Studentská<br />revolta ‘89</h1>
-            <p class="my-3 fs-2">
-              Audiowalk ve&nbsp;Starém městě<br />
-              o&nbsp;svědectvích událostí<br />
-              po&nbsp;17.&nbsp;listopadu&nbsp;1989
-            </p>
-            <button class="btn btn-primary btn-lg mt-3" routerLink="/tutorial">
-              Spustit audiowalk <i class="bi bi-arrow-right"></i>
-            </button>
-            <!-- <div class="d-lg-none text-center">
+        <div class="col d-flex flex-column">
+          <div class="row flex-grow-1">
+            <div class="col-lg-6 d-flex flex-column">
+              <div class="flex-grow-1 d-flex flex-column align-items-start justify-content-center">
+                <img src="assets/img/icons/headphones.svg" alt="logo" class="logo mt-5" />
+                <h1 class="mt-3">Studentská<br />revolta ‘89</h1>
+                <p class="my-3 fs-2">
+                  Audiowalk ve&nbsp;Starém městě<br />
+                  o&nbsp;svědectvích událostí<br />
+                  po&nbsp;17.&nbsp;listopadu&nbsp;1989
+                </p>
+                <button class="btn btn-primary btn-lg mt-3 mb-5" routerLink="/tutorial">
+                  Spustit audiowalk <i class="bi bi-arrow-right"></i>
+                </button>
+                <!-- <div class="d-lg-none text-center">
               <p class="text-center fs-6 mt-5 ">
                 Více o audiowalku<br><i class="bi bi-chevron-down"></i>
               </p>
             </div> -->
-          </div>
-        </div>
-        <div class="col-lg-6 d-flex justify-content-center align-items-center">
-          <div class="row d-flex justify-content-center align-items-center">
-            <div *ngFor="let feature of features; let i = index" class="col-xl-6 col-lg-6 mb-4">
-              <div class="card bg-light border-0 h-100">
-                <div class="card-body text-center p-lg-4 p-5 pt-0 pt-lg-0">
-                  <div class="text-white mb-1 mt-4">
-                    <i *ngIf="feature.type === 'icon'" [class]="'fs-1 bi bi-' + feature.icon"></i>
-                    <img *ngIf="feature.type === 'img'" [src]="feature.icon" alt="icon" class="fs-1 mt-3 mb-3" />
+              </div>
+            </div>
+            <div class="col-lg-6 d-flex justify-content-center align-items-center">
+              <div class="row d-flex justify-content-center align-items-center">
+                <div *ngFor="let feature of features; let i = index" class="col-xl-6 col-lg-6 mt-4">
+                  <div class="card bg-light border-0 h-100">
+                    <div class="card-body text-center p-lg-4 p-5 pt-0 pt-lg-0">
+                      <div class="text-white mb-1 mt-4">
+                        <i *ngIf="feature.type === 'icon'" [class]="'fs-1 bi bi-' + feature.icon"></i>
+                        <img *ngIf="feature.type === 'img'" [src]="feature.icon" alt="icon" class="fs-1 mt-3 mb-3" />
+                      </div>
+                      <!-- <h2 *ngIf="feature.type === 'icon'" class="fs-4 mb-2 fw-bold">{{ feature.title }}</h2> -->
+                      <p class="mb-0 fs-6" [innerHTML]="feature.text"></p>
+                    </div>
                   </div>
-                  <!-- <h2 *ngIf="feature.type === 'icon'" class="fs-4 mb-2 fw-bold">{{ feature.title }}</h2> -->
-                  <p class="mb-0 fs-6" [innerHTML]="feature.text"></p>
                 </div>
               </div>
             </div>
           </div>
+          <footer class="text-center my-4">
+            <div *ngIf="version" class="text-secondary">verze {{ version }} | <a routerLink="/legal">Podmínky užití</a>
+              | <a routerLink="/authors">Autoři</a></div>
+          </footer>
         </div>
       </div>
     </div>
-    <div *ngIf="version" class="version">{{ version }}</div>
   </app-page-content>
 </app-page>

@@ -28,6 +28,8 @@ import { TutorialSoundComponent } from './components/tutorial-sound/tutorial-sou
 import { TutorialDownloadComponent } from './components/tutorial-download/tutorial-download.component';
 import { TutorialGpsComponent } from './components/tutorial-gps/tutorial-gps.component';
 import { TutorialAttentionComponent } from './components/tutorial-attention/tutorial-attention.component';
+import { LegalComponent } from "./pages/legal/legal.component";
+import { AuthorsComponent } from "./pages/authors/authors.component";
 
 @NgModule({
   declarations: [
@@ -54,7 +56,9 @@ import { TutorialAttentionComponent } from './components/tutorial-attention/tuto
     TutorialSoundComponent,
     TutorialDownloadComponent,
     TutorialGpsComponent,
-    TutorialAttentionComponent
+    TutorialAttentionComponent,
+    LegalComponent,
+    AuthorsComponent,
   ],
   imports: [
     BrowserModule,
