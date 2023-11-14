@@ -36,8 +36,4 @@ export class HomeComponent {
   ];
 
   version = config.production ? null : version;
-
-  ngOnInit() {
-    throw new Error("test");
-  }
 }
