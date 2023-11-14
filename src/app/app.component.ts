@@ -1,8 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, ErrorHandler } from "@angular/core";
+import { config } from "src/config";
 
 @Component({
-  selector: 'app-root',
+  selector: "app-root",
   templateUrl: "app.component.html",
-  styleUrls: ["app.component.scss"]
+  styleUrls: ["app.component.scss"],
 })
-export class AppComponent { }
+export class AppComponent {
+  config = config;
+  constructor(public errorHandler: ErrorHandler) {}
+}

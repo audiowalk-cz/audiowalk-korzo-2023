@@ -1,1 +1,7 @@
+<div *ngIf="!config.production" class="errors">
+  <div *ngIf="$any(errorHandler).error" class="error bg-danger">
+    {{ $any(errorHandler).error }}
+  </div>
+</div>
+
 <router-outlet></router-outlet>

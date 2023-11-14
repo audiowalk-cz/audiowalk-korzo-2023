@@ -5,6 +5,7 @@ import { PlayerComponent } from "src/app/components/player/player.component";
 import { Chapters } from "src/app/data/chapters";
 import { Chapter } from "src/app/schema/chapter";
 import { Track } from "src/app/schema/track";
+import { AnalyticsService } from "src/app/services/analytics.service";
 import { ChaptersService } from "src/app/services/chapters.service";
 import { MediaService } from "src/app/services/media.service";
 
@@ -28,8 +29,9 @@ export class WalkComponent implements OnInit {
     private router: Router,
     private mediaService: MediaService,
     private route: ActivatedRoute,
-    private chapterService: ChaptersService
-  ) { }
+    private chapterService: ChaptersService,
+    private analytics: AnalyticsService
+  ) {}
 
   ngOnInit(): void {
     this.route.queryParams.pipe(untilDestroyed(this)).subscribe((params) => {
@@ -80,6 +82,8 @@ export class WalkComponent implements OnInit {
 
     const trackDef = Chapters[chapter - 1].track;
     this.track = trackDef ? await this.mediaService.getTrack(trackDef) : undefined;
+
+    this.analytics.trackEvent("chapter", { chapter: chapter });
 
     await this.chapterService.saveCurrentChapter(chapter);
   }

@@ -1,9 +1,11 @@
-import { NgModule, isDevMode } from "@angular/core";
+import { ErrorHandler, NgModule, isDevMode } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 
 import { ServiceWorkerModule } from "@angular/service-worker";
+import { PinchZoomModule } from "@meddv/ngx-pinch-zoom";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
+import { AppErrorHandler } from "./app.error-handler";
 import { ChapterInfoComponent } from "./components/chapter-info/chapter-info.component";
 import { MapComponent } from "./components/map/map.component";
 import { PageContentComponent } from "./components/page-content/page-content.component";
@@ -13,23 +15,22 @@ import { PlayerMenuItemComponent } from "./components/player-menu-item/player-me
 import { PlayerMenuComponent } from "./components/player-menu/player-menu.component";
 import { PlayerComponent } from "./components/player/player.component";
 import { ProgressBarComponent } from "./components/progress-bar/progress-bar.component";
+import { TutorialAttentionComponent } from "./components/tutorial-attention/tutorial-attention.component";
+import { TutorialDownloadComponent } from "./components/tutorial-download/tutorial-download.component";
+import { TutorialGpsComponent } from "./components/tutorial-gps/tutorial-gps.component";
+import { TutorialNavigationComponent } from "./components/tutorial-navigation/tutorial-navigation.component";
+import { TutorialSoundComponent } from "./components/tutorial-sound/tutorial-sound.component";
+import { VideoComponent } from "./components/video/video.component";
+import { AuthorsComponent } from "./pages/authors/authors.component";
 import { ChaptersComponent } from "./pages/chapters/chapters.component";
 import { EndComponent } from "./pages/end/end.component";
 import { HomeComponent } from "./pages/home/home.component";
+import { LegalComponent } from "./pages/legal/legal.component";
+import { ShareComponent } from "./pages/share/share.component";
+import { TestComponent } from "./pages/test/test.component";
 import { TutorialComponent } from "./pages/tutorial/tutorial.component";
 import { WalkComponent } from "./pages/walk/walk.component";
 import { TimePipe } from "./pipes/time.pipe";
-import { VideoComponent } from './components/video/video.component';
-import { PinchZoomModule } from "@meddv/ngx-pinch-zoom";
-import { TestComponent } from "./pages/test/test.component";
-import { ShareComponent } from "./pages/share/share.component";
-import { TutorialNavigationComponent } from './components/tutorial-navigation/tutorial-navigation.component';
-import { TutorialSoundComponent } from './components/tutorial-sound/tutorial-sound.component';
-import { TutorialDownloadComponent } from './components/tutorial-download/tutorial-download.component';
-import { TutorialGpsComponent } from './components/tutorial-gps/tutorial-gps.component';
-import { TutorialAttentionComponent } from './components/tutorial-attention/tutorial-attention.component';
-import { LegalComponent } from "./pages/legal/legal.component";
-import { AuthorsComponent } from "./pages/authors/authors.component";
 
 @NgModule({
   declarations: [
@@ -69,9 +70,9 @@ import { AuthorsComponent } from "./pages/authors/authors.component";
       // or after 30 seconds (whichever comes first).
       registrationStrategy: "registerWhenStable:30000",
     }),
-    PinchZoomModule
+    PinchZoomModule,
   ],
-  providers: [],
+  providers: [{ provide: ErrorHandler, useClass: AppErrorHandler }],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
