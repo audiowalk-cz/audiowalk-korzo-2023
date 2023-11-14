@@ -35,5 +35,5 @@ export class HomeComponent {
     },
   ];
 
-  version = config.production ? null : version;
+  version = config.development ? null : version;
 }
