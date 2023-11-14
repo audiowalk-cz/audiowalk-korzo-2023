@@ -58,7 +58,7 @@ export class MapComponent implements AfterViewInit, OnChanges {
     setTimeout(() => {
       this.wrapper.nativeElement.classList.add("active");
       this.ngViewInited = true;
-      this.flyToPathIfNeccesary();
+      this.flyToPathIfNeccesary(false);
     }, 500);
   }
 
@@ -68,13 +68,13 @@ export class MapComponent implements AfterViewInit, OnChanges {
     }
   }
 
-  async flyToPathIfNeccesary() {
+  async flyToPathIfNeccesary(animated: boolean = true) {
     if (!this.chapter || this.lastFlyToIndex === this.chapter?.pathIndex || !this.ngViewInited) return;
     this.lastFlyToIndex = this.chapter.pathIndex;
-    this.flyToPath(this.chapter.pathIndex);
+    this.flyToPath(this.chapter.pathIndex, animated);
   }
 
-  async flyToPath(index: number) {
+  async flyToPath(index: number, animated: boolean = true) {
     const paths = this.outputSvg.nativeElement.querySelectorAll(".track path") as NodeListOf<SVGPathElement>;
     for (const path of paths) {
       if (path) path.style.strokeOpacity = "0";
@@ -92,7 +92,7 @@ export class MapComponent implements AfterViewInit, OnChanges {
         left: 20,
         right: 20,
       },
-      2500,
+      animated ? 2500 : 0,
       2000
     );
   }

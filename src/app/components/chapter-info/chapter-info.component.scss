@@ -22,72 +22,75 @@
   h2 {
     font-size: 1.3em;
   }
-}
 
 
-svg {
-  width: 40px;
-}
+  .photo-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 
-p {
-  font-size: 85%;
-}
-
-hr {
-  opacity: .67;
-}
-
-.track-info {}
-
-.text-walk-duration {
-  font-family: "Roboto Flex";
-  font-size: 12px
-}
-
-.img-wrapper {
-  // overflow: hidden;
-  width: 100%;
-  min-height: 100%;
-  position: relative;
-
-  .height-wrapper {
-    position: relative;
-
-    img {
-      border-radius: 12px;
-      position: relative;
-      min-width: 50px;
-      width: 100%;
-      height: auto;
-      left: 0;
-      top: 0;
-      // object-fit: cover;
-    }
-
-    i {
-      position: absolute;
-      left: calc(50% - 16px);
-      top: calc(50% - 24px);
-      font-size: 32px;
-      z-index: 10;
-    }
+    background-color: rgba(0, 0, 0, 1);
   }
 
-}
+  .photo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin-bottom: 10px;
+    z-index: 200;
+  }
 
-.menu-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
 
-  background-color: rgba(0, 0, 0, 0.5);
-}
+  svg {
+    width: 40px;
+  }
 
-.menu {
-  position: absolute;
-  bottom: 100%;
-  right: 0;
-  margin-bottom: 10px;
+  p {
+    font-size: 85%;
+  }
+
+  hr {
+    opacity: .67;
+  }
+
+  .track-info {}
+
+  .text-walk-duration {
+    font-family: "Roboto Flex";
+    font-size: 12px
+  }
+
+  .img-wrapper {
+    width: 100%;
+    min-height: 100%;
+    position: relative;
+
+    .height-wrapper {
+      position: relative;
+
+      .photo-small {
+        border-radius: 12px;
+        position: relative;
+        min-width: 50px;
+        width: 100%;
+        height: auto;
+        left: 0;
+        top: 0;
+        // object-fit: cover;
+      }
+
+      i {
+        position: absolute;
+        left: calc(50% - 16px);
+        top: calc(50% - 24px);
+        font-size: 32px;
+        z-index: 10;
+      }
+    }
+
+  }
 }
