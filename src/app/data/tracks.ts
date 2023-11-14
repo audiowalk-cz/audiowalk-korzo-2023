@@ -8,7 +8,7 @@ export enum TrackId {
   "track-5" = "track-5",
   "track-6" = "track-6",
   "track-7" = "track-7",
-  "havel" = "havel",
+  "vaclavak" = "vaclavak",
   "thanksTrack" = "thanksTrack",
 }
 
@@ -62,10 +62,10 @@ export const Tracks: { [key in TrackId]: { id: key } & TrackDefinition } = {
     type: "audio",
     mimeType: "audio/mpeg",
   },
-  havel: {
-    id: TrackId["havel"],
-    title: "Proslov na Václavském náměstí",
-    url: "assets/video/havel.mp4",
+  vaclavak: {
+    id: TrackId["vaclavak"],
+    title: "Reportáž z Václavského náměstí",
+    url: "assets/video/vaclavak.mp4",
     type: "video",
     mimeType: "video/mp4",
   },
@@ -74,6 +74,6 @@ export const Tracks: { [key in TrackId]: { id: key } & TrackDefinition } = {
     title: "Děkujeme za poslech!",
     url: "assets/audio/track-8.mp3",
     type: "video",
-    mimeType: "video/mp4",
+    mimeType: "audio/mpeg",
   },
 };
