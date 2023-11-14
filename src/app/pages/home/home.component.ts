@@ -1,5 +1,4 @@
 import { Component } from "@angular/core";
-import { config } from "src/config";
 import { version } from "src/version";
 
 @Component({
@@ -35,5 +34,5 @@ export class HomeComponent {
     },
   ];
 
-  version = config.development ? null : version;
+  version = version;
 }
