@@ -65,7 +65,7 @@ export const Tracks: { [key in TrackId]: { id: key } & TrackDefinition } = {
   vaclavak: {
     id: TrackId["vaclavak"],
     title: "Reportáž z Václavského náměstí",
-    url: "assets/video/vaclavak_v2.mp4",
+    url: "assets/video/vaclavak_v3.mp4",
     type: "video",
     mimeType: "video/mp4",
   },
