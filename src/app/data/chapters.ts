@@ -4,7 +4,7 @@ import { TrackId } from "./tracks";
 export const Chapters: Chapter[] = [
   {
     title: "Co se stalo?",
-    directions: "Jděte Divadelní ulicí, kolem divadla Na&nbsp;Zábradlí a Královskou cestou až před Divadelní fakultu AMU.",
+    directions: "Jděte Divadelní ulicí, kolem divadla Na&nbsp;Zábradlí a Královskou cestou až před Divadelní&nbsp;fakultu&nbsp;AMU.",
     durationMinutes: 14,
     description: "",
     pathIndex: 0,
@@ -44,7 +44,7 @@ export const Chapters: Chapter[] = [
   },
   {
     title: "Divadelní stávka",
-    directions: "Pokračujte Vodičkovou, doprava do ulice V&nbsp;Jámě a pak Štěpánskou pasáží přejděte před Činoherní Klub",
+    directions: "Pokračujte Vodičkovou, doprava do ulice V&nbsp;Jámě a pak Štěpánskou pasáží projděte před Činoherní klub",
     durationMinutes: 12,
     description: "",
     pathIndex: 5,
