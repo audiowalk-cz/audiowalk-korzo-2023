@@ -24,7 +24,7 @@ export class HomeComponent {
       title: "Díky, že můžem",
       icon: "assets/img/logo_dikyzemuzem.svg",
       type: "img",
-      text: "Projekt byl vytvořen pod&nbsp;záštitou projektu Díky,&nbsp;že&nbsp;můžem,&nbsp;z.&nbsp;s.",
+      text: "Projekt byl vytvořen pod&nbsp;záštitou organizace Díky,&nbsp;že&nbsp;můžem,&nbsp;z.&nbsp;s.",
     },
     {
       title: "DAMU",
