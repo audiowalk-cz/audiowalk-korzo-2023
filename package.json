@@ -1,6 +1,6 @@
 {
   "name": "studentska-revolta",
-  "version": "1.0.19",
+  "version": "1.0.20",
   "scripts": {
     "dev": "ng serve",
     "build": "ng build",
