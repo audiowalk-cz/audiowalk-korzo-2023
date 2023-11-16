@@ -1,4 +1,4 @@
-<video *ngIf="track" controls>
+<video *ngIf="track" controls [poster]="track.placeholderImage">
   <source [src]="track.url" type="video/mp4" />
 </video>
 

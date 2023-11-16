@@ -68,12 +68,13 @@ export const Tracks: { [key in TrackId]: { id: key } & TrackDefinition } = {
     url: "assets/video/vaclavak_v3.mp4",
     type: "video",
     mimeType: "video/mp4",
+    placeholderImage: "assets/img/photos/end-video.png",
   },
   thanksTrack: {
     id: TrackId["thanksTrack"],
     title: "Děkujeme za poslech!",
     url: "assets/audio/track-8.mp3",
-    type: "video",
+    type: "audio",
     mimeType: "audio/mpeg",
   },
 };
