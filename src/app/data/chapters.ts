@@ -12,7 +12,7 @@ export const Chapters: Chapter[] = [
   },
   {
     title: "Střetnutí s&nbsp;letáky a&nbsp;prádlem",
-    directions: "Vydejte se k restaraci U Vejvodů. Na křižovatce zahněte doprava do Husové, pak za kostelem doleva Zlatou ulicí a hned doprava.",
+    directions: "Vydejte se k restaraci U Vejvodů. Na křižovatce zahněte doprava do Husové, dále za kostelem doleva Zlatou ulicí a&nbsp;pak hned doprava.",
     durationMinutes: 3,
     description: "",
     pathIndex: 1,
