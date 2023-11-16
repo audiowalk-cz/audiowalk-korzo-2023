@@ -12,7 +12,7 @@ export const Chapters: Chapter[] = [
   },
   {
     title: "Střetnutí s&nbsp;letáky a&nbsp;prádlem",
-    directions: "Vydejte se k&nbsp;mléčnému baru (dnes pivnice U&nbsp;Kata) přes Mariánské náměstí, za&nbsp;magistrát HMP.",
+    directions: "Vydejte se k restaraci U Vejvodů. Na křižovatce zahněte doprava do Husové, pak za kostelem doleva Zlatou ulicí a hned doprava.",
     durationMinutes: 3,
     description: "",
     pathIndex: 1,
@@ -20,7 +20,7 @@ export const Chapters: Chapter[] = [
   },
   {
     title: "Ty jsi tam b<span class='text-danger'>i</span>l taky?",
-    directions: "Jděte směrem k&nbsp;Národní třídě, zahněte do Bartolomějské k&nbsp;Hlavnímu sídlu StB (kachličkovaný dům s&nbsp;pověstným sklepením).",
+    directions: "Jděte do ulice Na Perštýně, zahněte do Bartolomějské k&nbsp;Hlavnímu sídlu StB (kachličkovaný dům s&nbsp;pověstným sklepením).",
     durationMinutes: 10,
     description: "",
     pathIndex: 2,
