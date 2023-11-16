@@ -15,6 +15,12 @@ import {
 import { Track } from "src/app/schema/track";
 import { PlayerMenuComponent } from "../player-menu/player-menu.component";
 
+export enum PlayerStatus {
+  "playing" = "playing",
+  "paused" = "paused",
+  "ended" = "ended",
+}
+
 @Component({
   selector: "app-player",
   templateUrl: "./player.component.html",
@@ -30,7 +36,7 @@ export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
   @Output("nextChapter") nextChapter = new EventEmitter<void>();
 
   progress: number = 0;
-  status: "playing" | "paused" | "ended" = "paused";
+  status: PlayerStatus = PlayerStatus.paused;
   error?: string;
   offline: boolean = !navigator.onLine;
 
@@ -40,7 +46,6 @@ export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
   currentTime?: number;
 
   @ViewChild("audioPlayer") audioPlayer!: ElementRef<HTMLAudioElement>;
-  @ViewChild("playPauseButton") playPauseButton!: ElementRef<HTMLButtonElement>;
 
   @ContentChild(PlayerMenuComponent) menu?: PlayerMenuComponent;
 
@@ -76,15 +81,15 @@ export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
     // });
 
     this.audioPlayer.nativeElement.addEventListener("play", (event) => {
-      this.status = "playing";
+      this.status = PlayerStatus.playing;
     });
 
     this.audioPlayer.nativeElement.addEventListener("pause", (event) => {
-      this.status = "paused";
+      this.status = PlayerStatus.paused;
     });
 
     this.audioPlayer.nativeElement.addEventListener("ended", (event) => {
-      this.status = this.mode === "light" ? "paused" : "ended";
+      this.status = this.mode === "light" ? PlayerStatus.paused : PlayerStatus.ended;
     });
 
     this.audioPlayer.nativeElement.addEventListener("error", (event) => {
@@ -143,7 +148,7 @@ export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
     this.audioPlayer.nativeElement.load();
     this.progress = 0;
     this.currentTime = 0;
-    this.status = "paused";
+    this.status = PlayerStatus.paused;
 
     if (navigator.mediaSession && MediaMetadata) {
       navigator.mediaSession.metadata = new MediaMetadata({
@@ -178,8 +183,6 @@ export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
   async playPause() {
     if (this.status === "paused") {
       this.play();
-    } else if (this.status === "ended") {
-      this.nextChapter.emit();
     } else {
       this.pause();
     }
@@ -197,18 +200,11 @@ export class PlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
 
   restart() {
     this.audioPlayer.nativeElement.currentTime = 0;
+    this.play();
   }
 
   rewind() {
     this.audioPlayer.nativeElement.currentTime = Math.max(0, this.audioPlayer.nativeElement.currentTime - 10);
-  }
-
-  touchStart() {
-    console.log("touch");
-    this.playPauseButton.nativeElement.classList.add("hover");
-  }
-  touchEnd() {
-    console.log("touchend");
-    this.playPauseButton.nativeElement.classList.remove("hover");
+    if (this.status === PlayerStatus.ended) this.status = PlayerStatus.paused;
   }
 }

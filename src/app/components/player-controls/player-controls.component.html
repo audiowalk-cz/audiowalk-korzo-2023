@@ -1,0 +1,20 @@
+<div class="row">
+  <div class="col-4 d-flex justify-content-center">
+    <app-player-button (click)="rewind.emit()">
+      <img src="assets/img/icons/player/rewind.svg" alt="Rewind" />
+    </app-player-button>
+  </div>
+  <div class="col-4 d-flex justify-content-center">
+    <app-player-play-button
+      [status]="status"
+      (playpause)="playpause.emit()"
+      (next)="next.emit()"
+    ></app-player-play-button>
+  </div>
+
+  <div *ngIf="!!showMenu" class="col-4 d-flex justify-content-center">
+    <app-player-button (click)="menu.emit()">
+      <img src="assets/img/icons/player/list.svg" alt="Next" />
+    </app-player-button>
+  </div>
+</div>

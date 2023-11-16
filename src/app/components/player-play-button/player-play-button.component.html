@@ -1,0 +1,23 @@
+<app-player-button [class.touching]="buttonTouching" (touchstart)="onTouchStart()" (touchend)="onTouchEnd()">
+  <img
+    id="play"
+    src="assets/img/icons/player/play.svg"
+    alt="Rewind"
+    [class.active]="status === 'paused'"
+    (click)="playpause.emit()"
+  />
+  <img
+    id="pause"
+    src="assets/img/icons/player/pause.svg"
+    alt="Rewind"
+    [class.active]="status === 'playing'"
+    (click)="playpause.emit()"
+  />
+  <img
+    id="next"
+    src="assets/img/icons/player/next3.svg"
+    alt="Next"
+    [class.active]="status === 'ended'"
+    (click)="next.emit()"
+  />
+</app-player-button>

@@ -1,0 +1,21 @@
+:host {
+  width: 100%;
+  position: relative;
+}
+
+.total-time,
+.current-time {
+  color: rgba(255, 255, 255, 0.33);
+  position: absolute;
+  top: 12px;
+  font-size: 12px;
+  font-family: "Roboto Flex";
+}
+
+.current-time {
+  left: 0;
+}
+
+.total-time {
+  right: 0;
+}

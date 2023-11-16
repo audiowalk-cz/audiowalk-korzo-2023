@@ -1,46 +1,16 @@
 <div class="player p-4 pb-2" [class.light]="mode === 'light'" [class.dark]="mode === 'dark'">
-  <div class="progress-box">
-    <app-progress-bar [progress]="progress"></app-progress-bar>
-    <div class="total-time">{{ totalTime | time }}</div>
-    <div class="current-time">{{ currentTime | time }}</div>
-  </div>
+  <app-player-progress [progress]="progress" [totalTime]="totalTime" [currentTime]="currentTime"></app-player-progress>
 
-  <div class="controls-box row mt-3">
-    <div class="col-4 d-flex justify-content-center">
-      <button class="button-icon" (click)="rewind()">
-        <img class="active" src="assets/img/icons/player/rewind.svg" alt="Rewind" />
-      </button>
-    </div>
-    <div class="col-4 d-flex justify-content-center">
-      <button
-        #playPauseButton
-        class="button-icon button-playpause"
-        (click)="playPause()"
-        (touchstart)="touchStart()"
-        (touchend)="touchEnd()"
-      >
-        <img
-          id="play"
-          [ngClass]="{ active: status === 'paused' }"
-          src="assets/img/icons/player/play.svg"
-          alt="Rewind"
-        />
-        <img
-          id="pause"
-          [ngClass]="{ active: status === 'playing' }"
-          src="assets/img/icons/player/pause.svg"
-          alt="Rewind"
-        />
-        <img id="next" [ngClass]="{ active: status === 'ended' }" src="assets/img/icons/player/next3.svg" alt="Next" />
-      </button>
-    </div>
+  <app-player-controls
+    [status]="status"
+    [showMenu]="!!menu"
+    (playpause)="playPause()"
+    (next)="nextChapter.emit()"
+    (rewind)="rewind()"
+    (menu)="showMenu = !showMenu"
+    class="mt-3"
+  ></app-player-controls>
 
-    <div *ngIf="!!menu" class="col-4 d-flex justify-content-center">
-      <button class="button-icon" (click)="showMenu = !showMenu">
-        <img class="active" src="assets/img/icons/player/list.svg" alt="Next" />
-      </button>
-    </div>
-  </div>
   <p *ngIf="error && !offline" class="error text-warning">{{ error }}</p>
   <p *ngIf="offline && !track.isDownloaded" class="error text-warning">Nejste připojeni k internetu</p>
 </div>

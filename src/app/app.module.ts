@@ -7,12 +7,16 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { AppErrorHandler } from "./app.error-handler";
 import { ChapterInfoComponent } from "./components/chapter-info/chapter-info.component";
+import { ChapterPhotoComponent } from "./components/chapter-photo/chapter-photo.component";
 import { MapComponent } from "./components/map/map.component";
 import { PageContentComponent } from "./components/page-content/page-content.component";
 import { PageFooterComponent } from "./components/page-footer/page-footer.component";
 import { PageComponent } from "./components/page/page.component";
+import { PlayerButtonComponent } from "./components/player-button/player-button.component";
+import { PlayerControlsComponent } from "./components/player-controls/player-controls.component";
 import { PlayerMenuItemComponent } from "./components/player-menu-item/player-menu-item.component";
 import { PlayerMenuComponent } from "./components/player-menu/player-menu.component";
+import { PlayerPlayButtonComponent } from "./components/player-play-button/player-play-button.component";
 import { PlayerComponent } from "./components/player/player.component";
 import { ProgressBarComponent } from "./components/progress-bar/progress-bar.component";
 import { TutorialAttentionComponent } from "./components/tutorial-attention/tutorial-attention.component";
@@ -31,7 +35,7 @@ import { TestComponent } from "./pages/test/test.component";
 import { TutorialComponent } from "./pages/tutorial/tutorial.component";
 import { WalkComponent } from "./pages/walk/walk.component";
 import { TimePipe } from "./pipes/time.pipe";
-import { ChapterPhotoComponent } from "./components/chapter-photo/chapter-photo.component";
+import { PlayerProgressComponent } from './components/player-progress/player-progress.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +66,10 @@ import { ChapterPhotoComponent } from "./components/chapter-photo/chapter-photo.
     LegalComponent,
     AuthorsComponent,
     ChapterPhotoComponent,
+    PlayerButtonComponent,
+    PlayerPlayButtonComponent,
+    PlayerControlsComponent,
+    PlayerProgressComponent,
   ],
   imports: [
     BrowserModule,
@@ -77,4 +85,4 @@ import { ChapterPhotoComponent } from "./components/chapter-photo/chapter-photo.
   providers: [{ provide: ErrorHandler, useClass: AppErrorHandler }],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
