@@ -31,10 +31,17 @@ jobs:
       - version
     uses: ./.github/workflows/_build.yaml
     with:
-      image: smallhillcz/studentska-revolta:latest
+      image: ghcr.io/audiowalk-cz/audiowalk-korzo-2023:latest
       target: app
       version: ${{ needs.version.outputs.version }}
-    secrets: inherit
+
+  cleanup:
+    name: Clean up
+    needs:
+      - build
+    uses: ./.github/workflows/_cleanup.yaml
+    with:
+      package: audiowalk-korzo-2023
 
   deploy:
     name: Deploy
@@ -42,7 +49,7 @@ jobs:
       - build
     uses: ./.github/workflows/_deploy.yml
     with:
-      images: smallhillcz/studentska-revolta:latest
+      images: ghcr.io/audiowalk-cz/audiowalk-korzo-2023:latest
     secrets: inherit
 
   tag:
