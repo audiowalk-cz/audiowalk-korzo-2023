@@ -2,7 +2,8 @@ const fs = require("fs");
 
 const packageJson = JSON.parse(fs.readFileSync("./package.json"));
 
-const version = packageJson.version;
+// VERSION is passed as a Docker build arg by the release workflow (e.g. v1.0.28)
+const version = process.env.VERSION?.replace(/^v/, "") || packageJson.version;
 
 const versionFilePath = "./src/version.ts";
 
