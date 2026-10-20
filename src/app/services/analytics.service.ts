@@ -4,7 +4,6 @@ import { Injectable } from "@angular/core";
   providedIn: "root",
 })
 export class AnalyticsService {
-  private plausible = (window as any).plausible;
   private matomo: any[] | undefined = (window as any)._paq;
 
   constructor() {}
@@ -16,8 +15,6 @@ export class AnalyticsService {
   }
 
   trackEvent(eventName: string, props?: any) {
-    this.plausible?.(eventName, { props });
-
     const name = props && Object.keys(props).length ? JSON.stringify(props) : undefined;
     this.matomo?.push(["trackEvent", "app", eventName, name]);
   }
