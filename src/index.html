@@ -14,14 +14,24 @@
     <link rel="manifest" href="manifest.webmanifest" />
     <meta name="theme-color" content="#4e0a1c" />
 
-    <script defer data-domain="studentskarevolta89.cz" src="https://plausible.io/js/script.js"></script>
+    <!-- Matomo -->
     <script>
-      window.plausible =
-        window.plausible ||
-        function () {
-          (window.plausible.q = window.plausible.q || []).push(arguments);
-        };
+      var _paq = (window._paq = window._paq || []);
+      // page views are tracked on each route change by AnalyticsService
+      _paq.push(["enableLinkTracking"]);
+      (function () {
+        var u = "https://analytics.audiowalk.cz/";
+        _paq.push(["setTrackerUrl", u + "matomo.php"]);
+        _paq.push(["setSiteId", "2"]);
+        var d = document,
+          g = d.createElement("script"),
+          s = d.getElementsByTagName("script")[0];
+        g.async = true;
+        g.src = u + "matomo.js";
+        s.parentNode.insertBefore(g, s);
+      })();
     </script>
+    <!-- End Matomo Code -->
   </head>
 
   <body>
